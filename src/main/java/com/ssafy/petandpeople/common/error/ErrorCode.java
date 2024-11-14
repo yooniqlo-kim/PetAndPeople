@@ -1,8 +1,6 @@
 package com.ssafy.petandpeople.common.error;
 
-public enum ErrorCode implements ErrorCodeIfs{
-
-    OK(200, 200, "성공"),
+public enum ErrorCode implements ErrorCodeIfs {
 
     BAD_REQUEST(400, 400, "잘못된 요청"),
 
