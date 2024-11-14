@@ -1,16 +1,16 @@
-package com.ssafy.petandpeople.common.error;
+package com.ssafy.petandpeople.common.error.user;
 
-public enum ErrorCode implements ErrorCodeIfs {
+import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 
-    BAD_REQUEST(400, 400, "잘못된 요청"),
+public enum UserErrorCode implements ErrorCodeIfs {
 
-    SEVER_ERROR(500, 500, "서버 에러");
+    USER_NOT_FOUND(400, 1000, "UserNotFoundException occurred");
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
     private final String description;
 
-    ErrorCode(Integer httpStatusCode, Integer errorCode, String description) {
+    UserErrorCode(Integer httpStatusCode, Integer errorCode, String description) {
         this.httpStatusCode = httpStatusCode;
         this.errorCode = errorCode;
         this.description = description;
