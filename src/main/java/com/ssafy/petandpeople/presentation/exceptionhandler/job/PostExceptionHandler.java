@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class PostExceptionHandler {
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(PostExceptionHandler.class);
 
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     public ResponseEntity<Api<Object>> exceptionHandler(DataIntegrityViolationException dataIntegrityViolationException) {
