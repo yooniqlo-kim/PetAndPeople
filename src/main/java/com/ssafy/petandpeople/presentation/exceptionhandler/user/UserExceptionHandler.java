@@ -17,7 +17,7 @@ public class UserExceptionHandler {
     public ResponseEntity<Api<Object>> exceptionHandler(UserNotFoundException userNotFoundException) {
         ErrorCodeIfs errorCodeIfs = userNotFoundException.getErrorCodeIfs();
 
-        log.error("{} : ", errorCodeIfs.getDescription(), userNotFoundException);
+        log.error("{}", errorCodeIfs.getMessage(), userNotFoundException);
 
         return ResponseEntity
                 .status(errorCodeIfs.getHttpStatusCode())

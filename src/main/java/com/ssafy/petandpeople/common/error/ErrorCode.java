@@ -8,12 +8,12 @@ public enum ErrorCode implements ErrorCodeIfs {
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
-    private final String description;
+    private final String message;
 
-    ErrorCode(Integer httpStatusCode, Integer errorCode, String description) {
+    ErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
         this.httpStatusCode = httpStatusCode;
         this.errorCode = errorCode;
-        this.description = description;
+        this.message = message;
     }
 
     @Override
@@ -27,8 +27,8 @@ public enum ErrorCode implements ErrorCodeIfs {
     }
 
     @Override
-    public String getDescription() {
-        return this.description;
+    public String getMessage() {
+        return this.message;
     }
 
 }
