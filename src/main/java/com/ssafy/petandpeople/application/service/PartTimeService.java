@@ -22,11 +22,12 @@ public class PartTimeService {
         this.userService = userService;
     }
 
-    public Boolean createPartTimePost(PartTimeDto partTimeDto, HttpServletRequest request)  {
+    public Boolean createPartTimePost(PartTimePostDto partTimePostDto, HttpServletRequest request) {
         UserEntity foundUser = userService.findAllByUserKey(request);
 
-        PartTimeEntity partTimeEntity = PartTimeConverter.dtoToEntity(partTimeDto, foundUser);
-        partTimeRepository.save(partTimeEntity);
+        PartTimePostEntity partTimePostEntity = PartTimeConverter.dtoToEntity(partTimePostDto, foundUser);
+
+        partTimeRepository.save(partTimePostEntity);
 
         return true;
     }
