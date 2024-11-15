@@ -73,7 +73,7 @@ public class PartTimeServiceTest {
 
         PartTimePostEntity savedPartTimePostEntity = partTimeRepository.findById(1L).get();
 
-        assertEquals("카페 알바 모집", savedPartTimePostEntity.getPostTitle());
+        assertEquals("산책 알바 모집", savedPartTimePostEntity.getPostTitle());
         assertEquals("2024-12-31", savedPartTimePostEntity.getPartTimeDeadline());
         assertEquals("5", savedPartTimePostEntity.getPartTimeCount());
         assertEquals("12000", savedPartTimePostEntity.getPartTimeSalary());
@@ -125,7 +125,7 @@ public class PartTimeServiceTest {
         assertTrue(partTimeService.updatePartTimePost(postKey, updatePartTimePostDto, request));
         PartTimePostEntity updatedPartTimePostEntity = partTimeRepository.findById(postKey).orElseThrow(PostNotFoundException::new);
 
-        assertEquals("카페 바리스타 모집", updatedPartTimePostEntity.getPostTitle());
+        assertEquals("동물병원 접수 데스크 알바 모집", updatedPartTimePostEntity.getPostTitle());
         assertEquals("2024-12-15", updatedPartTimePostEntity.getPartTimeDeadline());
         assertEquals("3", updatedPartTimePostEntity.getPartTimeCount());
         assertEquals("15000", updatedPartTimePostEntity.getPartTimeSalary());
