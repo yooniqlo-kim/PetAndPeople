@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -16,19 +18,25 @@ public class UserService {
     }
 
     public UserEntity findAllByUserKey(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Long userKey = (Long) session.getAttribute("userKey");
+        Long userKey = getUserKeyFromSession(request);
 
-        UserEntity foundUser = userRepository.findAllByUserKey(userKey);
-        checkUserFound(foundUser);
+        Optional<UserEntity> foundUser = userRepository.findAllByUserKey(userKey);
 
-        return foundUser;
+        return foundUser.orElseThrow(UserNotFoundException::new);
     }
 
-    private void checkUserFound(UserEntity userEntity) {
-        if (userEntity == null) {
-            throw new UserNotFoundException();
-        }
+    public UserEntity findByUserKey(HttpServletRequest request) {
+        Long userKey = getUserKeyFromSession(request);
+
+        Optional<UserEntity> foundUser = userRepository.findById(userKey );
+
+        return foundUser.orElseThrow(UserNotFoundException::new);
+    }
+
+    private Long getUserKeyFromSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        return (Long) session.getAttribute("userKey");
     }
 
 }

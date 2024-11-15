@@ -1,9 +1,10 @@
 package com.ssafy.petandpeople.presentation.controller;
 
-import com.ssafy.petandpeople.application.dto.PartTimeDto;
+import com.ssafy.petandpeople.application.dto.PartTimePostDto;
 import com.ssafy.petandpeople.application.service.PartTimeService;
 import com.ssafy.petandpeople.presentation.response.Api;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +20,16 @@ public class PartTimeController {
     }
 
     @PostMapping("/create/post")
-    public Api<Object> createPartTimePost(@RequestBody PartTimeDto partTimeDto, HttpServletRequest request) throws Exception {
-        partTimeService.createPartTimePost(partTimeDto, request);
+    public Api<Object> createPartTimePost(@RequestBody PartTimePostDto partTimePostDto, HttpServletRequest request) {
+        partTimeService.createPartTimePost(partTimePostDto, request);
 
         return Api.OK();
     }
 
+    @PostMapping("/update/post/{postKey}")
+    public Api<Object> updatePartTimePost(@PathVariable Long postKey, @RequestBody PartTimePostDto partTimePostDto, HttpServletRequest request) {
+        partTimeService.updatePartTimePost(postKey, partTimePostDto, request);
+
+        return Api.OK();
+    }
 }
