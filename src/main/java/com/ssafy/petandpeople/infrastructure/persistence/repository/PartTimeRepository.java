@@ -12,4 +12,6 @@ public interface PartTimeRepository extends JpaRepository<PartTimePostEntity, Lo
 
     Optional<PartTimePostEntity> findByPostKeyAndUserKey(Long postKey, UserEntity userKey);
 
+    Optional<PartTimePostEntity> findByUserKey(UserEntity userKey);
+
 }

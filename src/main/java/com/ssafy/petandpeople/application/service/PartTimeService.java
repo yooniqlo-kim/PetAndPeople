@@ -9,6 +9,7 @@ import com.ssafy.petandpeople.infrastructure.persistence.repository.PartTimeRepo
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,10 +50,26 @@ public class PartTimeService {
         return true;
     }
 
-    public PartTimePostEntity selectPartTimePostByPostKeyAndUserKey(Long postKey, UserEntity userKey) {
+    private PartTimePostEntity selectPartTimePostByPostKeyAndUserKey(Long postKey, UserEntity userKey) {
         Optional<PartTimePostEntity> partTimePostEntity = partTimeRepository.findByPostKeyAndUserKey(postKey, userKey);
 
         return partTimePostEntity.orElseThrow(PostNotFoundException::new);
+    }
+
+    public PartTimePostDto selectPartTimePosyByUserKey(HttpServletRequest request) {
+        UserEntity userKey = userService.findByUserKey(request);
+
+        PartTimePostEntity partTimePostEntity = partTimeRepository.findByUserKey(userKey).orElseThrow(PostNotFoundException::new);
+
+        return PartTimeConverter.entityToDto(partTimePostEntity);
+    }
+
+    public List<PartTimePostDto> selectAllPartTimePost() {
+        List<PartTimePostEntity> partTimePostEntities = partTimeRepository.findAll();
+
+        return partTimePostEntities.stream()
+                .map(PartTimeConverter::entityToDto)
+                .toList();
     }
 
 }
