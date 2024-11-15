@@ -16,35 +16,41 @@ import java.security.SecureRandom;
 @Service
 public class EmailService {
 
+    private static final String SENDER_EMAIL = "yoon73337@gmail.com";
     private final JavaMailSender javaMailSender;
-    private static final String senderEmail = "yoon73337@gmail.com";
 
-    public EmailService(JavaMailSender javaMailSender) {
+    private EmailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
-    public boolean sendAuthCodeToUserEmail(EmailDto emailDto, HttpServletRequest request) throws MessagingException {
+    public void sendAuthCodeToUserEmail(EmailDto emailDto, HttpServletRequest request) throws MessagingException {
         String authCode = generateAuthCode();
-
         String receiverEmail = emailDto.getEmail();
         String subject = "[PetAndPeople] 이메일 주소 확인";
         String text = "확인 코드 : " + authCode;
 
-        if(sendEmail(receiverEmail, subject, text)) {
-            saveAuthCodeInSession(authCode, request);
-            return true;
-        }
-
-        return false;
+        sendEmail(receiverEmail, subject, text);
+        saveAuthCodeInSession(authCode, request);
     }
 
     private String generateAuthCode() {
         SecureRandom randomGenerator = new SecureRandom();
-
         int randomSixDigitNumber = 100000 + randomGenerator.nextInt(900000);
         String authCode = String.valueOf(randomSixDigitNumber);
 
         return authCode;
+    }
+
+    private void sendEmail(String receiverEmail, String subject, String text) throws MessagingException{
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, false);
+
+        helper.setFrom(SENDER_EMAIL);
+        helper.setTo(receiverEmail);
+        helper.setSubject(subject);
+        helper.setText(text);
+
+        javaMailSender.send(message);
     }
 
     private void saveAuthCodeInSession(String authCode, HttpServletRequest request) {
@@ -52,46 +58,32 @@ public class EmailService {
         session.setAttribute("AUTH_CODE", authCode);
     }
 
-    private boolean sendEmail(String to, String subject, String text) throws MessagingException{
-        MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-        helper.setFrom(senderEmail);
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(text);
-
-        javaMailSender.send(message);
-
-        return true;
-    }
-
-
-    public boolean validateAuthCode(EmailDto emailDto, HttpServletRequest request) {
+    public void validateAuthCode(EmailDto emailDto, HttpServletRequest request) {
         String inputAuthCode = emailDto.getAuthCode();
+        String sessionStoredAuthCode = getSessionStoredAuthCode(request);
 
-        String storedAuthCode = isAuthCodeStored(request);
-
-        return isAuthCodeMatch(inputAuthCode, storedAuthCode);
+        validateAuthCodeMatch(inputAuthCode, sessionStoredAuthCode);
     }
 
-    private String isAuthCodeStored(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String storedAuthCode = (String) session.getAttribute("AUTH_CODE");
+    private String getSessionStoredAuthCode(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        String sessionStoredAuthCode = (String) session.getAttribute("AUTH_CODE");
 
-        if(storedAuthCode == null) {
+        validateSessionStoredAuthCode(sessionStoredAuthCode);
+
+        return sessionStoredAuthCode;
+    }
+
+    private void validateSessionStoredAuthCode(String sessionStoredAuthCode) {
+        if(sessionStoredAuthCode == null) {
             throw new StoredAuthCodeNotFoundException();
         }
-
-        return storedAuthCode;
     }
 
-    private boolean isAuthCodeMatch(String inputAuthCode, String storedAuthCode) {
-        if(!inputAuthCode.equals(storedAuthCode)) {
+    private void validateAuthCodeMatch(String inputAuthCode, String sessionStoredAuthCode) {
+        if(!inputAuthCode.equals(sessionStoredAuthCode)) {
             throw new AuthCodeMismatchException();
         }
-
-        return true;
     }
 
 }
