@@ -50,7 +50,7 @@ public class PartTimeServiceTest {
     @Test
     void createPartTimePost_성공() {
         PartTimePostDto createPartTimePostDto = new PartTimePostDto(
-                "카페 알바 모집",
+                "산책 알바 모집",
                 "2024-12-31",
                 "5",
                 "12000",
@@ -89,7 +89,7 @@ public class PartTimeServiceTest {
         session.setAttribute("userKey", 1L);
 
         PartTimePostDto createPartTimePostDto = new PartTimePostDto(
-                "식당 알바 모집",
+                "강아지 미용 알바 모집",
                 "2024-11-30",
                 "2",
                 "14000",
@@ -106,7 +106,7 @@ public class PartTimeServiceTest {
         partTimeService.createPartTimePost(createPartTimePostDto, request);
 
         PartTimePostDto updatePartTimePostDto = new PartTimePostDto(
-                "카페 바리스타 모집",
+                "동물병원 접수 데스크 알바 모집",
                 "2024-12-15",
                 "3",
                 "15000",
