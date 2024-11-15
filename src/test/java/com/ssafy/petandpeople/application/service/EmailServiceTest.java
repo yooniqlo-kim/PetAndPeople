@@ -2,7 +2,9 @@ package com.ssafy.petandpeople.application.service;
 
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.DisplayName;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -21,17 +23,19 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class EmailServiceTest {
 
-    private EmailService emailService;
+    private final EmailService emailService;
+    @MockBean
     private JavaMailSender javaMailSender;
     private MockHttpServletRequest request;
     private HttpSession session;
 
+    @Autowired
+    public EmailServiceTest(EmailService emailService) {
+        this.emailService = emailService;
+    }
+
     @BeforeEach
     void setUp() {
-        javaMailSender = mock(JavaMailSender.class);
-
-        emailService = new EmailService(javaMailSender);
-
         request = new MockHttpServletRequest();
         session = request.getSession();
     }
@@ -40,14 +44,14 @@ public class EmailServiceTest {
     @DisplayName("이메일 인증 코드 전송 성공")
     void sendAuthCodeToUserEmail_성공() throws MessagingException {
         EmailDto emailDto = new EmailDto();
-        emailDto.setEmail("user@example.com");
+        emailDto.setEmail("ssafy@ssafy.com");
 
         MimeMessage mimeMessage = mock(MimeMessage.class);
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
 
-        boolean result = emailService.sendAuthCodeToUserEmail(emailDto, request);
+        emailService.sendAuthCodeToUserEmail(emailDto, request);
 
-        assertTrue(result, "sendAuthCodeToUserEmail should return true on success");
+        assertNotNull(session.getAttribute("AUTH_CODE"));
     }
 
     @Test
@@ -59,9 +63,7 @@ public class EmailServiceTest {
         EmailDto emailDto = new EmailDto();
         emailDto.setAuthCode(authCode);
 
-        boolean result = emailService.validateAuthCode(emailDto, request);
-
-        assertTrue(result);
+        assertDoesNotThrow(() -> emailService.validateAuthCode(emailDto, request));
     }
 
     @Test
@@ -78,11 +80,10 @@ public class EmailServiceTest {
     @Test
     @DisplayName("인증 코드 검증 실패 - 세션에 저장된 코드 없음")
     void validateAuthCode_실패_StoredAuthCodeNotFound() {
-        session.removeAttribute("AUTH_CODE");
-
         EmailDto emailDto = new EmailDto();
         emailDto.setAuthCode("123456");
 
         assertThrows(StoredAuthCodeNotFoundException.class, () -> emailService.validateAuthCode(emailDto, request));
     }
+
 }
