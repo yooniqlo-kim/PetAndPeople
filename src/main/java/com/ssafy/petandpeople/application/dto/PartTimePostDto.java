@@ -1,11 +1,11 @@
 package com.ssafy.petandpeople.application.dto;
 
-public class PartTimeDto {
+public class PartTimePostDto {
 
-    public PartTimeDto() {
+    public PartTimePostDto() {
     }
 
-    public PartTimeDto(
+    public PartTimePostDto(
             String postTitle,
             String partTimeDeadline,
             String partTimeCount,

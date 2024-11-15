@@ -4,16 +4,17 @@ import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 
 public enum PostErrorCode implements ErrorCodeIfs {
 
+    POST_NOT_FOUND(400, 2000, "PostNotFoundException occurred");
     ;
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
-    private final String description;
+    private final String message;
 
-    PostErrorCode(Integer httpStatusCode, Integer errorCode, String description) {
+    PostErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
         this.httpStatusCode = httpStatusCode;
         this.errorCode = errorCode;
-        this.description = description;
+        this.message = message;
     }
 
     @Override
@@ -27,8 +28,8 @@ public enum PostErrorCode implements ErrorCodeIfs {
     }
 
     @Override
-    public String getDescription() {
-        return this.description;
+    public String getMessage() {
+        return this.message;
     }
 
 }

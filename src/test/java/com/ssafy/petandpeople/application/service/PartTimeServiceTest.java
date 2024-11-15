@@ -1,24 +1,21 @@
 package com.ssafy.petandpeople.application.service;
 
-import com.ssafy.petandpeople.application.dto.PartTimeDto;
-import com.ssafy.petandpeople.infrastructure.persistence.entity.PartTimeEntity;
+import com.ssafy.petandpeople.application.dto.PartTimePostDto;
+import com.ssafy.petandpeople.common.exception.job.PostNotFoundException;
+import com.ssafy.petandpeople.infrastructure.persistence.entity.PartTimePostEntity;
 import com.ssafy.petandpeople.infrastructure.persistence.entity.UserEntity;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.PartTimeRepository;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -40,11 +37,11 @@ public class PartTimeServiceTest {
     @BeforeAll
     void setUp() {
         UserEntity mockUser = new UserEntity(
-                "janedoe456",
-                "securePass!2024",
-                "Jane Doe",
-                "987-654-2321",
-                "5678 Maple Ave, Springfield, IL"
+                "kim_ssafy123@naver.com",
+                "password1234!",
+                "kim_ssafy",
+                "010-3456-7890",
+                "서울특별시 강남구 역삼동 123-45"
         );
 
         userRepository.save(mockUser);
@@ -52,19 +49,19 @@ public class PartTimeServiceTest {
 
     @Test
     void createPartTimePost_성공() {
-        PartTimeDto partTimeDto = new PartTimeDto(
-                "Test PartTime",
+        PartTimePostDto createPartTimePostDto = new PartTimePostDto(
+                "산책 알바 모집",
                 "2024-12-31",
                 "5",
-                "10000",
+                "12000",
                 "20-30",
-                "3 months",
-                "Mon, Tue",
+                "3개월",
+                "토,일",
                 "09:00-18:00",
-                "서울시 강남구",
-                "파트타임 포지션입니다",
-                "김매니저",
-                "010-1234-5678"
+                "서울특별시 강남구 테헤란로 123",
+                "주말 파트타임 채용 포지션입니다.",
+                "박매니저",
+                "010-9876-5432"
         );
 
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -72,43 +69,67 @@ public class PartTimeServiceTest {
         assert session != null;
         session.setAttribute("userKey", 1L);
 
-        boolean result = partTimeService.createPartTimePost(partTimeDto, request);
+        assertTrue(partTimeService.createPartTimePost(createPartTimePostDto, request));
 
-        assertTrue(result);
+        PartTimePostEntity savedPartTimePostEntity = partTimeRepository.findById(1L).get();
 
-        PartTimeEntity savedPartTimeEntity = partTimeRepository.findAll().get(0);
-        assertNotNull(savedPartTimeEntity);
-
-        assertEquals("Test PartTime", savedPartTimeEntity.getPostTitle());
-        assertEquals("2024-12-31", savedPartTimeEntity.getPartTimeDeadline());
-        assertEquals("5", savedPartTimeEntity.getPartTimeCount());
-        assertEquals("10000", savedPartTimeEntity.getPartTimeSalary());
-        assertEquals(1L, savedPartTimeEntity.getUserKey().getUserKey());
+        assertEquals("카페 알바 모집", savedPartTimePostEntity.getPostTitle());
+        assertEquals("2024-12-31", savedPartTimePostEntity.getPartTimeDeadline());
+        assertEquals("5", savedPartTimePostEntity.getPartTimeCount());
+        assertEquals("12000", savedPartTimePostEntity.getPartTimeSalary());
+        assertEquals(1L, savedPartTimePostEntity.getUserKey().getUserKey());
+        assertEquals(1L, savedPartTimePostEntity.getPostKey());
     }
 
     @Test
-    @DisplayName("DataIntegrityViolationException_test")
-    void createPartTimePost_실패() {
-        PartTimeDto partTimeDto = new PartTimeDto(
-                null,
-                "Part-time Job Title",
-                "Description of the job.",
-                "10:00 AM - 2:00 PM",
-                "15 USD",
-                "1234 Elm Street, Springfield",
-                "A company description goes here.",
-                "parttime1234@company.com",
-                "123-456-7890",
-                "Company Name",
-                "2024-11-15",
-                "2024-12-15"
-        );
-
+    void updatePartTimePost_성공() {
         MockHttpServletRequest request = new MockHttpServletRequest();
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
+        assert session != null;
         session.setAttribute("userKey", 1L);
 
-        assertThrows(DataIntegrityViolationException.class, () -> partTimeService.createPartTimePost(partTimeDto, request));
+        PartTimePostDto createPartTimePostDto = new PartTimePostDto(
+                "강아지 미용 알바 모집",
+                "2024-11-30",
+                "2",
+                "14000",
+                "30-40",
+                "1년",
+                "월,수,금",
+                "13:00-18:00",
+                "서울특별시 강남구 테헤란로 456",
+                "평일 파트타임 채용 포지션입니다.",
+                "김매니저",
+                "010-1234-4132"
+        );
+
+        partTimeService.createPartTimePost(createPartTimePostDto, request);
+
+        PartTimePostDto updatePartTimePostDto = new PartTimePostDto(
+                "동물병원 접수 데스크 알바 모집",
+                "2024-12-15",
+                "3",
+                "15000",
+                "25-35",
+                "6개월",
+                "화,목,토",
+                "10:00-15:00",
+                "서울특별시 마포구 홍익로 10",
+                "주말 및 평일 파트타임 채용 포지션입니다.",
+                "이매니저",
+                "010-9876-5432"
+        );
+
+        Long postKey = (long) partTimeRepository.findAll().size();
+
+        assertTrue(partTimeService.updatePartTimePost(postKey, updatePartTimePostDto, request));
+        PartTimePostEntity updatedPartTimePostEntity = partTimeRepository.findById(postKey).orElseThrow(PostNotFoundException::new);
+
+        assertEquals("카페 바리스타 모집", updatedPartTimePostEntity.getPostTitle());
+        assertEquals("2024-12-15", updatedPartTimePostEntity.getPartTimeDeadline());
+        assertEquals("3", updatedPartTimePostEntity.getPartTimeCount());
+        assertEquals("15000", updatedPartTimePostEntity.getPartTimeSalary());
+        assertEquals(1L, updatedPartTimePostEntity.getUserKey().getUserKey());
     }
 
 }

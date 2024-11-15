@@ -3,14 +3,20 @@ package com.ssafy.petandpeople.presentation.response;
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 
 public class Api<T> {
+    private static final Api<Object> SUCCESS = new Api<>(Result.OK());
 
     private Result result;
     private T body;
 
+    public Api() {
+    }
+
+    public Api(Result result) {
+        this.result = result;
+    }
+
     public static Api<Object> OK() {
-        Api<Object> api = new Api<>();
-        api.result = Result.OK();
-        return api;
+        return SUCCESS;
     }
 
     public static <T> Api<T> OK(T body) {

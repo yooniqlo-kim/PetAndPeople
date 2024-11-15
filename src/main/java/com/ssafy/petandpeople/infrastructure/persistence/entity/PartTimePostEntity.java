@@ -12,12 +12,36 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "part_time_post")
-public class PartTimeEntity {
+public class PartTimePostEntity {
 
-    public PartTimeEntity() {
+    public PartTimePostEntity() {
     }
 
-    public PartTimeEntity(
+    public PartTimePostEntity(
+            String postTitle,
+            String partTimeDeadline,
+            String partTimeCount,
+            String partTimeSalary,
+            String partTimeAge,
+            String partTimePeriod,
+            String partTimeDays,
+            String partTimeHours,
+            String partTimeAddress,
+            String postContent
+    ) {
+        this.postTitle = postTitle;
+        this.partTimeDeadline = partTimeDeadline;
+        this.partTimeCount = partTimeCount;
+        this.partTimeSalary = partTimeSalary;
+        this.partTimeAge = partTimeAge;
+        this.partTimePeriod = partTimePeriod;
+        this.partTimeDays = partTimeDays;
+        this.partTimeHours = partTimeHours;
+        this.partTimeAddress = partTimeAddress;
+        this.postContent = postContent;
+    }
+
+    public PartTimePostEntity(
             UserEntity userKey,
             String postTitle,
             String partTimeDeadline,
@@ -145,6 +169,22 @@ public class PartTimeEntity {
 
     public String getManagerPhoneNumber() {
         return managerPhoneNumber;
+    }
+
+    public void setPostKey(Long postKey) {
+        this.postKey = postKey;
+    }
+
+    public void setUserKey(UserEntity userKey) {
+        this.userKey = userKey;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
+    }
+
+    public void setManagerPhoneNumber(String managerPhoneNumber) {
+        this.managerPhoneNumber = managerPhoneNumber;
     }
 
 }
