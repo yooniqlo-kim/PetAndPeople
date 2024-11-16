@@ -36,7 +36,7 @@ public class PartTimeService {
     public Boolean updatePartTimePost(Long postKey, PartTimePostDto partTimePostDto, HttpServletRequest request) {
         UserEntity userEntity = userService.findByUserKey(request);
 
-        PartTimePostEntity selectedPartTimePostEntity = selectPartTimePostByPostKeyAndUserKey(postKey, userEntity);
+        PartTimePostEntity selectedPartTimePostEntity = findPartTimePostByUser(postKey, userEntity);
 
         PartTimePostEntity updatePartTimePostEntity = PartTimeConverter.dtoToEntity(partTimePostDto);
 
@@ -50,21 +50,27 @@ public class PartTimeService {
         return true;
     }
 
-    private PartTimePostEntity selectPartTimePostByPostKeyAndUserKey(Long postKey, UserEntity userKey) {
+    private PartTimePostEntity findPartTimePostByUser(Long postKey, UserEntity userKey) {
         Optional<PartTimePostEntity> partTimePostEntity = partTimeRepository.findByPostKeyAndUserKey(postKey, userKey);
 
         return partTimePostEntity.orElseThrow(PostNotFoundException::new);
     }
 
-    public PartTimePostDto selectPartTimePosyByUserKey(HttpServletRequest request) {
-        UserEntity userKey = userService.findByUserKey(request);
-
-        PartTimePostEntity partTimePostEntity = partTimeRepository.findByUserKey(userKey).orElseThrow(PostNotFoundException::new);
-
-        return PartTimeConverter.entityToDto(partTimePostEntity);
+    public PartTimePostDto findPartTimePostByPostKey(Long postKey) {
+        return partTimeRepository.findById(postKey)
+                .map(PartTimeConverter::entityToDto)
+                .orElseGet(PartTimePostDto::new);
     }
 
-    public List<PartTimePostDto> selectAllPartTimePost() {
+    public List<PartTimePostDto> findPartTimePostByUserKey(HttpServletRequest request) {
+        UserEntity userKey = userService.findByUserKey(request);
+
+        return partTimeRepository.findByUserKey(userKey).stream()
+                .map(PartTimeConverter::entityToDto)
+                .toList();
+    }
+
+    public List<PartTimePostDto> findAllPartTimePost() {
         List<PartTimePostEntity> partTimePostEntities = partTimeRepository.findAll();
 
         return partTimePostEntities.stream()
