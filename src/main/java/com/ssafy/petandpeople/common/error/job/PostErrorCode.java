@@ -5,7 +5,6 @@ import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 public enum PostErrorCode implements ErrorCodeIfs {
 
     POST_NOT_FOUND(400, 2000, "PostNotFoundException occurred");
-    ;
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
