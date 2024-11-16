@@ -57,7 +57,11 @@ public class PartTimeController {
         return Api.OK(results);
     }
 
-        return Api.OK(allPartTimePost);
+    @GetMapping("/delete/post/{postKey}")
+    public Api<Object> deletePartTimePost(@PathVariable Long postKey, HttpServletRequest request) {
+        partTimeService.deletePartTimePost(postKey,request);
+
+        return Api.OK();
     }
 
 }
