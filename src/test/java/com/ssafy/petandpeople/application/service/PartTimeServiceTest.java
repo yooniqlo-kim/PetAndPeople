@@ -1,13 +1,16 @@
 package com.ssafy.petandpeople.application.service;
 
 import com.ssafy.petandpeople.application.dto.PartTimePostDto;
+import com.ssafy.petandpeople.common.exception.job.PostNotAuthorizedException;
 import com.ssafy.petandpeople.common.exception.job.PostNotFoundException;
 import com.ssafy.petandpeople.infrastructure.persistence.entity.PartTimePostEntity;
 import com.ssafy.petandpeople.infrastructure.persistence.entity.UserEntity;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.PartTimeRepository;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +18,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -71,6 +76,8 @@ public class PartTimeServiceTest {
     }
 
     @Test
+    @Transactional
+    @DisplayName("아르바이트 게시물 생성 성공")
     void createPartTimePost_성공() {
         PartTimePostDto createPartTimePostDto = new PartTimePostDto(
                 "test_post_tile_2",
@@ -91,6 +98,8 @@ public class PartTimeServiceTest {
     }
 
     @Test
+    @Transactional
+    @DisplayName("아르바이트 게시물 수정 성공")
     void updatePartTimePost_성공() {
         PartTimePostDto updatePartTimePostDto = new PartTimePostDto(
                 "test_post_tile_3",
@@ -117,8 +126,45 @@ public class PartTimeServiceTest {
     }
 
     @Test
-    void selectPartTimePostByUserKey_성공() {
-        assertNotNull(partTimeService.selectPartTimePosyByUserKey(REQUEST));
+    @Transactional
+    @DisplayName("아르바이트 게시물 상세 정보 조회 성공")
+    void findPartTimePostByPostKey_성공() {
+        PartTimePostDto result = partTimeService.findPartTimePostByPostKey(1L);
+
+        assertEquals("test_post_tile_1", result.getPostTitle());
+        assertEquals("test_deadline_1", result.getPartTimeDeadline());
+        assertEquals("test_count_1", result.getPartTimeCount());
+        assertEquals("test_salary_1", result.getPartTimeSalary());
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("사용자가 작성한 아르바이트 게시물 조회 성공")
+    void findPartTimePostByUserKey_성공() {
+        List<PartTimePostDto> results = partTimeService.findPartTimePostByUserKey(REQUEST);
+
+        assertEquals(1, results.size());
+
+        PartTimePostDto result = results.get(0);
+        assertEquals("test_post_tile_1", result.getPostTitle());
+        assertEquals("test_deadline_1", result.getPartTimeDeadline());
+        assertEquals("test_count_1", result.getPartTimeCount());
+        assertEquals("test_salary_1", result.getPartTimeSalary());
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("모든 아르바이트 게시물 조회 성공")
+    void findAllPartTimePostByUserKey_성공() {
+        List<PartTimePostDto> results = partTimeService.findAllPartTimePost();
+
+        assertEquals(1, results.size());
+
+        PartTimePostDto result = results.get(0);
+        assertEquals("test_post_tile_1", result.getPostTitle());
+        assertEquals("test_deadline_1", result.getPartTimeDeadline());
+        assertEquals("test_count_1", result.getPartTimeCount());
+        assertEquals("test_salary_1", result.getPartTimeSalary());
     }
 
     @Test
