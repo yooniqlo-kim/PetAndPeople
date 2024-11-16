@@ -16,7 +16,7 @@ public class EmailController {
 
     private final EmailService emailService;
 
-    public EmailController(EmailService emailService) {
+    private EmailController(EmailService emailService) {
         this.emailService = emailService;
     }
 
