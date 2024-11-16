@@ -168,8 +168,31 @@ public class PartTimeServiceTest {
     }
 
     @Test
-    void selectAllPartTimePostByUserKey_성공() {
-        assertNotNull(partTimeService.selectAllPartTimePost());
+    @Transactional
+    @DisplayName("아르바이트 게시물 삭제 성공")
+    void deletePartTimePost_성공() {
+        assertTrue(partTimeService.deletePartTimePost(1L, REQUEST));
+        assertTrue(partTimeRepository.findById(1L).isEmpty());
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("아르바이트 게시물 삭제 실패 - 권한 없음 에러")
+    void deletePartTimePost_실패() {
+        UserEntity mockUser = new UserEntity(
+                "test_id_2",
+                "test_password_2",
+                "test_name_2",
+                "test_number_2",
+                "test_address_2"
+        );
+        userRepository.save(mockUser);
+
+        HttpSession session = REQUEST.getSession(false);
+        assert session != null;
+        session.setAttribute("userKey", 2L);
+
+        assertThrows(PostNotAuthorizedException.class, () -> partTimeService.deletePartTimePost(1L, REQUEST));
     }
 
 }
