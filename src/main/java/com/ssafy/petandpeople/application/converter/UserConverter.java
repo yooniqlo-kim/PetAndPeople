@@ -1,16 +1,16 @@
 package com.ssafy.petandpeople.application.converter;
 
 import com.ssafy.petandpeople.application.dto.UserDto;
+import com.ssafy.petandpeople.domain.user.Password;
 import com.ssafy.petandpeople.domain.user.User;
 import com.ssafy.petandpeople.infrastructure.persistence.entity.UserEntity;
 
 public class UserConverter {
 
-    public static User dtoToDomain(UserDto userDto, String salt) {
-        return User.createUserWithEncryptedPassword(
+    public static User dtoToDomain(UserDto userDto) {
+        return new User(
                 userDto.getUserId(),
-                userDto.getUserPassword(),
-                salt,
+                Password.wrap(userDto.getUserPassword()),
                 userDto.getUserName(),
                 userDto.getUserPhoneNumber(),
                 userDto.getUserAddress(),

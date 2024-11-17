@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 @Service
@@ -30,7 +29,9 @@ public class UserService {
 
     public Boolean signUp(UserDto userDto) {
         String salt = PasswordEncryptor.generateSalt();
-        User user = UserConverter.dtoToDomain(userDto, salt);
+
+        User user = UserConverter.dtoToDomain(userDto);
+        user.encryptPassword(salt);
 
         UserEntity userEntity = UserConverter.domainToEntity(user);
         UserSecurityEntity userSecurityEntity = UserSecurityConverter.toEntity(user, salt);

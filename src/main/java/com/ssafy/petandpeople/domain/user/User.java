@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
 
-    private User(String userId,
+    public User(String userId,
                 Password password,
                 String userName,
                 String userPhoneNumber,
@@ -63,10 +63,8 @@ public class User {
         return lastLoginedAt;
     }
 
-    public static User createUserWithEncryptedPassword(String userId, String userPassword, String salt, String userName, String userPhoneNumber, String userAddress, Date registeredAt, Date lastLoginedAt) {
-        Password encryptUserPassword = Password.encrypt(salt, userPassword);
-
-        return new User(userId, encryptUserPassword, userName, userPhoneNumber, userAddress, registeredAt, lastLoginedAt);
+    public void encryptPassword(String salt) {
+        this.password = Password.encrypt(salt, this.password);
     }
 
 }
