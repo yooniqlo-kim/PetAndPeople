@@ -29,9 +29,7 @@ public class UserService {
 
     public Boolean signUp(UserDto userDto) {
         String salt = PasswordEncryptor.generateSalt();
-
-        User user = UserConverter.dtoToDomain(userDto);
-        user.encryptPassword(salt);
+        User user = createEncryptedUser(userDto, salt);
 
         UserEntity userEntity = UserConverter.domainToEntity(user);
         UserSecurityEntity userSecurityEntity = UserSecurityConverter.toEntity(user, salt);
@@ -40,6 +38,13 @@ public class UserService {
         userSecurityRepository.save(userSecurityEntity);
 
         return true;
+    }
+
+    private User createEncryptedUser(UserDto userDto, String salt) {
+        User user = UserConverter.dtoToDomain(userDto);
+        user.encryptPassword(salt);
+
+        return user;
     }
 
     public UserEntity findAllByUserKey(HttpServletRequest request) {
@@ -53,7 +58,7 @@ public class UserService {
     public UserEntity findByUserKey(HttpServletRequest request) {
         Long userKey = getUserKeyFromSession(request);
 
-        Optional<UserEntity> foundUser = userRepository.findById(userKey );
+        Optional<UserEntity> foundUser = userRepository.findById(userKey);
 
         return foundUser.orElseThrow(UserNotFoundException::new);
     }
