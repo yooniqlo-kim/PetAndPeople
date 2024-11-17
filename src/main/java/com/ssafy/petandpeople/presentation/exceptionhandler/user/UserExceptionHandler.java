@@ -1,6 +1,8 @@
 package com.ssafy.petandpeople.presentation.exceptionhandler.user;
 
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
+import com.ssafy.petandpeople.common.exception.user.HashAlgorithmNotFoundException;
+import com.ssafy.petandpeople.common.exception.user.NullHashBytesException;
 import com.ssafy.petandpeople.common.exception.user.UserNotFoundException;
 import com.ssafy.petandpeople.presentation.response.Api;
 import org.slf4j.Logger;
@@ -34,16 +36,38 @@ public class UserExceptionHandler {
     public ResponseEntity<Api<Object>> exceptionHandler(MethodArgumentNotValidException methodArgumentNotValidException) {
         String errorMessage =
                 methodArgumentNotValidException.getBindingResult().getFieldErrors()
-                .stream()
-                .findFirst()
-                .map(FieldError::getDefaultMessage)
-                .get();
+                        .stream()
+                        .findFirst()
+                        .map(FieldError::getDefaultMessage)
+                        .get();
 
         log.error("MethodArgumentNotValidException occurred : {}", errorMessage);
 
         return ResponseEntity
                 .status(400)
                 .body(Api.ERROR(1001, errorMessage));
+    }
+
+    @ExceptionHandler(value = HashAlgorithmNotFoundException.class)
+    public ResponseEntity<Api<Object>> exceptionHandler(HashAlgorithmNotFoundException hashAlgorithmNotFoundException) {
+        ErrorCodeIfs errorCodeIfs = hashAlgorithmNotFoundException.getErrorCodeIfs();
+
+        log.error("{}", errorCodeIfs.getMessage(), hashAlgorithmNotFoundException);
+
+        return ResponseEntity
+                .status(errorCodeIfs.getHttpStatusCode())
+                .body(Api.ERROR(errorCodeIfs));
+    }
+
+    @ExceptionHandler(value = NullHashBytesException.class)
+    public ResponseEntity<Api<Object>> exceptionHandler(NullHashBytesException nullHashBytesException) {
+        ErrorCodeIfs errorCodeIfs = nullHashBytesException.getErrorCodeIfs();
+
+        log.error("{}", errorCodeIfs.getMessage(), nullHashBytesException);
+
+        return ResponseEntity
+                .status(errorCodeIfs.getHttpStatusCode())
+                .body(Api.ERROR(errorCodeIfs));
     }
 
 }

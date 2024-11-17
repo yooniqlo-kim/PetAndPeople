@@ -4,7 +4,9 @@ import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 
 public enum UserErrorCode implements ErrorCodeIfs {
 
-    USER_NOT_FOUND(400, 1000, "UserNotFoundException occurred");
+    USER_NOT_FOUND(400, 1000, "UserNotFoundException occurred"),
+    HASH_ALGORITHM_NOT_FOUND(400, 1001, "HashAlgorithmNotFoundException occurred"),
+    NULL_HASH_BYTES(400, 1002, "NullHashBytesException occurred");
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
