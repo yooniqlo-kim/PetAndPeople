@@ -1,6 +1,8 @@
 package com.ssafy.petandpeople.application.service;
 
 import com.ssafy.petandpeople.application.dto.UserDto;
+import com.ssafy.petandpeople.common.exception.user.UserNotFoundException;
+import com.ssafy.petandpeople.infrastructure.persistence.entity.UserEntity;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,5 +39,11 @@ public class UserServiceTest {
         );
 
         assertTrue(userService.signUp(userDto));
+
+        UserEntity userEntity = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+        assertEquals(userDto.getUserId(), userEntity.getUserId());
+        assertEquals(userDto.getUserName(), userEntity.getUserName());
+        assertEquals(userDto.getUserPhoneNumber(), userEntity.getUserPhoneNumber());
     }
+
 }
