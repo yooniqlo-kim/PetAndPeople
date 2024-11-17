@@ -140,7 +140,7 @@ public class PartTimeServiceTest {
     @Test
     @Transactional
     @DisplayName("사용자가 작성한 아르바이트 게시물 조회 성공")
-    void findPartTimePostByUserKey_성공() {
+    void findPartTimePostsByUserKey_성공() {
         List<PartTimePostDto> results = partTimeService.findPartTimePostByUserKey(REQUEST);
 
         assertEquals(1, results.size());
@@ -155,7 +155,7 @@ public class PartTimeServiceTest {
     @Test
     @Transactional
     @DisplayName("모든 아르바이트 게시물 조회 성공")
-    void findAllPartTimePostByUserKey_성공() {
+    void findAllPartTimePostsByUserKey_성공() {
         List<PartTimePostDto> results = partTimeService.findAllPartTimePost();
 
         assertEquals(1, results.size());

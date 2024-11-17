@@ -82,14 +82,14 @@ public class PartTimeService {
     public boolean deletePartTimePost(Long postKey, HttpServletRequest request) {
         UserEntity userKey = userService.findByUserKey(request);
 
-        checkPartTimePostOwnership(postKey, userKey);
+        validatePartTimePostOwnership(postKey, userKey);
 
         partTimeRepository.deleteById(postKey);
 
         return true;
     }
 
-    private void checkPartTimePostOwnership(Long postKey, UserEntity userKey) {
+    private void validatePartTimePostOwnership(Long postKey, UserEntity userKey) {
         if(partTimeRepository.findByPostKeyAndUserKey(postKey, userKey).isPresent()) {
             return;
         }

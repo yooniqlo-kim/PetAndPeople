@@ -43,15 +43,15 @@ public class PartTimeController {
         return Api.OK(result);
     }
 
-    @GetMapping("/select/user-post")
-    public Api<List<PartTimePostDto>> findPartTimePostByUserKey(HttpServletRequest request) {
+    @GetMapping("/select/user-posts")
+    public Api<List<PartTimePostDto>> findPartTimePostsByUserKey(HttpServletRequest request) {
         List<PartTimePostDto> results = partTimeService.findPartTimePostByUserKey(request);
 
         return Api.OK(results);
     }
 
-    @GetMapping("/select/all-post")
-    public Api<List<PartTimePostDto>> findAllPartTimePost() {
+    @GetMapping("/select/all-posts")
+    public Api<List<PartTimePostDto>> findAllPartTimePosts() {
         List<PartTimePostDto> results = partTimeService.findAllPartTimePost();
 
         return Api.OK(results);
