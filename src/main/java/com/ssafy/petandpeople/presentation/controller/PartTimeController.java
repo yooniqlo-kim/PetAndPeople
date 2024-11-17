@@ -36,18 +36,32 @@ public class PartTimeController {
         return Api.OK();
     }
 
-    @GetMapping("/select/post")
-    public Api<PartTimePostDto> selectPartTimePostByUserKey(HttpServletRequest request) {
-        PartTimePostDto partTimePostDto = partTimeService.selectPartTimePosyByUserKey(request);
+    @GetMapping("/select/detail-post/{postKey}")
+    public Api<PartTimePostDto> findPartTimePostByPostKey(@PathVariable Long postKey) {
+        PartTimePostDto result = partTimeService.findPartTimePostByPostKey(postKey);
 
-        return Api.OK(partTimePostDto);
+        return Api.OK(result);
     }
 
-    @GetMapping("/select/all-post")
-    public Api<List<PartTimePostDto>> selectAllPartTimePost() {
-        List<PartTimePostDto> allPartTimePost = partTimeService.selectAllPartTimePost();
+    @GetMapping("/select/user-posts")
+    public Api<List<PartTimePostDto>> findPartTimePostsByUserKey(HttpServletRequest request) {
+        List<PartTimePostDto> results = partTimeService.findPartTimePostByUserKey(request);
 
-        return Api.OK(allPartTimePost);
+        return Api.OK(results);
+    }
+
+    @GetMapping("/select/all-posts")
+    public Api<List<PartTimePostDto>> findAllPartTimePosts() {
+        List<PartTimePostDto> results = partTimeService.findAllPartTimePost();
+
+        return Api.OK(results);
+    }
+
+    @GetMapping("/delete/post/{postKey}")
+    public Api<Object> deletePartTimePost(@PathVariable Long postKey, HttpServletRequest request) {
+        partTimeService.deletePartTimePost(postKey,request);
+
+        return Api.OK();
     }
 
 }
