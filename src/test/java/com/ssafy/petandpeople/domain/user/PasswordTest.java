@@ -11,15 +11,24 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PasswordTest {
 
     @Test
+    @DisplayName("Password 클래스 wrapping 성공")
+    void wrap_성공() {
+        String rawPassword = "SecurePassword123!";
+        Password password = Password.wrap(rawPassword);
+
+        assertEquals(rawPassword, password.getValue());
+    }
+
+    @Test
     @DisplayName("비밀번호 암호화 성공")
     void encrypt_성공() {
         String salt = PasswordEncryptor.generateSalt();
-        String rawPassword = "SecurePassword123";
+        String rawPassword = "SecurePassword123!";
 
-        Password password = Password.encrypt(salt,rawPassword);
+        Password password = Password.encrypt(salt,Password.wrap(rawPassword));
 
-        assertNotNull(password);
         assertNotNull(password.getValue());
+        assertNotEquals(rawPassword, password.getValue());
     }
 
     @Test
@@ -27,10 +36,10 @@ public class PasswordTest {
     void encrypt_실패_differentSalt() {
         String salt1 = "salt1";
         String salt2 = "salt2";
-        String rawPassword = "SecurePassword123";
+        String rawPassword = "SecurePassword123!";
 
-        Password password1 = Password.encrypt(salt1,rawPassword);
-        Password password2 = Password.encrypt(salt2,rawPassword);
+        Password password1 = Password.encrypt(salt1,Password.wrap(rawPassword));
+        Password password2 = Password.encrypt(salt2,Password.wrap(rawPassword));
 
         assertNotEquals(password1.getValue(), password2.getValue());
     }
