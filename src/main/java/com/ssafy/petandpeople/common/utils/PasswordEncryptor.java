@@ -3,6 +3,8 @@ package com.ssafy.petandpeople.common.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
@@ -84,14 +86,9 @@ public class PasswordEncryptor {
             return null;
         }
 
-        StringBuffer sb = new StringBuffer(ba.length * 2);
-        String hexNumber;
-        for (int x = 0; x < ba.length; x++) {
-            hexNumber = "0" + Integer.toHexString(0xff & ba[x]);
-            sb.append(hexNumber.substring(hexNumber.length() - 2));
-        }
-
-        return sb.toString();
+        return IntStream.range(0, ba.length)
+                .mapToObj(i -> String.format("%02x", ba[i]))
+                .collect(Collectors.joining());
     }
 
 }
