@@ -4,7 +4,11 @@ import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 
 public enum UserErrorCode implements ErrorCodeIfs {
 
-    USER_NOT_FOUND(400, 1000, "UserNotFoundException occurred");
+    USER_NOT_FOUND(400, 1001, "UserNotFoundException occurred"),
+    USER_NOT_SIGN_UP(500, 1002, "UserNotSignUpException occurred"),
+    USER_SALT_NOT_FOUND(400, 1003, "SaltNotFoundException occurred"),
+    USER_LOGIN_ATTEMPT_EXCEEDED(400, 1004, "LoginAttemptExceededException occurred"),
+    USER_PASSWORD_MISMATCH(400, 1005, "PasswordMismatchException occurred");
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
