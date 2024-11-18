@@ -1,34 +1,64 @@
 package com.ssafy.petandpeople.application.service;
 
+import com.ssafy.petandpeople.application.converter.UserConverter;
+import com.ssafy.petandpeople.application.converter.UserSecurityConverter;
+import com.ssafy.petandpeople.application.dto.UserDto;
 import com.ssafy.petandpeople.common.exception.user.UserNotFoundException;
+import com.ssafy.petandpeople.common.utils.PasswordEncryptor;
+import com.ssafy.petandpeople.domain.user.User;
 import com.ssafy.petandpeople.infrastructure.persistence.entity.UserEntity;
+import com.ssafy.petandpeople.infrastructure.persistence.entity.UserSecurityEntity;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.UserRepository;
+import com.ssafy.petandpeople.infrastructure.persistence.repository.UserSecurityRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
+    private final UserSecurityRepository userSecurityRepository;
 
-    private UserService(UserRepository userRepository) {
+    private UserService(UserRepository userRepository, UserSecurityRepository userSecurityRepository) {
         this.userRepository = userRepository;
+        this.userSecurityRepository = userSecurityRepository;
     }
 
-    public UserEntity findAllByUserKey(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Long userKey = (Long) session.getAttribute("userKey");
+    public Boolean signUp(UserDto userDto) {
+        String salt = PasswordEncryptor.generateSalt();
+        User user = createEncryptedUser(userDto, salt);
 
-        UserEntity foundUser = userRepository.findAllByUserKey(userKey);
-        checkUserFound(foundUser);
+        UserEntity userEntity = UserConverter.domainToEntity(user);
+        UserSecurityEntity userSecurityEntity = UserSecurityConverter.toEntity(user, salt);
 
-        return foundUser;
+        userRepository.save(userEntity);
+        userSecurityRepository.save(userSecurityEntity);
+
+        return true;
     }
 
-    private void checkUserFound(UserEntity userEntity) {
-        if (userEntity == null) {
-            throw new UserNotFoundException();
-        }
+    private User createEncryptedUser(UserDto userDto, String salt) {
+        User user = UserConverter.dtoToDomain(userDto);
+        user.encryptPassword(salt);
+
+        return user;
+    }
+
+    public UserEntity findByUserKey(HttpServletRequest request) {
+        Long userKey = getUserKeyFromSession(request);
+
+        Optional<UserEntity> foundUser = userRepository.findById(userKey);
+
+        return foundUser.orElseThrow(UserNotFoundException::new);
+    }
+
+    private Long getUserKeyFromSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        return (Long) session.getAttribute("userKey");
     }
 
 }

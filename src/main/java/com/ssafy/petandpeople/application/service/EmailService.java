@@ -2,7 +2,9 @@ package com.ssafy.petandpeople.application.service;
 
 import com.ssafy.petandpeople.application.dto.EmailDto;
 import com.ssafy.petandpeople.common.exception.email.AuthCodeMismatchException;
+import com.ssafy.petandpeople.common.exception.email.DuplicateEmailException;
 import com.ssafy.petandpeople.common.exception.email.StoredAuthCodeNotFoundException;
+import com.ssafy.petandpeople.infrastructure.persistence.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,12 +20,16 @@ public class EmailService {
 
     private static final String SENDER_EMAIL = "yoon73337@gmail.com";
     private final JavaMailSender javaMailSender;
+    private final UserRepository userRepository;
 
-    private EmailService(JavaMailSender javaMailSender) {
+    public EmailService(JavaMailSender javaMailSender, UserRepository userRepository) {
         this.javaMailSender = javaMailSender;
+        this.userRepository = userRepository;
     }
 
     public void sendAuthCodeToUserEmail(EmailDto emailDto, HttpServletRequest request) throws MessagingException {
+        validateEmailExists(emailDto);
+
         String authCode = generateAuthCode();
         String receiverEmail = emailDto.getEmail();
         String subject = "[PetAndPeople] 이메일 주소 확인";
@@ -31,6 +37,12 @@ public class EmailService {
 
         sendEmail(receiverEmail, subject, text);
         saveAuthCodeInSession(authCode, request);
+    }
+
+    private void validateEmailExists(EmailDto emailDto) {
+        if(userRepository.findByUserId(emailDto.getEmail()).isPresent()) {
+            throw new DuplicateEmailException();
+        }
     }
 
     private String generateAuthCode() {

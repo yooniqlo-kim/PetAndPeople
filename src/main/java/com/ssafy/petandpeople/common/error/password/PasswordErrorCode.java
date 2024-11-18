@@ -1,18 +1,17 @@
-package com.ssafy.petandpeople.common.error.email;
+package com.ssafy.petandpeople.common.error.password;
 
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 
-public enum EmailErrorCode implements ErrorCodeIfs {
+public enum PasswordErrorCode implements ErrorCodeIfs {
 
-    STORED_AUTH_CODE_NOT_FOUND(400, 1501, "StoredAuthCodeNotFoundException occurred"),
-    AUTH_CODE_MISMATCH(400, 1502, "AuthCodeMismatchException occurred"),
-    DUPLICATE_EMAIL(400, 1503, "DuplicateEmailException occurred");
+    HASH_ALGORITHM_NOT_FOUND(500, 1200, "HashAlgorithmNotFoundException occurred"),
+    NULL_HASH_BYTES(500, 1201, "NullHashBytesException occurred");
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
     private final String message;
 
-    EmailErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
+    PasswordErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
         this.httpStatusCode = httpStatusCode;
         this.errorCode = errorCode;
         this.message = message;

@@ -38,6 +38,13 @@ public class Api<T> {
         return api;
     }
 
+    public static Api<Object> ERROR(Integer errorCode, String message) {
+        Api<Object> api = new Api<>();
+        api.result = Result.ERROR(errorCode);
+        api.body = message;
+        return api;
+    }
+
     public Result getResult() {
         return result;
     }
