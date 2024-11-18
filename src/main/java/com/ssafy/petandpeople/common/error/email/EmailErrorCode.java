@@ -5,7 +5,8 @@ import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 public enum EmailErrorCode implements ErrorCodeIfs {
 
     STORED_AUTH_CODE_NOT_FOUND(400, 1501, "StoredAuthCodeNotFoundException occurred"),
-    AUTH_CODE_MISMATCH(400, 1502, "AuthCodeMismatchException occurred");
+    AUTH_CODE_MISMATCH(400, 1502, "AuthCodeMismatchException occurred"),
+    DUPLICATE_EMAIL(400, 1503, "DuplicateEmailException occurred");
 
     private final Integer httpStatusCode;
     private final Integer errorCode;

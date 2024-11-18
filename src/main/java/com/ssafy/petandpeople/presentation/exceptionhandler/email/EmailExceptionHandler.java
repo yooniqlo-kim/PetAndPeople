@@ -2,6 +2,7 @@ package com.ssafy.petandpeople.presentation.exceptionhandler.email;
 
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 import com.ssafy.petandpeople.common.exception.email.AuthCodeMismatchException;
+import com.ssafy.petandpeople.common.exception.email.DuplicateEmailException;
 import com.ssafy.petandpeople.common.exception.email.StoredAuthCodeNotFoundException;
 import com.ssafy.petandpeople.presentation.response.Api;
 import jakarta.mail.MessagingException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@Order(1)
 public class EmailExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(EmailExceptionHandler.class);
 
@@ -57,6 +59,16 @@ public class EmailExceptionHandler {
         return ResponseEntity
                 .status(errorCodeIfs.getHttpStatusCode())
                 .body(Api.ERROR(errorCodeIfs));
+    }
+
+    @ExceptionHandler(value = DuplicateEmailException.class)
+    public ResponseEntity<Api<Object>> exceptionHandler(DuplicateEmailException duplicateEmailException) {
+        ErrorCodeIfs errorCodeIfs = duplicateEmailException.getErrorCodeIfs();
+        log.error("{}", errorCodeIfs.getMessage(), duplicateEmailException);
+
+        return ResponseEntity
+                .status(errorCodeIfs.getHttpStatusCode())
+                .body(Api.ERROR(errorCodeIfs.getErrorCode(), "이메일 중복"));
     }
 
 }
