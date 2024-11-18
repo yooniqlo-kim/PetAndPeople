@@ -1,6 +1,6 @@
 package com.ssafy.petandpeople.domain.user;
 
-import com.ssafy.petandpeople.common.exception.user.NullHashBytesException;
+import com.ssafy.petandpeople.common.exception.password.NullHashBytesException;
 import com.ssafy.petandpeople.common.utils.PasswordEncryptor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
