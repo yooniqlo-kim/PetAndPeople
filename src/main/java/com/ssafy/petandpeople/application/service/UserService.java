@@ -47,14 +47,6 @@ public class UserService {
         return user;
     }
 
-    public UserEntity findAllByUserKey(HttpServletRequest request) {
-        Long userKey = getUserKeyFromSession(request);
-
-        Optional<UserEntity> foundUser = userRepository.findAllByUserKey(userKey);
-
-        return foundUser.orElseThrow(UserNotFoundException::new);
-    }
-
     public UserEntity findByUserKey(HttpServletRequest request) {
         Long userKey = getUserKeyFromSession(request);
 

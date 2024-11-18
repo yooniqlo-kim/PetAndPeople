@@ -20,7 +20,7 @@ public class PartTimeService {
     }
 
     public Boolean createPartTimePost(PartTimeDto partTimeDto, HttpServletRequest request)  {
-        UserEntity foundUser = userService.findAllByUserKey(request);
+        UserEntity foundUser = userService.findByUserKey(request);
 
         PartTimeEntity partTimeEntity = PartTimeConverter.dtoToEntity(partTimeDto, foundUser);
         partTimeRepository.save(partTimeEntity);
