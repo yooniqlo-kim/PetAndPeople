@@ -13,6 +13,8 @@ import com.ssafy.petandpeople.infrastructure.persistence.entity.user.UserEntity;
 import com.ssafy.petandpeople.infrastructure.persistence.entity.user.UserSecurityEntity;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.user.UserRepository;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.user.UserSecurityRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,20 +54,24 @@ public class UserService {
         return user;
     }
 
-    public Boolean login(LoginDto loginDto) {
-        UserEntity userEntity = validateUserExists(loginDto);
+    public Boolean login(LoginDto loginDto, HttpServletRequest request) {
+        String userId = loginDto.getUserId();
 
-        loginAttemptManager.validateLoginAttempts(loginDto.getUserId());
+        UserEntity userEntity = validateUserExists(userId);
+
+        loginAttemptManager.validateLoginAttempts(userId);
 
         validatePassword(loginDto, userEntity);
 
-        loginAttemptManager.clearUserLoginAttempt(loginDto.getUserId());
+        loginAttemptManager.clearUserLoginAttempt(userId);
+
+        saveLoginUserInSession(userId, request);
 
         return true;
     }
 
-    public UserEntity validateUserExists(LoginDto loginDto) {
-        return userRepository.findByUserId(loginDto.getUserId()).orElseThrow(UserNotFoundException::new);
+    public UserEntity validateUserExists(String userId) {
+        return userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new);
     }
 
     private void validatePassword(LoginDto loginDto, UserEntity userEntity) {
@@ -87,6 +93,14 @@ public class UserService {
         user.encryptPassword(salt);
 
         return user;
+    }
+
+    private void saveLoginUserInSession(String userId, HttpServletRequest request) {
+        String ipAddress = request.getRemoteAddr();
+
+        HttpSession session = request.getSession();
+        session.setAttribute("USER_ID", userId);
+        session.setAttribute("IP_ADDRESS", ipAddress);
     }
 
 }

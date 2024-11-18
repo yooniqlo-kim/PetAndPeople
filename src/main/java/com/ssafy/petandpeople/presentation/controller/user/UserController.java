@@ -4,6 +4,7 @@ import com.ssafy.petandpeople.application.dto.user.LoginDto;
 import com.ssafy.petandpeople.application.dto.user.UserDto;
 import com.ssafy.petandpeople.application.service.user.UserService;
 import com.ssafy.petandpeople.presentation.response.Api;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +29,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Api<Object> login(@RequestBody LoginDto loginDto) {
-        userService.login(loginDto);
+    public Api<Object> login(@RequestBody LoginDto loginDto, HttpServletRequest request) {
+        userService.login(loginDto, request);
 
         return Api.OK();
     }
