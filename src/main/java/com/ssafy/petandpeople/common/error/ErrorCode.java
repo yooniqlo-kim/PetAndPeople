@@ -1,6 +1,8 @@
 package com.ssafy.petandpeople.common.error;
 
-public enum ErrorCode implements ErrorCodeIfs {
+public enum ErrorCode implements ErrorCodeIfs{
+
+    OK(200, 200, "성공"),
 
     BAD_REQUEST(400, 400, "잘못된 요청"),
 
@@ -8,12 +10,12 @@ public enum ErrorCode implements ErrorCodeIfs {
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
-    private final String message;
+    private final String description;
 
-    ErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
+    ErrorCode(Integer httpStatusCode, Integer errorCode, String description) {
         this.httpStatusCode = httpStatusCode;
         this.errorCode = errorCode;
-        this.message = message;
+        this.description = description;
     }
 
     @Override
@@ -27,8 +29,8 @@ public enum ErrorCode implements ErrorCodeIfs {
     }
 
     @Override
-    public String getMessage() {
-        return this.message;
+    public String getDescription() {
+        return this.description;
     }
 
 }
