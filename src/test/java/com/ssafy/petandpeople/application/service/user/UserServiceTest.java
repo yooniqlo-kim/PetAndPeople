@@ -14,6 +14,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -87,7 +89,12 @@ public class UserServiceTest {
 
         LoginDto loginDto = new LoginDto(userId, userPassword);
 
-        assertTrue(userService.login(loginDto));
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpSession session = new MockHttpSession();
+        request.setSession(session);
+
+        assertTrue(userService.login(loginDto, request));
+        assertEquals(userId, session.getAttribute("USER_ID"));
     }
 
     @Test
@@ -112,8 +119,9 @@ public class UserServiceTest {
         userSecurityRepository.save(userSecurityEntity);
 
         LoginDto loginDto = new LoginDto(userId, userPassword);
+        MockHttpServletRequest request = new MockHttpServletRequest();
 
-        assertThrows(PasswordMismatchException.class, () -> userService.login(loginDto));
+        assertThrows(PasswordMismatchException.class, () -> userService.login(loginDto, request));
     }
 
     @Test
@@ -124,9 +132,7 @@ public class UserServiceTest {
                 "testPassword123@"
         );
 
-        assertThrows(UserNotFoundException.class, () -> {
-            userService.validateUserExists(loginDto);
-        });
+        assertThrows(UserNotFoundException.class, () -> userService.validateUserExists(loginDto.getUserId()));
     }
-    
+
 }
