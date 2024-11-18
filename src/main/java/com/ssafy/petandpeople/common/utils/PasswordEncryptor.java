@@ -1,7 +1,7 @@
 package com.ssafy.petandpeople.common.utils;
 
-import com.ssafy.petandpeople.common.exception.user.HashAlgorithmNotFoundException;
-import com.ssafy.petandpeople.common.exception.user.NullHashBytesException;
+import com.ssafy.petandpeople.common.exception.password.HashAlgorithmNotFoundException;
+import com.ssafy.petandpeople.common.exception.password.NullHashBytesException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

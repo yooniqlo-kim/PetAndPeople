@@ -1,16 +1,17 @@
-package com.ssafy.petandpeople.common.error.user;
+package com.ssafy.petandpeople.common.error.password;
 
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 
-public enum UserErrorCode implements ErrorCodeIfs {
+public enum PasswordErrorCode implements ErrorCodeIfs {
 
-    USER_NOT_FOUND(400, 1000, "UserNotFoundException occurred");
+    HASH_ALGORITHM_NOT_FOUND(500, 1200, "HashAlgorithmNotFoundException occurred"),
+    NULL_HASH_BYTES(500, 1201, "NullHashBytesException occurred");
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
     private final String message;
 
-    UserErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
+    PasswordErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
         this.httpStatusCode = httpStatusCode;
         this.errorCode = errorCode;
         this.message = message;
@@ -30,5 +31,4 @@ public enum UserErrorCode implements ErrorCodeIfs {
     public String getMessage() {
         return this.message;
     }
-
 }
