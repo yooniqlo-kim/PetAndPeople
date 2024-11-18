@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(1)
 public class UserExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(UserExceptionHandler.class);
