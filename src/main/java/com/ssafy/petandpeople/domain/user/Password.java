@@ -1,5 +1,6 @@
 package com.ssafy.petandpeople.domain.user;
 
+import com.ssafy.petandpeople.common.exception.user.PasswordMismatchException;
 import com.ssafy.petandpeople.common.utils.PasswordEncryptor;
 
 public class Password {
@@ -23,6 +24,16 @@ public class Password {
         String encryptValue = PasswordEncryptor.byteArrayToHex(hashPassword);
 
         return new Password(encryptValue);
+    }
+
+    public static Boolean validate(Password password, String storedPassword) {
+        String encryptLoginPassword = password.getValue();
+
+        if(!encryptLoginPassword.equals(storedPassword)) {
+            throw new PasswordMismatchException();
+        }
+
+        return true;
     }
 
 }

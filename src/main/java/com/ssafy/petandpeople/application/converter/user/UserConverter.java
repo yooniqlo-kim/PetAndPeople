@@ -1,9 +1,10 @@
-package com.ssafy.petandpeople.application.converter;
+package com.ssafy.petandpeople.application.converter.user;
 
-import com.ssafy.petandpeople.application.dto.UserDto;
+import com.ssafy.petandpeople.application.dto.user.LoginDto;
+import com.ssafy.petandpeople.application.dto.user.UserDto;
 import com.ssafy.petandpeople.domain.user.Password;
 import com.ssafy.petandpeople.domain.user.User;
-import com.ssafy.petandpeople.infrastructure.persistence.entity.UserEntity;
+import com.ssafy.petandpeople.infrastructure.persistence.entity.user.UserEntity;
 
 public class UserConverter {
 
@@ -26,6 +27,13 @@ public class UserConverter {
                 user.getUserName(),
                 user.getUserPhoneNumber(),
                 user.getUserAddress()
+        );
+    }
+
+    public static User loginDtoToDomain(LoginDto loginDto) {
+        return new User(
+                loginDto.getUserId(),
+                Password.wrap(loginDto.getUserPassword())
         );
     }
 

@@ -1,7 +1,8 @@
-package com.ssafy.petandpeople.presentation.controller;
+package com.ssafy.petandpeople.presentation.controller.user;
 
-import com.ssafy.petandpeople.application.dto.UserDto;
-import com.ssafy.petandpeople.application.service.UserService;
+import com.ssafy.petandpeople.application.dto.user.LoginDto;
+import com.ssafy.petandpeople.application.dto.user.UserDto;
+import com.ssafy.petandpeople.application.service.user.UserService;
 import com.ssafy.petandpeople.presentation.response.Api;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,4 +26,12 @@ public class UserController {
 
         return Api.OK();
     }
+
+    @PostMapping("/login")
+    public Api<Object> login(@RequestBody LoginDto loginDto) {
+        userService.login(loginDto);
+
+        return Api.OK();
+    }
+
 }
