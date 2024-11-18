@@ -1,4 +1,4 @@
-package com.ssafy.petandpeople.application.service;
+package com.ssafy.petandpeople.application.service.email;
 
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.DisplayName;
@@ -8,7 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.ssafy.petandpeople.application.dto.EmailDto;
+import com.ssafy.petandpeople.application.dto.email.EmailDto;
 import com.ssafy.petandpeople.common.exception.email.AuthCodeMismatchException;
 import com.ssafy.petandpeople.common.exception.email.StoredAuthCodeNotFoundException;
 import jakarta.mail.MessagingException;

@@ -1,6 +1,6 @@
-package com.ssafy.petandpeople.infrastructure.persistence.repository;
+package com.ssafy.petandpeople.infrastructure.persistence.repository.user;
 
-import com.ssafy.petandpeople.infrastructure.persistence.entity.UserEntity;
+import com.ssafy.petandpeople.infrastructure.persistence.entity.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    Optional<UserEntity> findByUserId(String email);
+    Optional<UserEntity> findByUserId(String userId);
 
 }

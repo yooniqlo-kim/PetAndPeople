@@ -1,7 +1,7 @@
-package com.ssafy.petandpeople.presentation.controller;
+package com.ssafy.petandpeople.presentation.controller.email;
 
-import com.ssafy.petandpeople.application.dto.EmailDto;
-import com.ssafy.petandpeople.application.service.EmailService;
+import com.ssafy.petandpeople.application.dto.email.EmailDto;
+import com.ssafy.petandpeople.application.service.email.EmailService;
 import com.ssafy.petandpeople.presentation.response.Api;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;

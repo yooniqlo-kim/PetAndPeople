@@ -1,7 +1,7 @@
-package com.ssafy.petandpeople.application.converter;
+package com.ssafy.petandpeople.application.converter.user;
 
 import com.ssafy.petandpeople.domain.user.User;
-import com.ssafy.petandpeople.infrastructure.persistence.entity.UserSecurityEntity;
+import com.ssafy.petandpeople.infrastructure.persistence.entity.user.UserSecurityEntity;
 
 public class UserSecurityConverter {
 

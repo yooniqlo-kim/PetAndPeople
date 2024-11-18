@@ -1,10 +1,10 @@
-package com.ssafy.petandpeople.application.service;
+package com.ssafy.petandpeople.application.service.email;
 
-import com.ssafy.petandpeople.application.dto.EmailDto;
+import com.ssafy.petandpeople.application.dto.email.EmailDto;
 import com.ssafy.petandpeople.common.exception.email.AuthCodeMismatchException;
 import com.ssafy.petandpeople.common.exception.email.DuplicateEmailException;
 import com.ssafy.petandpeople.common.exception.email.StoredAuthCodeNotFoundException;
-import com.ssafy.petandpeople.infrastructure.persistence.repository.UserRepository;
+import com.ssafy.petandpeople.infrastructure.persistence.repository.user.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;

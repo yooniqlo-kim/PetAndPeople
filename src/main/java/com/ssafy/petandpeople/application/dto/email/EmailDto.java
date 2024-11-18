@@ -1,4 +1,4 @@
-package com.ssafy.petandpeople.application.dto;
+package com.ssafy.petandpeople.application.dto.email;
 
 public class EmailDto {
 
