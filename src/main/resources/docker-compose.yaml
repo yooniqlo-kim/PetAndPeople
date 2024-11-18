@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  petandpeople:
+    image: mysql:latest
+    container_name: petandpeople-container
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: petandpeople
+      MYSQL_USER: petandpeople
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3306:3306"
+    networks:
+      - my-network
+
+  petandpeople_test:
+    image: mysql:latest
+    container_name: petandpeople-test-container
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: petandpeople_test
+      MYSQL_USER: petandpeople
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3307:3306"
+
+networks:
+  my-network:
+    driver: bridge

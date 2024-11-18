@@ -1,16 +1,16 @@
-package com.ssafy.petandpeople.common.error;
+package com.ssafy.petandpeople.common.error.job;
 
-public enum ErrorCode implements ErrorCodeIfs {
+import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 
-    BAD_REQUEST(400, 400, "잘못된 요청"),
+public enum PostErrorCode implements ErrorCodeIfs {
 
-    SEVER_ERROR(500, 500, "서버 에러");
+    ;
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
     private final String message;
 
-    ErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
+    PostErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
         this.httpStatusCode = httpStatusCode;
         this.errorCode = errorCode;
         this.message = message;

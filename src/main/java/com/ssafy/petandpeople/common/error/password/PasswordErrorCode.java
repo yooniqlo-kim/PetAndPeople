@@ -1,16 +1,17 @@
-package com.ssafy.petandpeople.common.error;
+package com.ssafy.petandpeople.common.error.password;
 
-public enum ErrorCode implements ErrorCodeIfs {
+import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 
-    BAD_REQUEST(400, 400, "잘못된 요청"),
+public enum PasswordErrorCode implements ErrorCodeIfs {
 
-    SEVER_ERROR(500, 500, "서버 에러");
+    HASH_ALGORITHM_NOT_FOUND(500, 1200, "HashAlgorithmNotFoundException occurred"),
+    NULL_HASH_BYTES(500, 1201, "NullHashBytesException occurred");
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
     private final String message;
 
-    ErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
+    PasswordErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
         this.httpStatusCode = httpStatusCode;
         this.errorCode = errorCode;
         this.message = message;
@@ -30,5 +31,4 @@ public enum ErrorCode implements ErrorCodeIfs {
     public String getMessage() {
         return this.message;
     }
-
 }

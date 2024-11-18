@@ -1,16 +1,17 @@
-package com.ssafy.petandpeople.common.error;
+package com.ssafy.petandpeople.common.error.email;
 
-public enum ErrorCode implements ErrorCodeIfs {
+import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 
-    BAD_REQUEST(400, 400, "잘못된 요청"),
+public enum EmailErrorCode implements ErrorCodeIfs {
 
-    SEVER_ERROR(500, 500, "서버 에러");
+    STORED_AUTH_CODE_NOT_FOUND(400, 1501, "StoredAuthCodeNotFoundException occurred"),
+    AUTH_CODE_MISMATCH(400, 1502, "AuthCodeMismatchException occurred");
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
     private final String message;
 
-    ErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
+    EmailErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
         this.httpStatusCode = httpStatusCode;
         this.errorCode = errorCode;
         this.message = message;
@@ -30,5 +31,4 @@ public enum ErrorCode implements ErrorCodeIfs {
     public String getMessage() {
         return this.message;
     }
-
 }

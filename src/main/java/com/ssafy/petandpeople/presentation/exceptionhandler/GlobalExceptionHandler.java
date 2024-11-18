@@ -1,7 +1,7 @@
 package com.ssafy.petandpeople.presentation.exceptionhandler;
 
 import com.ssafy.petandpeople.common.error.ErrorCode;
-import com.ssafy.petandpeople.common.response.Api;
+import com.ssafy.petandpeople.presentation.response.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<Api<Object>> ExceptionHandler(Exception exception) {
-        log.error("", exception);
+        log.error("{}", exception.getMessage(), exception);
 
         return ResponseEntity
                 .status(500)
