@@ -1,8 +1,8 @@
 package com.ssafy.petandpeople.presentation.exceptionhandler.user;
 
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
-import com.ssafy.petandpeople.common.exception.user.HashAlgorithmNotFoundException;
-import com.ssafy.petandpeople.common.exception.user.NullHashBytesException;
+import com.ssafy.petandpeople.common.exception.password.HashAlgorithmNotFoundException;
+import com.ssafy.petandpeople.common.exception.password.NullHashBytesException;
 import com.ssafy.petandpeople.common.exception.user.UserNotFoundException;
 import com.ssafy.petandpeople.presentation.response.Api;
 import org.slf4j.Logger;
@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -34,12 +33,7 @@ public class UserExceptionHandler {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<Api<Object>> exceptionHandler(MethodArgumentNotValidException methodArgumentNotValidException) {
-        String errorMessage =
-                methodArgumentNotValidException.getBindingResult().getFieldErrors()
-                        .stream()
-                        .findFirst()
-                        .map(FieldError::getDefaultMessage)
-                        .get();
+        String errorMessage = methodArgumentNotValidException.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
 
         log.error("MethodArgumentNotValidException occurred : {}", errorMessage);
 
