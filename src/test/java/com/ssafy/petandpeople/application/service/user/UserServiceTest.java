@@ -57,7 +57,7 @@ public class UserServiceTest {
 
         assertTrue(userService.signUp(userDto));
 
-        UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new);
+        UserEntity userEntity = userRepository.findUserByUserId(userId).orElseThrow(UserNotFoundException::new);
         assertEquals(userDto.getUserId(), userEntity.getUserId());
         assertEquals(userDto.getUserName(), userEntity.getUserName());
         assertEquals(userDto.getUserPhoneNumber(), userEntity.getUserPhoneNumber());
@@ -70,7 +70,8 @@ public class UserServiceTest {
         String userPassword = "testPassword123@";
         String salt = "salt";
 
-        String encryptPassword = Password.encrypt(salt, Password.wrap(userPassword)).getValue();
+        Password password = Password.wrap(userPassword);
+        String encryptPassword = password.encrypt(salt).getValue();
 
         UserEntity userEntity = new UserEntity(
                 userId,
@@ -104,8 +105,7 @@ public class UserServiceTest {
         String userPassword = "wrongPassword";
         String salt = "salt";
 
-        String correctPassword = Password.encrypt(salt, Password.wrap("correctPassword")).getValue();
-
+        String correctPassword = "correctPassword";
         UserEntity userEntity = new UserEntity(
                 userId,
                 correctPassword,
@@ -113,9 +113,9 @@ public class UserServiceTest {
                 "testPhoneNumber",
                 "testAddress"
         );
-        UserSecurityEntity userSecurityEntity = new UserSecurityEntity(userId, salt);
-
         userRepository.save(userEntity);
+
+        UserSecurityEntity userSecurityEntity = new UserSecurityEntity(userId, salt);
         userSecurityRepository.save(userSecurityEntity);
 
         LoginDto loginDto = new LoginDto(userId, userPassword);

@@ -17,11 +17,11 @@ public class PasswordTest {
     void encrypt_성공() {
         String salt = PasswordEncryptor.generateSalt();
         String rawPassword = "SecurePassword123!";
+        Password password = Password.wrap(rawPassword);
 
-        Password password = Password.encrypt(salt, Password.wrap(rawPassword));
+        String encryptedPassword = password.encrypt(salt).getValue();
 
-        assertNotNull(password.getValue());
-        assertNotEquals(rawPassword, password.getValue());
+        assertNotEquals(rawPassword, encryptedPassword);
     }
 
     @Test
@@ -36,13 +36,13 @@ public class PasswordTest {
     @DisplayName("비밀번호 검증 실패 - 불일치")
     void validate_실패_PasswordMismatchException() {
         String rawPassword = "WrongPassword";
-        Password password = Password.wrap(rawPassword);
+        Password wrongPassword = Password.wrap(rawPassword);
 
-        String savedPassword = "SecurePassword123!";
+        String savedEncryptedPassword = "SecurePassword123!";
 
         assertThrows(
                 PasswordMismatchException.class,
-                () -> Password.validate(password, savedPassword)
+                () -> wrongPassword.validate(savedEncryptedPassword)
         );
     }
 

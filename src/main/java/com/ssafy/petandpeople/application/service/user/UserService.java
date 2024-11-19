@@ -65,21 +65,21 @@ public class UserService {
 
         loginAttemptManager.clearUserLoginAttempt(userId);
 
-        saveLoginUserInSession(userId, request);
+        saveLoginUserInSession(userEntity.getUserKey(), request);
 
         return true;
     }
 
     public UserEntity validateUserExists(String userId) {
-        return userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new);
+        return userRepository.findUserByUserId(userId).orElseThrow(UserNotFoundException::new);
     }
 
     private void validatePassword(LoginDto loginDto, UserEntity userEntity) {
         String salt = getSalt(loginDto);
-        User user = createEncryptedUser(loginDto, salt);
-        String storedPassword = userEntity.getUserPassword();
+        User encryptedUser = createEncryptedUser(loginDto, salt);
+        String savedPassword = userEntity.getUserPassword();
 
-        user.validatePasswordMatch(storedPassword);
+        encryptedUser.validatePasswordMatch(savedPassword);
     }
 
     private String getSalt(LoginDto loginDto) {
@@ -95,11 +95,11 @@ public class UserService {
         return user;
     }
 
-    private void saveLoginUserInSession(String userId, HttpServletRequest request) {
+    private void saveLoginUserInSession(Long userKey, HttpServletRequest request) {
         String ipAddress = request.getRemoteAddr();
 
         HttpSession session = request.getSession();
-        session.setAttribute("USER_ID", userId);
+        session.setAttribute("USER_KEY", userKey);
         session.setAttribute("IP_ADDRESS", ipAddress);
     }
 
