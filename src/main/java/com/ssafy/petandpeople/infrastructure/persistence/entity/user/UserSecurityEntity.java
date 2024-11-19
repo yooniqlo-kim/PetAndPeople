@@ -6,6 +6,13 @@ import jakarta.persistence.*;
 @Table(name = "user_security")
 public class UserSecurityEntity {
 
+    @Id
+    @Column(unique = true, nullable = false)
+    private String userId;
+
+    @Column(unique = true, nullable = false)
+    private String salt;
+
     public UserSecurityEntity() {
     }
 
@@ -13,13 +20,6 @@ public class UserSecurityEntity {
         this.userId = userId;
         this.salt = salt;
     }
-
-    @Id
-    @Column(unique = true, nullable = false)
-    private String userId;
-
-    @Column(unique = true, nullable = false)
-    private String salt;
 
     public String getUserId() {
         return userId;

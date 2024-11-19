@@ -8,27 +8,6 @@ import java.util.Date;
 
 public class UserDto {
 
-    public UserDto() {
-    }
-
-    public UserDto(
-            String userId,
-            String userPassword,
-            String userName,
-            String userPhoneNumber,
-            String userAddress,
-            Date registeredAt,
-            Date lastLoginedAt
-    ) {
-        this.userId = userId;
-        this.userPassword = userPassword;
-        this.userName = userName;
-        this.userPhoneNumber = userPhoneNumber;
-        this.userAddress = userAddress;
-        this.registeredAt = registeredAt;
-        this.lastLoginedAt = lastLoginedAt;
-    }
-
     @NotBlank(message = "ID는 필수 입력 사항입니다.")
     private String userId;
 
@@ -50,6 +29,27 @@ public class UserDto {
     private Date registeredAt;
 
     private Date lastLoginedAt;
+
+    public UserDto() {
+    }
+
+    public UserDto(
+            String userId,
+            String userPassword,
+            String userName,
+            String userPhoneNumber,
+            String userAddress,
+            Date registeredAt,
+            Date lastLoginedAt
+    ) {
+        this.userId = userId;
+        this.userPassword = userPassword;
+        this.userName = userName;
+        this.userPhoneNumber = userPhoneNumber;
+        this.userAddress = userAddress;
+        this.registeredAt = registeredAt;
+        this.lastLoginedAt = lastLoginedAt;
+    }
 
     public String getUserId() {
         return userId;

@@ -14,17 +14,6 @@ import java.time.LocalDateTime;
 @Table(name = "user")
 public class UserEntity {
 
-    public UserEntity() {
-    }
-
-    public UserEntity(String userId, String userPassword, String userName, String userPhoneNumber, String userAddress) {
-        this.userId = userId;
-        this.userPassword = userPassword;
-        this.userName = userName;
-        this.userPhoneNumber = userPhoneNumber;
-        this.userAddress = userAddress;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userKey;
@@ -51,6 +40,17 @@ public class UserEntity {
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime lastLoginAt;
+
+    public UserEntity() {
+    }
+
+    public UserEntity(String userId, String userPassword, String userName, String userPhoneNumber, String userAddress) {
+        this.userId = userId;
+        this.userPassword = userPassword;
+        this.userName = userName;
+        this.userPhoneNumber = userPhoneNumber;
+        this.userAddress = userAddress;
+    }
 
     public Long getUserKey() {
         return userKey;

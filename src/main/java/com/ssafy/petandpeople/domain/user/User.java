@@ -4,6 +4,20 @@ import java.util.Date;
 
 public class User {
 
+    private String userId;
+
+    private Password password;
+
+    private String userName;
+
+    private String userPhoneNumber;
+
+    private String userAddress;
+
+    private Date registeredAt;
+
+    private Date lastLoginedAt;
+
     public User(String userId, Password password, String userName, String userPhoneNumber, String userAddress, Date registeredAt, Date lastLoginedAt) {
         this.userId = userId;
         this.password = password;
@@ -18,20 +32,6 @@ public class User {
         this.userId = userId;
         this.password = password;
     }
-
-    private String userId;
-
-    private Password password;
-
-    private String userName;
-
-    private String userPhoneNumber;
-
-    private String userAddress;
-
-    private Date registeredAt;
-
-    private Date lastLoginedAt;
 
     public String getUserId() {
         return userId;
@@ -53,19 +53,11 @@ public class User {
         return userAddress;
     }
 
-    public Date getRegisteredAt() {
-        return registeredAt;
-    }
-
-    public Date getLastLoginedAt() {
-        return lastLoginedAt;
-    }
-
     public void encryptPassword(String salt) {
-        this.password = Password.encrypt(salt, this.password);
+        this.password = this.password.encrypt(salt);
     }
 
-    public void validatePasswordMatch(String storedPassword) {
-        Password.validate(this.password, storedPassword);
+    public void validatePasswordMatch(String savedPassword) {
+        this.password.validate(savedPassword);
     }
 }

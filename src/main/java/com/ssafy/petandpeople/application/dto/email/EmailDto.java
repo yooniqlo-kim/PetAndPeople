@@ -3,6 +3,7 @@ package com.ssafy.petandpeople.application.dto.email;
 public class EmailDto {
 
     private String email;
+
     private String authCode;
 
     public String getEmail() {

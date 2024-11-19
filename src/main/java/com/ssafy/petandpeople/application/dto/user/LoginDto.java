@@ -2,6 +2,10 @@ package com.ssafy.petandpeople.application.dto.user;
 
 public class LoginDto {
 
+    private String userId;
+
+    private String userPassword;
+
     public LoginDto() {
     }
 
@@ -9,10 +13,6 @@ public class LoginDto {
         this.userId = userId;
         this.userPassword = userPassword;
     }
-
-    private String userId;
-
-    private String userPassword;
 
     public String getUserId() {
         return userId;
