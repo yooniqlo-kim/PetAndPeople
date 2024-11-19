@@ -40,7 +40,7 @@ public class EmailService {
     }
 
     private void validateEmailExists(EmailDto emailDto) {
-        if(userRepository.findByUserId(emailDto.getEmail()).isPresent()) {
+        if(userRepository.findUserByUserId(emailDto.getEmail()).isPresent()) {
             throw new DuplicateEmailException();
         }
     }
