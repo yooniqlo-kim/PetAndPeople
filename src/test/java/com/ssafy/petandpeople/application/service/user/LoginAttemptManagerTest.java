@@ -8,11 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -55,7 +53,9 @@ public class LoginAttemptManagerTest {
     void validateLoginAttemptExceed_LoginAttemptExceededException() {
         String userId = "testId";
 
-        IntStream.range(0, 5).forEach(i -> loginAttemptManager.validateLoginAttempts(userId));
+        for (int attempt = 1; attempt <= 5; attempt++) {
+            loginAttemptManager.validateLoginAttempts(userId);
+        }
 
         assertThrows(LoginAttemptExceededException.class, () -> {
             loginAttemptManager.validateLoginAttempts(userId);
@@ -68,6 +68,7 @@ public class LoginAttemptManagerTest {
         String userId = "testId";
 
         loginAttemptManager.validateLoginAttempts(userId);
+
         loginAttemptManager.clearUserLoginAttempt(userId);
 
         @SuppressWarnings("unchecked")

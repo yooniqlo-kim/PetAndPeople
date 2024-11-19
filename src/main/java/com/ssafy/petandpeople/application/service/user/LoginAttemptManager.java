@@ -10,7 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class LoginAttemptManager {
 
-    private final int MAX_ATTEMPT = 5;
+    private static final int MAX_ATTEMPT = 5;
+
     private final ServletContext servletContext;
 
     public LoginAttemptManager(ServletContext servletContext) {
