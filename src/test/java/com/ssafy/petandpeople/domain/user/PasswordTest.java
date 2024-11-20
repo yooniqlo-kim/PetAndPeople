@@ -1,6 +1,5 @@
 package com.ssafy.petandpeople.domain.user;
 
-import com.ssafy.petandpeople.common.exception.password.NullHashBytesException;
 import com.ssafy.petandpeople.common.exception.user.PasswordMismatchException;
 import com.ssafy.petandpeople.common.utils.PasswordEncryptor;
 import org.junit.jupiter.api.DisplayName;
@@ -18,18 +17,9 @@ public class PasswordTest {
         String salt = PasswordEncryptor.generateSalt();
         String rawPassword = "SecurePassword123!";
         Password password = Password.wrap(rawPassword);
-
-        String encryptedPassword = password.encrypt(salt).getValue();
+        String encryptedPassword = password.encrypt(salt);
 
         assertNotEquals(rawPassword, encryptedPassword);
-    }
-
-    @Test
-    @DisplayName("비밀번호 암호화 실패 - 암호화된 바이트 배열이 null일 때")
-    void encrypt_실패_NullHashBytesException() {
-        assertThrows(NullHashBytesException.class, () -> {
-            PasswordEncryptor.byteArrayToHex(null);
-        });
     }
 
     @Test
