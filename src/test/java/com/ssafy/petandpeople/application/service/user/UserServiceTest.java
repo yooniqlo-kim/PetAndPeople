@@ -57,7 +57,7 @@ public class UserServiceTest {
 
         assertTrue(userService.signUp(userDto));
 
-        UserEntity userEntity = userRepository.findUserByUserId(userId).orElseThrow(UserNotFoundException::new);
+        UserEntity userEntity = userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new);
         assertEquals(userDto.getUserId(), userEntity.getUserId());
         assertEquals(userDto.getUserName(), userEntity.getUserName());
         assertEquals(userDto.getUserPhoneNumber(), userEntity.getUserPhoneNumber());
@@ -71,7 +71,7 @@ public class UserServiceTest {
         String salt = "salt";
 
         Password password = Password.wrap(userPassword);
-        String encryptPassword = password.encrypt(salt).getValue();
+        String encryptPassword = password.encrypt(salt);
 
         UserEntity userEntity = new UserEntity(
                 userId,
@@ -80,12 +80,9 @@ public class UserServiceTest {
                 "testPhoneNumber",
                 "testAddress"
         );
-        UserSecurityEntity userSecurityEntity = new UserSecurityEntity(
-                userId,
-                salt
-        );
+        UserSecurityEntity userSecurityEntity = new UserSecurityEntity(userId, salt);
 
-        userRepository.save(userEntity);
+        UserEntity savedUser = userRepository.save(userEntity);
         userSecurityRepository.save(userSecurityEntity);
 
         LoginDto loginDto = new LoginDto(userId, userPassword);
@@ -95,7 +92,9 @@ public class UserServiceTest {
         request.setSession(session);
 
         assertTrue(userService.login(loginDto, request));
-        assertEquals(userId, session.getAttribute("USER_ID"));
+        assertNotNull(session.getAttribute("USER_KEY"));
+        assertNotNull(session.getAttribute("IP_ADDRESS"));
+        assertEquals(savedUser.getUserKey(), session.getAttribute("USER_KEY"));
     }
 
     @Test
@@ -113,9 +112,9 @@ public class UserServiceTest {
                 "testPhoneNumber",
                 "testAddress"
         );
-        userRepository.save(userEntity);
-
         UserSecurityEntity userSecurityEntity = new UserSecurityEntity(userId, salt);
+
+        userRepository.save(userEntity);
         userSecurityRepository.save(userSecurityEntity);
 
         LoginDto loginDto = new LoginDto(userId, userPassword);
@@ -132,7 +131,7 @@ public class UserServiceTest {
                 "testPassword123@"
         );
 
-        assertThrows(UserNotFoundException.class, () -> userService.validateUserExists(loginDto.getUserId()));
+        assertThrows(UserNotFoundException.class, () -> userService.findLoginUser(loginDto.getUserId()));
     }
 
     @Test
