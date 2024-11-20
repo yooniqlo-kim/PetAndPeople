@@ -69,7 +69,7 @@ public class LoginAttemptManagerTest {
 
         loginAttemptManager.validateLoginAttempts(userId);
 
-        loginAttemptManager.clearUserLoginAttempt(userId);
+        loginAttemptManager.clearLoginAttempts(userId);
 
         @SuppressWarnings("unchecked")
         Map<String, Integer> loginAttemptMap = (Map<String, Integer>) servletContext.getAttribute("LOGIN_ATTEMPTS");

@@ -51,7 +51,7 @@ public class LoginAttemptManager {
         }
     }
 
-    public void clearUserLoginAttempt(String userId) {
+    public void clearLoginAttempts(String userId) {
         Map<String, Integer> loginAttemptMap = getLoginAttemptMap();
         loginAttemptMap.remove(userId);
     }
