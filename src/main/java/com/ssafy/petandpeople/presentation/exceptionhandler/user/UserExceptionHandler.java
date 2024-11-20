@@ -17,6 +17,17 @@ public class UserExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(UserExceptionHandler.class);
 
+    @ExceptionHandler(value = UserException.class)
+    public ResponseEntity<Api<Object>> exceptionHandler(UserException userException) {
+        ErrorCodeIfs errorCodeIfs = userException.getErrorCodeIfs();
+
+        log.error("{} : {}", errorCodeIfs.getErrorCode(), errorCodeIfs.getMessage(), userException);
+
+        return ResponseEntity
+                .status(errorCodeIfs.getHttpStatusCode())
+                .body(Api.ERROR(errorCodeIfs.getMessage()));
+    }
+
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<Api<Object>> exceptionHandler(MethodArgumentNotValidException methodArgumentNotValidException) {
         String errorMessage = methodArgumentNotValidException.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
@@ -25,62 +36,7 @@ public class UserExceptionHandler {
 
         return ResponseEntity
                 .status(400)
-                .body(Api.ERROR(1000, errorMessage));
-    }
-
-    @ExceptionHandler(value = UserNotFoundException.class)
-    public ResponseEntity<Api<Object>> exceptionHandler(UserNotFoundException userNotFoundException) {
-        ErrorCodeIfs errorCodeIfs = userNotFoundException.getErrorCodeIfs();
-
-        log.error("{}", errorCodeIfs.getMessage(), userNotFoundException);
-
-        return ResponseEntity
-                .status(errorCodeIfs.getHttpStatusCode())
-                .body(Api.ERROR(errorCodeIfs));
-    }
-
-    @ExceptionHandler(value = UserNotSignUpException.class)
-    public ResponseEntity<Api<Object>> UserNotSignUpException(UserNotSignUpException userNotSignUpException) {
-        ErrorCodeIfs errorCodeIfs = userNotSignUpException.getErrorCodeIfs();
-
-        log.error("{}", errorCodeIfs.getMessage(), userNotSignUpException);
-
-        return ResponseEntity
-                .status(errorCodeIfs.getHttpStatusCode())
-                .body(Api.ERROR(errorCodeIfs));
-    }
-
-    @ExceptionHandler(value = SaltNotFoundException.class)
-    public ResponseEntity<Api<Object>> exceptionHandler(SaltNotFoundException saltNotFoundException) {
-        ErrorCodeIfs errorCodeIfs = saltNotFoundException.getErrorCodeIfs();
-
-        log.error("{}", errorCodeIfs.getMessage(), saltNotFoundException);
-
-        return ResponseEntity
-                .status(errorCodeIfs.getHttpStatusCode())
-                .body(Api.ERROR(errorCodeIfs));
-    }
-
-    @ExceptionHandler(value = LoginAttemptExceededException.class)
-    public ResponseEntity<Api<Object>> exceptionHandler(LoginAttemptExceededException loginAttemptExceededException) {
-        ErrorCodeIfs errorCodeIfs = loginAttemptExceededException.getErrorCodeIfs();
-
-        log.error("{}", errorCodeIfs.getMessage(), loginAttemptExceededException);
-
-        return ResponseEntity
-                .status(errorCodeIfs.getHttpStatusCode())
-                .body(Api.ERROR(errorCodeIfs));
-    }
-
-    @ExceptionHandler(value = PasswordMismatchException.class)
-    public ResponseEntity<Api<Object>> exceptionHandler(PasswordMismatchException passwordMismatchException) {
-        ErrorCodeIfs errorCodeIfs = passwordMismatchException.getErrorCodeIfs();
-
-        log.error("{}", errorCodeIfs.getMessage(), passwordMismatchException);
-
-        return ResponseEntity
-                .status(errorCodeIfs.getHttpStatusCode())
-                .body(Api.ERROR(errorCodeIfs));
+                .body(Api.ERROR(errorMessage));
     }
 
 }
