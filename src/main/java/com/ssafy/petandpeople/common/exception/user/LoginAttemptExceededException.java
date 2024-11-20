@@ -4,7 +4,7 @@ import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 import com.ssafy.petandpeople.common.error.user.UserErrorCode;
 import com.ssafy.petandpeople.common.exception.ExceptionIfs;
 
-public class LoginAttemptExceededException extends RuntimeException implements ExceptionIfs {
+public class LoginAttemptExceededException extends UserException implements ExceptionIfs {
 
     private final ErrorCodeIfs errorCodeIfs;
 
