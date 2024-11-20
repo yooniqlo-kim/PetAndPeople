@@ -79,32 +79,4 @@ public class UserDto {
         return lastLoginedAt;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setUserPhoneNumber(String userPhoneNumber) {
-        this.userPhoneNumber = userPhoneNumber;
-    }
-
-    public void setUserAddress(String userAddress) {
-        this.userAddress = userAddress;
-    }
-
-    public void setRegisteredAt(Date registeredAt) {
-        this.registeredAt = registeredAt;
-    }
-
-    public void setLastLoginedAt(Date lastLoginedAt) {
-        this.lastLoginedAt = lastLoginedAt;
-    }
-
 }
