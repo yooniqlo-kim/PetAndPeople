@@ -4,7 +4,7 @@ import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 import com.ssafy.petandpeople.common.error.email.EmailErrorCode;
 import com.ssafy.petandpeople.common.exception.ExceptionIfs;
 
-public class AuthCodeMismatchException extends RuntimeException implements ExceptionIfs {
+public class AuthCodeMismatchException extends EmailException implements ExceptionIfs {
 
     private final ErrorCodeIfs errorCodeIfs;
 

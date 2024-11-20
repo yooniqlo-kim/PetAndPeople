@@ -2,8 +2,8 @@ package com.ssafy.petandpeople.application.service.email;
 
 import com.ssafy.petandpeople.application.dto.email.EmailDto;
 import com.ssafy.petandpeople.common.exception.email.AuthCodeMismatchException;
-import com.ssafy.petandpeople.common.exception.email.DuplicateEmailException;
-import com.ssafy.petandpeople.common.exception.email.StoredAuthCodeNotFoundException;
+import com.ssafy.petandpeople.common.exception.email.EmailAlreadyRegisteredException;
+import com.ssafy.petandpeople.common.exception.email.AuthCodeNotFoundInSessionException;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.user.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -28,7 +28,7 @@ public class EmailService {
     }
 
     public void sendAuthCodeToUserEmail(EmailDto emailDto, HttpServletRequest request) throws MessagingException {
-        validateEmailExists(emailDto);
+        validateEmailAlreadyRegistered(emailDto);
 
         String authCode = generateAuthCode();
         String receiverEmail = emailDto.getEmail();
@@ -39,18 +39,17 @@ public class EmailService {
         saveAuthCodeInSession(authCode, request);
     }
 
-    private void validateEmailExists(EmailDto emailDto) {
+    private void validateEmailAlreadyRegistered(EmailDto emailDto) {
         if(userRepository.findUserByUserId(emailDto.getEmail()).isPresent()) {
-            throw new DuplicateEmailException();
+            throw new EmailAlreadyRegisteredException();
         }
     }
 
     private String generateAuthCode() {
         SecureRandom randomGenerator = new SecureRandom();
         int randomSixDigitNumber = 100000 + randomGenerator.nextInt(900000);
-        String authCode = String.valueOf(randomSixDigitNumber);
 
-        return authCode;
+        return String.valueOf(randomSixDigitNumber);
     }
 
     private void sendEmail(String receiverEmail, String subject, String text) throws MessagingException{
@@ -81,14 +80,14 @@ public class EmailService {
         HttpSession session = request.getSession(false);
         String sessionStoredAuthCode = (String) session.getAttribute("AUTH_CODE");
 
-        validateSessionStoredAuthCode(sessionStoredAuthCode);
+        validateAuthCodePresenceInSession(sessionStoredAuthCode);
 
         return sessionStoredAuthCode;
     }
 
-    private void validateSessionStoredAuthCode(String sessionStoredAuthCode) {
+    private void validateAuthCodePresenceInSession(String sessionStoredAuthCode) {
         if(sessionStoredAuthCode == null) {
-            throw new StoredAuthCodeNotFoundException();
+            throw new AuthCodeNotFoundInSessionException();
         }
     }
 

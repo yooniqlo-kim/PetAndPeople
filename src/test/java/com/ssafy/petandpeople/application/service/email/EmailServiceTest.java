@@ -10,7 +10,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.ssafy.petandpeople.application.dto.email.EmailDto;
 import com.ssafy.petandpeople.common.exception.email.AuthCodeMismatchException;
-import com.ssafy.petandpeople.common.exception.email.StoredAuthCodeNotFoundException;
+import com.ssafy.petandpeople.common.exception.email.AuthCodeNotFoundInSessionException;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
@@ -83,7 +83,7 @@ public class EmailServiceTest {
         EmailDto emailDto = new EmailDto();
         emailDto.setAuthCode("123456");
 
-        assertThrows(StoredAuthCodeNotFoundException.class, () -> emailService.validateAuthCode(emailDto, request));
+        assertThrows(AuthCodeNotFoundInSessionException.class, () -> emailService.validateAuthCode(emailDto, request));
     }
 
 }
