@@ -135,4 +135,42 @@ public class UserServiceTest {
         assertThrows(UserNotFoundException.class, () -> userService.validateUserExists(loginDto.getUserId()));
     }
 
+    @Test
+    @DisplayName("로그아웃 성공")
+    void logout_성공() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpSession session = new MockHttpSession();
+        request.setSession(session);
+
+        userService.logout(request);
+
+        assertTrue(session.isInvalid());
+    }
+
+    @Test
+    @DisplayName("회원가입 후 로그인 성공 통합 테스트")
+    void signUpAndLogin_성공() {
+        String userId = "testUser@test.com";
+        String userPassword = "TestPassword123@";
+        UserDto userDto = new UserDto(
+                userId,
+                userPassword,
+                "testName",
+                "testPhoneNumber",
+                "testAddress",
+                null,
+                null
+        );
+
+        assertTrue(userService.signUp(userDto));
+
+        LoginDto loginDto = new LoginDto(userId, userPassword);
+
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpSession session = new MockHttpSession();
+        request.setSession(session);
+
+        assertTrue(userService.login(loginDto, request));
+        assertNotNull(session.getAttribute("USER_KEY"));
+    }
 }
