@@ -19,15 +19,14 @@ public class Password {
         return new Password(rawPassword);
     }
 
-    public Password encrypt(String salt) {
-        byte[] hashPassword = PasswordEncryptor.getSHA256(salt, this.getValue());
-        String encryptValue = PasswordEncryptor.byteArrayToHex(hashPassword);
+    public String encrypt(String salt) {
+        byte[] hashedPassword = PasswordEncryptor.hashWithSHA256(this.value, salt);
 
-        return new Password(encryptValue);
+        return PasswordEncryptor.generateEncryptedPassword(hashedPassword);
     }
 
-    public Boolean validate(String savedPassword) {
-        if(!this.getValue().equals(savedPassword)) {
+    public Boolean validate(String loginUserPassword) {
+        if (!this.value.equals(loginUserPassword)) {
             throw new PasswordMismatchException();
         }
 

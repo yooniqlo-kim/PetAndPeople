@@ -18,6 +18,19 @@ public class User {
 
     private Date lastLoginedAt;
 
+    public User(String userId, Password password) {
+        this.userId = userId;
+        this.password = password;
+    }
+
+    public User(String userId, Password password, String userName, String userPhoneNumber, String userAddress) {
+        this.userId = userId;
+        this.password = password;
+        this.userName = userName;
+        this.userPhoneNumber = userPhoneNumber;
+        this.userAddress = userAddress;
+    }
+
     public User(String userId, Password password, String userName, String userPhoneNumber, String userAddress, Date registeredAt, Date lastLoginedAt) {
         this.userId = userId;
         this.password = password;
@@ -28,10 +41,6 @@ public class User {
         this.lastLoginedAt = lastLoginedAt;
     }
 
-    public User(String userId, Password password) {
-        this.userId = userId;
-        this.password = password;
-    }
 
     public String getUserId() {
         return userId;
@@ -54,10 +63,12 @@ public class User {
     }
 
     public void encryptPassword(String salt) {
-        this.password = this.password.encrypt(salt);
+        String password = this.password.encrypt(salt);
+        this.password = Password.wrap(password);
     }
 
-    public void validatePasswordMatch(String savedPassword) {
-        this.password.validate(savedPassword);
+    public void validatePasswordMatch(String loginUserPassword) {
+        this.password.validate(loginUserPassword);
     }
+
 }
