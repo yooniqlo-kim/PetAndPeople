@@ -1,18 +1,12 @@
 package com.ssafy.petandpeople.presentation.exceptionhandler.email;
 
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
-import com.ssafy.petandpeople.common.exception.email.AuthCodeMismatchException;
-import com.ssafy.petandpeople.common.exception.email.EmailAlreadyRegisteredException;
-import com.ssafy.petandpeople.common.exception.email.AuthCodeNotFoundInSessionException;
 import com.ssafy.petandpeople.common.exception.email.EmailException;
-import com.ssafy.petandpeople.common.exception.user.UserException;
 import com.ssafy.petandpeople.presentation.response.Api;
-import jakarta.mail.MessagingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailSendException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

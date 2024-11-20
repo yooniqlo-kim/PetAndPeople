@@ -3,7 +3,7 @@ package com.ssafy.petandpeople.application.service.email;
 import com.ssafy.petandpeople.application.dto.email.EmailDto;
 import com.ssafy.petandpeople.common.exception.email.AuthCodeMismatchException;
 import com.ssafy.petandpeople.common.exception.email.EmailAlreadyRegisteredException;
-import com.ssafy.petandpeople.common.exception.email.AuthCodeNotFoundInSessionException;
+import com.ssafy.petandpeople.common.exception.email.AuthCodeInSessionNotFoundException;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.user.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -40,7 +40,7 @@ public class EmailService {
     }
 
     private void validateEmailAlreadyRegistered(EmailDto emailDto) {
-        if(userRepository.findUserByUserId(emailDto.getEmail()).isPresent()) {
+        if(userRepository.findByUserId(emailDto.getEmail()).isPresent()) {
             throw new EmailAlreadyRegisteredException();
         }
     }
@@ -87,7 +87,7 @@ public class EmailService {
 
     private void validateAuthCodePresenceInSession(String sessionStoredAuthCode) {
         if(sessionStoredAuthCode == null) {
-            throw new AuthCodeNotFoundInSessionException();
+            throw new AuthCodeInSessionNotFoundException();
         }
     }
 

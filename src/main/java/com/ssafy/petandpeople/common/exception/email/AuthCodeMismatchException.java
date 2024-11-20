@@ -16,4 +16,5 @@ public class AuthCodeMismatchException extends EmailException implements Excepti
     public ErrorCodeIfs getErrorCodeIfs() {
         return errorCodeIfs;
     }
+
 }
