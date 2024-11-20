@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserSecurityRepository extends JpaRepository<UserSecurityEntity, String> {
 
+    UserSecurityEntity findByUserId(String userId);
+
 }
