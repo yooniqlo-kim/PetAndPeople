@@ -35,4 +35,11 @@ public class UserController {
         return Api.OK();
     }
 
+    @PostMapping("/logout")
+    public Api<Object> logout(HttpServletRequest request) {
+        userService.logout(request);
+
+        return Api.OK();
+    }
+
 }

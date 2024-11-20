@@ -103,4 +103,18 @@ public class UserService {
         session.setAttribute("IP_ADDRESS", ipAddress);
     }
 
+    public void logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        validateSessionExists(session);
+
+        session.invalidate();
+    }
+
+    private void validateSessionExists(HttpSession session) {
+        if(session == null) {
+            throw new InvalidSessionException();
+        }
+    }
+
 }
