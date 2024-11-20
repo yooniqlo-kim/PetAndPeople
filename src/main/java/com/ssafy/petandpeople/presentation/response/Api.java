@@ -1,7 +1,5 @@
 package com.ssafy.petandpeople.presentation.response;
 
-import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
-
 public class Api<T> {
     private static final Api<Object> SUCCESS = new Api<>(Result.OK());
 
@@ -26,22 +24,9 @@ public class Api<T> {
         return api;
     }
 
-    public static Api<Object> ERROR(ErrorCodeIfs errorCodeIfs) {
+    public static Api<Object> ERROR(String resultMessage) {
         Api<Object> api = new Api<>();
-        api.result = Result.ERROR(errorCodeIfs);
-        return api;
-    }
-
-    public static Api<Object> ERROR(Integer errorCode) {
-        Api<Object> api = new Api<>();
-        api.result = Result.ERROR(errorCode);
-        return api;
-    }
-
-    public static Api<Object> ERROR(Integer errorCode, String message) {
-        Api<Object> api = new Api<>();
-        api.result = Result.ERROR(errorCode);
-        api.body = message;
+        api.result = Result.ERROR(resultMessage);
         return api;
     }
 
