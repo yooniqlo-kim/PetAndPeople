@@ -28,7 +28,7 @@ public class UserDto {
 
     private Date registeredAt;
 
-    private Date lastLoginedAt;
+    private Date lastLoginAt;
 
     public UserDto() {
     }
@@ -40,7 +40,7 @@ public class UserDto {
             String userPhoneNumber,
             String userAddress,
             Date registeredAt,
-            Date lastLoginedAt
+            Date lastLoginAt
     ) {
         this.userId = userId;
         this.userPassword = userPassword;
@@ -48,7 +48,7 @@ public class UserDto {
         this.userPhoneNumber = userPhoneNumber;
         this.userAddress = userAddress;
         this.registeredAt = registeredAt;
-        this.lastLoginedAt = lastLoginedAt;
+        this.lastLoginAt = lastLoginAt;
     }
 
     public String getUserId() {
@@ -75,8 +75,8 @@ public class UserDto {
         return registeredAt;
     }
 
-    public Date getLastLoginedAt() {
-        return lastLoginedAt;
+    public Date getLastLoginAt() {
+        return lastLoginAt;
     }
 
 }
