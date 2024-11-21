@@ -1,4 +1,4 @@
-package com.ssafy.petandpeople.infrastructure.persistence.entity;
+package com.ssafy.petandpeople.infrastructure.persistence.entity.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

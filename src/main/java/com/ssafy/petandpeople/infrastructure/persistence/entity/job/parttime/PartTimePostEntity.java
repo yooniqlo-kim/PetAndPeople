@@ -1,5 +1,6 @@
-package com.ssafy.petandpeople.infrastructure.persistence.entity;
+package com.ssafy.petandpeople.infrastructure.persistence.entity.job.parttime;
 
+import com.ssafy.petandpeople.infrastructure.persistence.entity.user.UserEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,6 +14,50 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "part_time_post")
 public class PartTimePostEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long postKey;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userKey", referencedColumnName = "userKey")
+    private UserEntity userKey;
+
+    @Column(nullable = false)
+    private String postTitle;
+
+    @Column(nullable = false)
+    private String partTimeDeadline;
+
+    @Column(nullable = false)
+    private String partTimeCount;
+
+    @Column(nullable = false)
+    private String partTimeSalary;
+
+    @Column(nullable = false)
+    private String partTimeAge;
+
+    @Column(nullable = false)
+    private String partTimePeriod;
+
+    @Column(nullable = false)
+    private String partTimeDays;
+
+    @Column(nullable = false)
+    private String partTimeHours;
+
+    @Column(nullable = false)
+    private String partTimeAddress;
+
+    @Column(nullable = false)
+    private String postContent;
+
+    @Column(nullable = false)
+    private String managerName;
+
+    @Column(nullable = false)
+    private String managerPhoneNumber;
 
     public PartTimePostEntity() {
     }
@@ -70,50 +115,6 @@ public class PartTimePostEntity {
         this.managerName = managerName;
         this.managerPhoneNumber = managerPhoneNumber;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postKey;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userKey", referencedColumnName = "userKey")
-    private UserEntity userKey;
-
-    @Column(nullable = false)
-    private String postTitle;
-
-    @Column(nullable = false)
-    private String partTimeDeadline;
-
-    @Column(nullable = false)
-    private String partTimeCount;
-
-    @Column(nullable = false)
-    private String partTimeSalary;
-
-    @Column(nullable = false)
-    private String partTimeAge;
-
-    @Column(nullable = false)
-    private String partTimePeriod;
-
-    @Column(nullable = false)
-    private String partTimeDays;
-
-    @Column(nullable = false)
-    private String partTimeHours;
-
-    @Column(nullable = false)
-    private String partTimeAddress;
-
-    @Column(nullable = false)
-    private String postContent;
-
-    @Column(nullable = false)
-    private String managerName;
-
-    @Column(nullable = false)
-    private String managerPhoneNumber;
 
     public Long getPostKey() {
         return postKey;
