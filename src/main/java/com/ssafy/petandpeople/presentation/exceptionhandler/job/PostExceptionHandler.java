@@ -1,4 +1,4 @@
-package com.ssafy.petandpeople.presentation.exceptionhandler.job.parttime;
+package com.ssafy.petandpeople.presentation.exceptionhandler.job;
 
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 import com.ssafy.petandpeople.common.exception.job.PostException;
