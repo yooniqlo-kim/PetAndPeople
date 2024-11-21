@@ -4,8 +4,7 @@ import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 
 public enum PasswordErrorCode implements ErrorCodeIfs {
 
-    HASH_ALGORITHM_NOT_FOUND(500, 1200, "HashAlgorithmNotFoundException occurred"),
-    NULL_HASH_BYTES(500, 1201, "NullHashBytesException occurred");
+    HASH_ALGORITHM_NOT_FOUND(500, 1200, "HashAlgorithmNotFoundException occurred");
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
@@ -31,4 +30,5 @@ public enum PasswordErrorCode implements ErrorCodeIfs {
     public String getMessage() {
         return this.message;
     }
+
 }

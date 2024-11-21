@@ -4,23 +4,6 @@ import java.util.Date;
 
 public class User {
 
-    public User(String userId,
-                Password password,
-                String userName,
-                String userPhoneNumber,
-                String userAddress,
-                Date registeredAt,
-                Date lastLoginedAt
-    ) {
-        this.userId = userId;
-        this.password = password;
-        this.userName = userName;
-        this.userPhoneNumber = userPhoneNumber;
-        this.userAddress = userAddress;
-        this.registeredAt = registeredAt;
-        this.lastLoginedAt = lastLoginedAt;
-    }
-
     private String userId;
 
     private Password password;
@@ -34,6 +17,30 @@ public class User {
     private Date registeredAt;
 
     private Date lastLoginedAt;
+
+    public User(String userId, Password password) {
+        this.userId = userId;
+        this.password = password;
+    }
+
+    public User(String userId, Password password, String userName, String userPhoneNumber, String userAddress) {
+        this.userId = userId;
+        this.password = password;
+        this.userName = userName;
+        this.userPhoneNumber = userPhoneNumber;
+        this.userAddress = userAddress;
+    }
+
+    public User(String userId, Password password, String userName, String userPhoneNumber, String userAddress, Date registeredAt, Date lastLoginedAt) {
+        this.userId = userId;
+        this.password = password;
+        this.userName = userName;
+        this.userPhoneNumber = userPhoneNumber;
+        this.userAddress = userAddress;
+        this.registeredAt = registeredAt;
+        this.lastLoginedAt = lastLoginedAt;
+    }
+
 
     public String getUserId() {
         return userId;
@@ -55,16 +62,13 @@ public class User {
         return userAddress;
     }
 
-    public Date getRegisteredAt() {
-        return registeredAt;
-    }
-
-    public Date getLastLoginedAt() {
-        return lastLoginedAt;
-    }
-
     public void encryptPassword(String salt) {
-        this.password = Password.encrypt(salt, this.password);
+        String password = this.password.encrypt(salt);
+        this.password = Password.wrap(password);
+    }
+
+    public void validatePasswordMatch(String loginUserPassword) {
+        this.password.validate(loginUserPassword);
     }
 
 }
