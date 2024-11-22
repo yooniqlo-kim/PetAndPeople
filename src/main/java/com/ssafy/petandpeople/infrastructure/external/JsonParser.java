@@ -1,4 +1,4 @@
-package com.ssafy.petandpeople.common.utils;
+package com.ssafy.petandpeople.infrastructure.external;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -47,7 +47,7 @@ public class JsonParser {
         }
     }
 
-    public <T> List<T> mapToDtoList(String jsonResponse, TypeReference<List<T>> typeReference) {
+    public <T> List<T> jsonToDtoList(String jsonResponse, TypeReference<List<T>> typeReference) {
         try {
             return objectMapper.readValue(jsonResponse, typeReference);
         } catch (Exception e) {

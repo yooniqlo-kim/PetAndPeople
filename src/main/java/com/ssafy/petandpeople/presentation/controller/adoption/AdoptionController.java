@@ -22,9 +22,9 @@ public class AdoptionController {
 
     @GetMapping("/data")
     public Api<List<AdoptionDto>> getAdoptionData(
-            @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "15") int pageSize) {
+            @RequestParam(defaultValue = "1") int pageNum) {
 
-        List<AdoptionDto> adoptionData = adoptionService.getAdoptionData(pageNum, pageSize);
+        List<AdoptionDto> adoptionData = adoptionService.getAdoptionData(pageNum);
 
         return Api.OK(adoptionData);
     }
