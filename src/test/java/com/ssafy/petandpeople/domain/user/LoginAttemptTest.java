@@ -36,7 +36,7 @@ public class LoginAttemptTest {
 
     @Test
     @DisplayName("유저의 계정이 잠김")
-    void validateUserLock_에러발생() {
+    void validateUserLock_실패_LoginAttemptExceededException() {
         for (int count = 1; count <= 5; count++) {
             loginAttempt.increaseLoginAttempt(testUserId);
         }
