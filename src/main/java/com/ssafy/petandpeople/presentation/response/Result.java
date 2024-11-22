@@ -1,6 +1,7 @@
 package com.ssafy.petandpeople.presentation.response;
 
 public class Result {
+
     private static final Result SUCCESS = new Result("성공");
 
     private final String resultMessage;
@@ -22,3 +23,4 @@ public class Result {
     }
 
 }
+
