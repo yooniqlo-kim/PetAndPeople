@@ -3,7 +3,7 @@ package com.ssafy.petandpeople.application.service.adoption;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.ssafy.petandpeople.application.dto.adoption.AdoptionDto;
 import com.ssafy.petandpeople.application.dto.adoption.ApiRequestParams;
-import com.ssafy.petandpeople.common.utils.JsonParser;
+import com.ssafy.petandpeople.infrastructure.external.JsonParser;
 import com.ssafy.petandpeople.infrastructure.external.ExternalApiClient;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.RedisRepository;
 
@@ -44,7 +44,7 @@ public class AdoptionServiceTest {
         assertNull(errorCode);
 
         String jsonData = jsonParser.extractData(response, "/AbdmAnimalProtect/1/row");
-        List<AdoptionDto> adoptionData = jsonParser.mapToDtoList(jsonData, new TypeReference<List<AdoptionDto>>() {
+        List<AdoptionDto> adoptionData = jsonParser.jsonToDtoList(jsonData, new TypeReference<List<AdoptionDto>>() {
         });
 
         assertNotNull(adoptionData);
