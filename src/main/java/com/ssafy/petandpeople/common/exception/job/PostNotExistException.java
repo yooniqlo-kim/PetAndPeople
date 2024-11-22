@@ -4,12 +4,12 @@ import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 import com.ssafy.petandpeople.common.error.job.PostErrorCode;
 import com.ssafy.petandpeople.common.exception.ExceptionIfs;
 
-public class PostNotAuthorizedException extends PostException implements ExceptionIfs {
+public class PostNotExistException extends PostException implements ExceptionIfs {
 
     private final ErrorCodeIfs errorCodeIfs;
 
-    public PostNotAuthorizedException() {
-        this.errorCodeIfs = PostErrorCode.POST_NOT_AUTHORIZED;
+    public PostNotExistException() {
+        this.errorCodeIfs = PostErrorCode.POST_NOT_EXIST;
     }
 
     @Override

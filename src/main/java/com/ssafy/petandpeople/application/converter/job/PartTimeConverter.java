@@ -1,8 +1,8 @@
-package com.ssafy.petandpeople.application.converter;
+package com.ssafy.petandpeople.application.converter.job;
 
-import com.ssafy.petandpeople.application.dto.PartTimePostDto;
-import com.ssafy.petandpeople.infrastructure.persistence.entity.PartTimePostEntity;
-import com.ssafy.petandpeople.infrastructure.persistence.entity.UserEntity;
+import com.ssafy.petandpeople.application.dto.job.PartTimePostDto;
+import com.ssafy.petandpeople.infrastructure.persistence.entity.job.parttime.PartTimePostEntity;
+import com.ssafy.petandpeople.infrastructure.persistence.entity.user.UserEntity;
 
 public class PartTimeConverter {
 
@@ -39,7 +39,7 @@ public class PartTimeConverter {
         );
     }
 
-    public static PartTimePostDto entityToDto(PartTimePostEntity partTimePostEntity) {
+    public static PartTimePostDto entityToDto(PartTimePostEntity partTimePostEntity, String thumbnailPath) {
         return new PartTimePostDto(
                 partTimePostEntity.getPostTitle(),
                 partTimePostEntity.getPartTimeDeadline(),
@@ -52,7 +52,8 @@ public class PartTimeConverter {
                 partTimePostEntity.getPartTimeAddress(),
                 partTimePostEntity.getPostContent(),
                 partTimePostEntity.getManagerName(),
-                partTimePostEntity.getManagerPhoneNumber()
+                partTimePostEntity.getManagerPhoneNumber(),
+                thumbnailPath
         );
     }
 

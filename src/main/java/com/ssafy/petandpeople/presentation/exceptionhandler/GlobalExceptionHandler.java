@@ -17,11 +17,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<Api<Object>> ExceptionHandler(Exception exception) {
-        log.error("{}", exception.getMessage(), exception);
+        log.error("", exception);
 
         return ResponseEntity
                 .status(500)
-                .body(Api.ERROR(ErrorCode.SEVER_ERROR));
+                .body(Api.ERROR(ErrorCode.SEVER_ERROR.getMessage()));
     }
 
 }

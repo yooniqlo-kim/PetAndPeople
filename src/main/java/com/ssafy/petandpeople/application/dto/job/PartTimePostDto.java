@@ -1,37 +1,6 @@
-package com.ssafy.petandpeople.application.dto;
+package com.ssafy.petandpeople.application.dto.job;
 
 public class PartTimePostDto {
-
-    public PartTimePostDto() {
-    }
-
-    public PartTimePostDto(
-            String postTitle,
-            String partTimeDeadline,
-            String partTimeCount,
-            String partTimeSalary,
-            String partTimeAge,
-            String partTimePeriod,
-            String partTimeDays,
-            String partTimeHours,
-            String partTimeAddress,
-            String postContent,
-            String managerName,
-            String managerPhoneNumber
-    ) {
-        this.postTitle = postTitle;
-        this.partTimeDeadline = partTimeDeadline;
-        this.partTimeCount = partTimeCount;
-        this.partTimeSalary = partTimeSalary;
-        this.partTimeAge = partTimeAge;
-        this.partTimePeriod = partTimePeriod;
-        this.partTimeDays = partTimeDays;
-        this.partTimeHours = partTimeHours;
-        this.partTimeAddress = partTimeAddress;
-        this.postContent = postContent;
-        this.managerName = managerName;
-        this.managerPhoneNumber = managerPhoneNumber;
-    }
 
     private String postTitle;
 
@@ -56,6 +25,41 @@ public class PartTimePostDto {
     private String managerName;
 
     private String managerPhoneNumber;
+
+    private String thumbnailPath;
+
+    public PartTimePostDto() {
+    }
+
+    public PartTimePostDto(
+            String postTitle,
+            String partTimeDeadline,
+            String partTimeCount,
+            String partTimeSalary,
+            String partTimeAge,
+            String partTimePeriod,
+            String partTimeDays,
+            String partTimeHours,
+            String partTimeAddress,
+            String postContent,
+            String managerName,
+            String managerPhoneNumber,
+            String thumbnailPath
+    ) {
+        this.postTitle = postTitle;
+        this.partTimeDeadline = partTimeDeadline;
+        this.partTimeCount = partTimeCount;
+        this.partTimeSalary = partTimeSalary;
+        this.partTimeAge = partTimeAge;
+        this.partTimePeriod = partTimePeriod;
+        this.partTimeDays = partTimeDays;
+        this.partTimeHours = partTimeHours;
+        this.partTimeAddress = partTimeAddress;
+        this.postContent = postContent;
+        this.managerName = managerName;
+        this.managerPhoneNumber = managerPhoneNumber;
+        this.thumbnailPath = thumbnailPath;
+    }
 
     public String getPostTitle() {
         return postTitle;
@@ -103,6 +107,10 @@ public class PartTimePostDto {
 
     public String getManagerPhoneNumber() {
         return managerPhoneNumber;
+    }
+
+    public String getThumbnailPath() {
+        return thumbnailPath;
     }
 
     public void setPostTitle(String postTitle) {

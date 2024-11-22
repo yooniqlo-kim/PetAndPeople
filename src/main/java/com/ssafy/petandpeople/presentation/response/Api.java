@@ -26,15 +26,9 @@ public class Api<T> {
         return api;
     }
 
-    public static Api<Object> ERROR(ErrorCodeIfs errorCodeIfs) {
+    public static Api<Object> ERROR(String resultMessage) {
         Api<Object> api = new Api<>();
-        api.result = Result.ERROR(errorCodeIfs);
-        return api;
-    }
-
-    public static Api<Object> ERROR(Integer errorCode) {
-        Api<Object> api = new Api<>();
-        api.result = Result.ERROR(errorCode);
+        api.result = Result.ERROR(resultMessage);
         return api;
     }
 
