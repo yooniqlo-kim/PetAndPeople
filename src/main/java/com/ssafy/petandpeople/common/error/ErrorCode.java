@@ -1,19 +1,17 @@
 package com.ssafy.petandpeople.common.error;
 
-public enum ErrorCode implements ErrorCodeIfs{
-
-    OK(200, 200, "성공"),
+public enum ErrorCode implements ErrorCodeIfs {
 
     SEVER_ERROR(500, 500, "일시적인 서버에러가 발생했습니다. 잠시 후 다시 시도해주세요.");
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
-    private final String description;
+    private final String message;
 
-    ErrorCode(Integer httpStatusCode, Integer errorCode, String description) {
+    ErrorCode(Integer httpStatusCode, Integer errorCode, String message) {
         this.httpStatusCode = httpStatusCode;
         this.errorCode = errorCode;
-        this.description = description;
+        this.message = message;
     }
 
     @Override
@@ -27,8 +25,8 @@ public enum ErrorCode implements ErrorCodeIfs{
     }
 
     @Override
-    public String getDescription() {
-        return this.description;
+    public String getMessage() {
+        return this.message;
     }
 
 }
