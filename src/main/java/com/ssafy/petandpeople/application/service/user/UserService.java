@@ -6,8 +6,9 @@ import com.ssafy.petandpeople.application.dto.user.LoginDto;
 import com.ssafy.petandpeople.application.dto.user.UserDto;
 import com.ssafy.petandpeople.common.exception.user.InvalidSessionException;
 import com.ssafy.petandpeople.common.exception.user.UserNotFoundException;
-import com.ssafy.petandpeople.common.utils.PasswordEncryptor;
+import com.ssafy.petandpeople.common.utils.UUIDGenerator;
 import com.ssafy.petandpeople.domain.user.LoginAttempt;
+import com.ssafy.petandpeople.domain.user.PasswordEncryptor;
 import com.ssafy.petandpeople.domain.user.User;
 import com.ssafy.petandpeople.infrastructure.persistence.entity.user.UserEntity;
 import com.ssafy.petandpeople.infrastructure.persistence.entity.user.UserSecurityEntity;
@@ -20,22 +21,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
+    private final PasswordEncryptor passwordEncryptor;
     private final LoginAttempt loginAttempt;
     private final UserRepository userRepository;
     private final UserSecurityRepository userSecurityRepository;
 
-    public UserService(LoginAttempt loginAttempt, UserRepository userRepository, UserSecurityRepository userSecurityRepository) {
+    public UserService(PasswordEncryptor passwordEncryptor, LoginAttempt loginAttempt, UserRepository userRepository, UserSecurityRepository userSecurityRepository) {
+        this.passwordEncryptor = passwordEncryptor;
         this.loginAttempt = loginAttempt;
         this.userRepository = userRepository;
         this.userSecurityRepository = userSecurityRepository;
     }
 
     public Boolean signUp(UserDto userDto) {
-        String salt = PasswordEncryptor.generateSalt();
-        User encryptedUser = createEncryptedUser(userDto, salt);
+        String salt = generateRandomSalt();
+        String rawPassword = userDto.getUserPassword();
+        String encryptedPassword = passwordEncryptor.encryptPassword(rawPassword, salt);
 
-        UserEntity userEntity = UserConverter.domainToEntity(encryptedUser);
-        UserSecurityEntity userSecurityEntity = UserSecurityConverter.toEntity(encryptedUser, salt);
+        User user = UserConverter.dtoToDomain(userDto, encryptedPassword);
+
+        UserEntity userEntity = UserConverter.domainToEntity(user);
+        UserSecurityEntity userSecurityEntity = UserSecurityConverter.toEntity(user, salt);
 
         userRepository.save(userEntity);
         userSecurityRepository.save(userSecurityEntity);
@@ -59,43 +65,36 @@ public class UserService {
         return true;
     }
 
-    public UserEntity findLoginUser(String userId) {
-        return userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new);
-    }
-
     public void logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
-        validateSessionExists(session);
+        validateSession(session);
 
         session.invalidate();
     }
 
-    private User createEncryptedUser(UserDto userDto, String salt) {
-        User user = UserConverter.dtoToDomain(userDto);
-        user.encryptPassword(salt);
+    private static String generateRandomSalt() {
+        return UUIDGenerator.generateUUIDtoString();
+    }
 
-        return user;
+    private UserEntity findLoginUser(String userId) {
+        return userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new);
     }
 
     private void validateLoginPassword(LoginDto loginDto, UserEntity userEntity) {
-        String salt = findSaltForLoginUser(loginDto.getUserId());
-        String encryptedInputPassword = encryptLoginUserPassword(loginDto.getUserPassword(), salt);
+        String rawLoginPassword = loginDto.getUserPassword();
+        String salt = findSalt(userEntity.getUserId());
+        String encryptedLoginPassword = passwordEncryptor.encryptPassword(rawLoginPassword, salt);
 
-        User validatedUser = UserConverter.entityToDomain(userEntity);
-        validatedUser.validatePasswordMatch(encryptedInputPassword);
+        User savedUser = UserConverter.entityToDomain(userEntity);
+
+        savedUser.validatePasswordMatch(encryptedLoginPassword);
     }
 
-    private String findSaltForLoginUser(String userId) {
+    private String findSalt(String userId) {
         UserSecurityEntity userSecurityEntity = userSecurityRepository.findByUserId(userId);
 
         return userSecurityEntity.getSalt();
-    }
-
-    private String encryptLoginUserPassword(String loginUserPassword, String salt) {
-        byte[] hashedPassword = PasswordEncryptor.hashWithSHA256(loginUserPassword, salt);
-
-        return PasswordEncryptor.generateEncryptedPassword(hashedPassword);
     }
 
     private void saveLoginUserInSession(Long userKey, HttpServletRequest request) {
@@ -106,8 +105,8 @@ public class UserService {
         session.setAttribute("IP_ADDRESS", ipAddress);
     }
 
-    private void validateSessionExists(HttpSession session) {
-        if (session == null) {
+    private void validateSession(HttpSession session) {
+        if (session == null || session.getAttribute("USER_KEY") == null || session.getAttribute("IP_ADDRESS") == null) {
             throw new InvalidSessionException();
         }
     }

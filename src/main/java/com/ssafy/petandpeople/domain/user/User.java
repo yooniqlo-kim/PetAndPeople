@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class User {
 
-    private String userId;
+    private final String userId;
 
-    private Password password;
+    private final Password password;
 
     private String userName;
 
@@ -16,12 +16,7 @@ public class User {
 
     private Date registeredAt;
 
-    private Date lastLoginedAt;
-
-    public User(String userId, Password password) {
-        this.userId = userId;
-        this.password = password;
-    }
+    private Date lastLoginAt;
 
     public User(String userId, Password password, String userName, String userPhoneNumber, String userAddress) {
         this.userId = userId;
@@ -31,23 +26,22 @@ public class User {
         this.userAddress = userAddress;
     }
 
-    public User(String userId, Password password, String userName, String userPhoneNumber, String userAddress, Date registeredAt, Date lastLoginedAt) {
+    public User(String userId, Password password, String userName, String userPhoneNumber, String userAddress, Date registeredAt, Date lastLoginAt) {
         this.userId = userId;
         this.password = password;
         this.userName = userName;
         this.userPhoneNumber = userPhoneNumber;
         this.userAddress = userAddress;
         this.registeredAt = registeredAt;
-        this.lastLoginedAt = lastLoginedAt;
+        this.lastLoginAt = lastLoginAt;
     }
-
 
     public String getUserId() {
         return userId;
     }
 
-    public Password getPassword() {
-        return password;
+    public String getPassword() {
+        return password.getValue();
     }
 
     public String getUserName() {
@@ -62,13 +56,8 @@ public class User {
         return userAddress;
     }
 
-    public void encryptPassword(String salt) {
-        String password = this.password.encrypt(salt);
-        this.password = Password.wrap(password);
-    }
-
-    public void validatePasswordMatch(String loginUserPassword) {
-        this.password.validate(loginUserPassword);
+    public void validatePasswordMatch(String encryptedLoginPassword) {
+        password.validatePasswordMatch(encryptedLoginPassword);
     }
 
 }
