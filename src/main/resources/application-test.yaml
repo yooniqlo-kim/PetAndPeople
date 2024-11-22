@@ -10,3 +10,4 @@ spring:
     hibernate:
       ddl-auto: ${TEST_JPA_HIBERNATE_DDL_AUTO}
     show-sql: ${TEST_JPA_SHOW_SQL}
+    database-platform: ${JPA_DATABASE_PLATFORM}

@@ -5,14 +5,18 @@ public class Api<T> {
 
     private Result result;
     private T body;
+
     public Api() {
     }
+
     public Api(Result result) {
         this.result = result;
     }
+
     public static Api<Object> OK() {
         return SUCCESS;
     }
+
     public static <T> Api<T> OK(T body) {
         Api<T> api = new Api<>();
         api.result = Result.OK();

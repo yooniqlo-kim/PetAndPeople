@@ -28,10 +28,11 @@ public class ObjectMapperConfig {
         // 빈 객체 직렬화 시 오류 방지
         objectMapper.configure((SerializationFeature.FAIL_ON_EMPTY_BEANS), false);
 
-        //  날짜를 타임스탬프가 아닌 ISO 8601 형식으로 직렬화
+        // 날짜를 타임스탬프가 아닌 ISO 8601 형식으로 직렬화
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        objectMapper .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        // 
+        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
 
         return objectMapper;
     }
