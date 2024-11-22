@@ -4,8 +4,8 @@ spring:
   mail:
     host: ${MAIL_HOST}
     port: ${MAIL_PORT}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    username: ${ADMIN_EMAIL}
+    password: ${ADMIN_PASSWORD}
     properties:
       mail.smtp.auth: ${MAIL_SMTP_AUTH}
       mail.smtp.ssl.enable: ${MAIL_SMTP_SSL_ENABLE}
