@@ -4,8 +4,6 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.ssafy.petandpeople.application.converter.job.PartTimeConverter;
 import com.ssafy.petandpeople.application.dto.job.PartTimePostDto;
 import com.ssafy.petandpeople.application.dto.job.ThumbnailDto;
-import com.ssafy.petandpeople.application.service.job.parttime.PartTimePostService;
-import com.ssafy.petandpeople.application.service.job.parttime.PartTimePostThumbnailService;
 import com.ssafy.petandpeople.common.exception.job.PostNotAuthorizedException;
 import com.ssafy.petandpeople.common.exception.job.PostNotExistException;
 import com.ssafy.petandpeople.common.utils.UUIDGenerator;

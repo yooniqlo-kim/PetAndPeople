@@ -3,7 +3,6 @@ package com.ssafy.petandpeople.application.service.job;
 import com.amazonaws.services.s3.AmazonS3;
 import com.ssafy.petandpeople.application.converter.job.ThumbnailConverter;
 import com.ssafy.petandpeople.application.dto.job.ThumbnailDto;
-import com.ssafy.petandpeople.application.service.job.parttime.PartTimePostThumbnailService;
 import com.ssafy.petandpeople.config.S3Config;
 import com.ssafy.petandpeople.common.exception.job.InvalidFileFormatException;
 import com.ssafy.petandpeople.common.exception.job.ThumbnailNotSavedException;

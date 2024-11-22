@@ -1,7 +1,7 @@
 package com.ssafy.petandpeople.presentation.controller;
 
 import com.ssafy.petandpeople.application.dto.job.PartTimePostDto;
-import com.ssafy.petandpeople.application.service.job.parttime.PartTimePostService;
+import com.ssafy.petandpeople.application.service.job.PartTimePostService;
 import com.ssafy.petandpeople.presentation.response.Api;
 import io.swagger.annotations.ApiParam;
 import jakarta.servlet.http.HttpServletRequest;

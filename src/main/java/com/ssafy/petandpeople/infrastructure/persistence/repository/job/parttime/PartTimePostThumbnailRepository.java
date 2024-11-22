@@ -15,4 +15,3 @@ public interface PartTimePostThumbnailRepository extends JpaRepository<PartTimeP
     void deleteByThumbnailKey(String thumbnailKey);
 
 }
-`

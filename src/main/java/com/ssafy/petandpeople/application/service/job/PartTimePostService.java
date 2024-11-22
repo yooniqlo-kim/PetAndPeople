@@ -1,4 +1,4 @@
-package com.ssafy.petandpeople.application.service.job.parttime;
+package com.ssafy.petandpeople.application.service.job;
 
 import com.ssafy.petandpeople.application.converter.job.PartTimeConverter;
 import com.ssafy.petandpeople.application.dto.job.PartTimePostDto;
