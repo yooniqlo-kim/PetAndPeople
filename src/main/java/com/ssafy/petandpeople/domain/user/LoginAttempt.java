@@ -1,6 +1,6 @@
 package com.ssafy.petandpeople.domain.user;
 
-import com.ssafy.petandpeople.common.exception.user.LoginAttemptExceededException;
+import com.ssafy.petandpeople.common.exception.user.loginattempt.LoginAttemptExceededException;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +25,7 @@ public class LoginAttempt {
             usersLockTime.remove(userId);
         }
 
-        return true;
+        return false;
     }
 
     public int increaseLoginAttempt(String userId) {

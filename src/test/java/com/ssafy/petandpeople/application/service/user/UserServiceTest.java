@@ -2,9 +2,8 @@ package com.ssafy.petandpeople.application.service.user;
 
 import com.ssafy.petandpeople.application.dto.user.LoginDto;
 import com.ssafy.petandpeople.application.dto.user.UserDto;
-import com.ssafy.petandpeople.common.exception.user.PasswordMismatchException;
+import com.ssafy.petandpeople.common.exception.user.password.PasswordMismatchException;
 import com.ssafy.petandpeople.common.exception.user.UserNotFoundException;
-import com.ssafy.petandpeople.domain.user.Password;
 import com.ssafy.petandpeople.domain.user.PasswordEncryptor;
 import com.ssafy.petandpeople.infrastructure.persistence.entity.user.UserEntity;
 import com.ssafy.petandpeople.infrastructure.persistence.entity.user.UserSecurityEntity;

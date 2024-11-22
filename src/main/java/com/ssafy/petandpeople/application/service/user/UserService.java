@@ -16,6 +16,7 @@ import com.ssafy.petandpeople.infrastructure.persistence.repository.user.UserRep
 import com.ssafy.petandpeople.infrastructure.persistence.repository.user.UserSecurityRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,15 +34,14 @@ public class UserService {
         this.userSecurityRepository = userSecurityRepository;
     }
 
+    @Transactional
     public Boolean signUp(UserDto userDto) {
         String salt = generateRandomSalt();
         String rawPassword = userDto.getUserPassword();
         String encryptedPassword = passwordEncryptor.encryptPassword(rawPassword, salt);
 
-        User user = UserConverter.dtoToDomain(userDto, encryptedPassword);
-
-        UserEntity userEntity = UserConverter.domainToEntity(user);
-        UserSecurityEntity userSecurityEntity = UserSecurityConverter.toEntity(user, salt);
+        UserEntity userEntity = UserConverter.dtoToEntity(userDto, encryptedPassword);
+        UserSecurityEntity userSecurityEntity = UserSecurityConverter.toEntity(userEntity, salt);
 
         userRepository.save(userEntity);
         userSecurityRepository.save(userSecurityEntity);
@@ -52,10 +52,11 @@ public class UserService {
     public Boolean login(LoginDto loginDto, HttpServletRequest request) {
         String userId = loginDto.getUserId();
 
+        UserEntity userEntity = findLoginUser(userId);
+
         loginAttempt.validateUserLock(userId);
         loginAttempt.increaseLoginAttempt(userId);
 
-        UserEntity userEntity = findLoginUser(userId);
         validateLoginPassword(loginDto, userEntity);
 
         loginAttempt.resetLoginAttempt(userId);
@@ -101,6 +102,7 @@ public class UserService {
         String ipAddress = request.getRemoteAddr();
 
         HttpSession session = request.getSession();
+
         session.setAttribute("USER_KEY", userKey);
         session.setAttribute("IP_ADDRESS", ipAddress);
     }

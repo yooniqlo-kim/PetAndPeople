@@ -19,6 +19,16 @@ public class UserConverter {
         );
     }
 
+    public static UserEntity dtoToEntity(UserDto userDto, String encryptedPassword) {
+        return new UserEntity(
+                userDto.getUserId(),
+                encryptedPassword,
+                userDto.getUserName(),
+                userDto.getUserPhoneNumber(),
+                userDto.getUserAddress()
+        );
+    }
+
     public static UserEntity domainToEntity(User user) {
         return new UserEntity(
                 user.getUserId(),

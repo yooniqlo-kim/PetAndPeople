@@ -1,6 +1,6 @@
 package com.ssafy.petandpeople.domain.user;
 
-import com.ssafy.petandpeople.common.exception.user.LoginAttemptExceededException;
+import com.ssafy.petandpeople.common.exception.user.loginattempt.LoginAttemptExceededException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
