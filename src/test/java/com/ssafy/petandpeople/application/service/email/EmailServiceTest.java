@@ -23,11 +23,10 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class EmailServiceTest {
 
-    private final EmailService emailService;
-    @MockBean
-    private JavaMailSender javaMailSender;
     private MockHttpServletRequest request;
     private HttpSession session;
+
+    private final EmailService emailService;
 
     @Autowired
     public EmailServiceTest(EmailService emailService) {
@@ -44,13 +43,9 @@ public class EmailServiceTest {
     @DisplayName("이메일 인증 코드 전송 성공")
     void sendAuthCodeToUserEmail_성공() throws MessagingException {
         EmailDto emailDto = new EmailDto();
-        emailDto.setEmail("ssafy@ssafy.com");
-
-        MimeMessage mimeMessage = mock(MimeMessage.class);
-        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        emailDto.setEmail("pkb1998@naver.com");
 
         emailService.sendAuthCodeToUserEmail(emailDto, request);
-
         assertNotNull(session.getAttribute("AUTH_CODE"));
     }
 

@@ -1,7 +1,12 @@
 package com.ssafy.petandpeople.domain.user;
 
 import com.ssafy.petandpeople.common.exception.user.PasswordMismatchException;
-import com.ssafy.petandpeople.common.utils.PasswordEncryptor;
+import com.ssafy.petandpeople.common.exception.user.password.HashAlgorithmNotFoundException;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Password {
 
@@ -11,25 +16,18 @@ public class Password {
         this.value = value;
     }
 
+    public static Password from(String encryptedPassword) {
+        return new Password(encryptedPassword);
+    }
+
     public String getValue() {
         return value;
     }
 
-    public static Password wrap(String rawPassword) {
-        return new Password(rawPassword);
-    }
-
-    public String encrypt(String salt) {
-        byte[] hashedPassword = PasswordEncryptor.hashWithSHA256(this.value, salt);
-
-        return PasswordEncryptor.generateEncryptedPassword(hashedPassword);
-    }
-
-    public Boolean validate(String loginUserPassword) {
-        if (!this.value.equals(loginUserPassword)) {
+    public Boolean validatePasswordMatch(String encryptedLoginPassword) {
+        if (!value.equals(encryptedLoginPassword)) {
             throw new PasswordMismatchException();
         }
-
         return true;
     }
 
