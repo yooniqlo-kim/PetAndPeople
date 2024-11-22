@@ -1,13 +1,10 @@
 spring:
-  config:
-    import: optional:file:.env[.properties]
   datasource:
-    url: ${TEST_DB_URL}
-    username: ${TEST_DB_USERNAME}
-    password: ${TEST_DB_PASSWORD}
-    driver-class-name: ${TEST_DB_DRIVER_CLASS_NAME}
+    url: jdbc:mysql://localhost:3307/petandpeople_test
+    username: petandpeople
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: ${TEST_JPA_HIBERNATE_DDL_AUTO}
-    show-sql: ${TEST_JPA_SHOW_SQL}
-    database-platform: ${JPA_DATABASE_PLATFORM}
+      ddl-auto: create
+    show-sql: true
