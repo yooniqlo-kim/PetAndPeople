@@ -1,28 +1,20 @@
-package com.ssafy.petandpeople.common.response;
-
-import com.ssafy.petandpeople.common.error.ErrorCode;
-import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
+package com.ssafy.petandpeople.presentation.response;
 
 public class Result {
+    private static final com.ssafy.petandpeople.presentation.response.Result SUCCESS = new com.ssafy.petandpeople.presentation.response.Result("성공");
 
-    private final Integer resultCode;
     private final String resultMessage;
 
-    private Result(ErrorCodeIfs errorCodeIfs, String resultMessage) {
-        this.resultCode = errorCodeIfs.getErrorCode();
+    private Result(String resultMessage) {
         this.resultMessage = resultMessage;
     }
 
-    public static Result OK() {
-        return new Result(ErrorCode.OK, "성공");
+    public static com.ssafy.petandpeople.presentation.response.Result OK() {
+        return SUCCESS;
     }
 
-    public static Result ERROR(ErrorCodeIfs errorCodeIfs) {
-        return new Result(errorCodeIfs, "실패");
-    }
-
-    public Integer getResultCode() {
-        return resultCode;
+    public static com.ssafy.petandpeople.presentation.response.Result ERROR(String resultMessage) {
+        return new com.ssafy.petandpeople.presentation.response.Result(resultMessage);
     }
 
     public String getResultMessage() {

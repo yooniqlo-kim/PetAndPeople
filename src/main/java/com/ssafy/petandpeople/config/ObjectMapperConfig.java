@@ -31,8 +31,8 @@ public class ObjectMapperConfig {
         //  날짜를 타임스탬프가 아닌 ISO 8601 형식으로 직렬화
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        // 카멜 케이스
-        objectMapper.setPropertyNamingStrategy(new PropertyNamingStrategies.LowerCamelCaseStrategy());
+        // 스네이크 케이스
+        objectMapper.setPropertyNamingStrategy(new PropertyNamingStrategies.SnakeCaseStrategy());
 
         return objectMapper;
     }

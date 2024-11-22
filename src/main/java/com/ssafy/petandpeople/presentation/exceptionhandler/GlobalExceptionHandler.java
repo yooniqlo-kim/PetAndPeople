@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(500)
-                .body(Api.ERROR(ErrorCode.SEVER_ERROR));
+                .body(Api.ERROR(ErrorCode.SEVER_ERROR.getMessage()));
     }
 
 }
