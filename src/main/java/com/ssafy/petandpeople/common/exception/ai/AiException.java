@@ -1,15 +1,11 @@
-package com.ssafy.petandpeople.common.exception.api;
+package com.ssafy.petandpeople.common.exception.ai;
 
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 import com.ssafy.petandpeople.common.exception.ExceptionIfs;
 
-public class ApiException extends RuntimeException implements ExceptionIfs {
+public class AiException extends RuntimeException implements ExceptionIfs {
 
-    public ApiException() {
-
-    }
-
-    public ApiException(String message) {
+    public AiException(String message) {
         super(message);
     }
 
