@@ -1,4 +1,4 @@
-package com.ssafy.petandpeople.application.dto.adoption;
+package com.ssafy.petandpeople.application.dto.abandonedanimal;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -15,7 +15,7 @@ public class ApiRequestParams {
 
     public ApiRequestParams(String apiUrl, int pageIndex, int pageSize) {
         this.apiUrl = apiUrl;
-        this.apiKey = dotenv.get("ADOPTION_API_KEY");
+        this.apiKey = dotenv.get("ABANDONED_ANIMAL_API_KEY");
         this.returnType = "json";
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;

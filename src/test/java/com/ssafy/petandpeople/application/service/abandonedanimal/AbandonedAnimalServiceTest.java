@@ -1,9 +1,9 @@
-package com.ssafy.petandpeople.application.service.adoption;
+package com.ssafy.petandpeople.application.service.abandonedanimal;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.ssafy.petandpeople.application.dto.adoption.AdoptionDto;
-import com.ssafy.petandpeople.application.dto.adoption.ApiRequestParams;
-import com.ssafy.petandpeople.infrastructure.external.ExternalApiClient;
+import com.ssafy.petandpeople.application.dto.abandonedanimal.AbandonedAnimalDto;
+import com.ssafy.petandpeople.application.dto.abandonedanimal.ApiRequestParams;
+import com.ssafy.petandpeople.infrastructure.external.DataApiClient;
 import com.ssafy.petandpeople.infrastructure.external.JsonParser;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.RedisRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -18,10 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
-public class AdoptionServiceTest {
+public class AbandonedAnimalServiceTest {
 
     private static final String API_URL = "https://openapi.gg.go.kr/AbdmAnimalProtect";
-    private static final String REDIS_KEY = "TEST_DATA";
+    private static final String TEST_REDIS_KEY = "TEST_DATA";
     private static final int SIZE = 100;
 
     private final JsonParser jsonParser;
@@ -29,7 +29,7 @@ public class AdoptionServiceTest {
     private final DataApiClient dataApiClient;
 
     @Autowired
-    public AdoptionServiceTest(JsonParser jsonParser, RedisRepository redisRepository, DataApiClient dataApiClient) {
+    public AbandonedAnimalServiceTest(JsonParser jsonParser, RedisRepository redisRepository, DataApiClient dataApiClient) {
         this.jsonParser = jsonParser;
         this.redisRepository = redisRepository;
         this.dataApiClient = dataApiClient;
@@ -45,21 +45,21 @@ public class AdoptionServiceTest {
         assertNull(errorCode);
 
         String jsonData = jsonParser.extractData(response, "/AbdmAnimalProtect/1/row");
-        List<AdoptionDto> adoptionData = jsonParser.jsonToDtoList(jsonData, new TypeReference<List<AdoptionDto>>() {});
+        List<AbandonedAnimalDto> abandonedAnimalsFromApi = jsonParser.jsonToDtoList(jsonData, new TypeReference<List<AbandonedAnimalDto>>() {});
 
-        assertNotNull(adoptionData);
-        assertEquals(SIZE, adoptionData.size());
+        assertNotNull(abandonedAnimalsFromApi);
+        assertEquals(SIZE, abandonedAnimalsFromApi.size());
 
-        redisRepository.save(REDIS_KEY, adoptionData);
+        redisRepository.save(TEST_REDIS_KEY, abandonedAnimalsFromApi);
 
-        List<AdoptionDto> dataFromRedis = jsonParser.convertToType(redisRepository.find(REDIS_KEY), new TypeReference<List<AdoptionDto>>() {});
+        List<AbandonedAnimalDto> abandonedAnimalsFromRedis = jsonParser.convertToType(redisRepository.find(TEST_REDIS_KEY), new TypeReference<List<AbandonedAnimalDto>>() {});
 
-        assertNotNull(dataFromRedis);
-        assertEquals(SIZE, dataFromRedis.size());
-        assertEquals(adoptionData.size(), dataFromRedis.size());
+        assertNotNull(abandonedAnimalsFromRedis);
+        assertEquals(SIZE, abandonedAnimalsFromRedis.size());
+        assertEquals(abandonedAnimalsFromApi.size(), abandonedAnimalsFromRedis.size());
 
         for (int i = 0; i < SIZE; i++) {
-            assertEquals(adoptionData.get(i).getAbdmIdntfyNo(), dataFromRedis.get(i).getAbdmIdntfyNo());
+            assertEquals(abandonedAnimalsFromApi.get(i).getAbdmIdntfyNo(), abandonedAnimalsFromRedis.get(i).getAbdmIdntfyNo());
         }
     }
 

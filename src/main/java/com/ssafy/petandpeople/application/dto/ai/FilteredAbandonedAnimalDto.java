@@ -1,6 +1,6 @@
-package com.ssafy.petandpeople.application.dto.adoption;
+package com.ssafy.petandpeople.application.dto.ai;
 
-public class AdoptionSummaryDto {
+public class FilteredAbandonedAnimalDto {
 
     private String abdmIdntfyNo;
     private String speciesNm;
@@ -16,10 +16,10 @@ public class AdoptionSummaryDto {
     private String thumbImageCours;
     private String partclrMatr;
 
-    public AdoptionSummaryDto() {
+    public FilteredAbandonedAnimalDto() {
     }
 
-    public AdoptionSummaryDto(String abdmIdntfyNo, String speciesNm, String colorNm, String ageInfo, String bdwghInfo, String sexNm, String neutYn, String sfetrInfo, String shterNm, String shterTelno, String protectPlc, String thumbImageCours, String partclrMatr) {
+    public FilteredAbandonedAnimalDto(String abdmIdntfyNo, String speciesNm, String colorNm, String ageInfo, String bdwghInfo, String sexNm, String neutYn, String sfetrInfo, String shterNm, String shterTelno, String protectPlc, String thumbImageCours, String partclrMatr) {
         this.abdmIdntfyNo = abdmIdntfyNo;
         this.speciesNm = speciesNm;
         this.colorNm = colorNm;

@@ -3,9 +3,9 @@ package com.ssafy.petandpeople.infrastructure.external;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.petandpeople.application.dto.adoption.ErrorResponseDto;
-import com.ssafy.petandpeople.common.exception.adoption.JsonToDtoMappingException;
-import com.ssafy.petandpeople.common.exception.adoption.ExtractJsonFailException;
+import com.ssafy.petandpeople.application.dto.abandonedanimal.ErrorResponseDto;
+import com.ssafy.petandpeople.common.exception.abandonedanimal.JsonToDtoMappingException;
+import com.ssafy.petandpeople.common.exception.abandonedanimal.ExtractJsonFailException;
 import com.ssafy.petandpeople.common.exception.ai.InvalidAiResponseException;
 import org.springframework.stereotype.Component;
 

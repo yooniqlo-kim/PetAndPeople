@@ -1,6 +1,6 @@
-package com.ssafy.petandpeople.application.dto.adoption;
+package com.ssafy.petandpeople.application.dto.abandonedanimal;
 
-public class AdoptionDto {
+public class AbandonedAnimalDto {
 
     private String sigunNm;
     private String abdmIdntfyNo;

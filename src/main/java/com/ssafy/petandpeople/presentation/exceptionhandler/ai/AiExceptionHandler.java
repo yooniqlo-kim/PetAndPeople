@@ -1,7 +1,6 @@
 package com.ssafy.petandpeople.presentation.exceptionhandler.ai;
 
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
-import com.ssafy.petandpeople.common.exception.adoption.AdoptionException;
 import com.ssafy.petandpeople.common.exception.ai.AiException;
 import com.ssafy.petandpeople.presentation.response.Api;
 import org.slf4j.Logger;

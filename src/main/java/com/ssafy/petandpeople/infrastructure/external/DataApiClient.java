@@ -1,6 +1,6 @@
 package com.ssafy.petandpeople.infrastructure.external;
 
-import com.ssafy.petandpeople.application.dto.adoption.ApiRequestParams;
+import com.ssafy.petandpeople.application.dto.abandonedanimal.ApiRequestParams;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;

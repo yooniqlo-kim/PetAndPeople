@@ -19,8 +19,10 @@ public class AiController {
     }
 
     @PostMapping("/recommend")
-    public Api<Object> recommendBestPet(@RequestBody UserPreferenceDto userPreferenceDto) {
-        String recommendation = aiService.getRecommendationFromAi(userPreferenceDto);
+    public Api<String> recommendAbandonedAnimals(@RequestBody UserPreferenceDto userPreferenceDto) {
+        String recommendation = aiService.recommendAbandonedAnimals(userPreferenceDto);
+
+        System.out.println(recommendation);
 
         return Api.OK(recommendation);
     }

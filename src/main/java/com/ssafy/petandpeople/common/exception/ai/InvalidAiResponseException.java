@@ -3,9 +3,9 @@ package com.ssafy.petandpeople.common.exception.ai;
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 import com.ssafy.petandpeople.common.error.ai.AiErrorCode;
 import com.ssafy.petandpeople.common.exception.ExceptionIfs;
-import com.ssafy.petandpeople.common.exception.adoption.AdoptionException;
+import com.ssafy.petandpeople.common.exception.abandonedanimal.AbandonedAnimalException;
 
-public class InvalidAiResponseException extends AdoptionException implements ExceptionIfs {
+public class InvalidAiResponseException extends AbandonedAnimalException implements ExceptionIfs {
 
     private final ErrorCodeIfs errorCodeIfs;
 

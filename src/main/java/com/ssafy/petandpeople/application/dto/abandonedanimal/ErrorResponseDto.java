@@ -1,4 +1,4 @@
-package com.ssafy.petandpeople.application.dto.adoption;
+package com.ssafy.petandpeople.application.dto.abandonedanimal;
 
 public class ErrorResponseDto {
 

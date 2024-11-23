@@ -1,15 +1,15 @@
-package com.ssafy.petandpeople.common.exception.adoption;
+package com.ssafy.petandpeople.common.exception.abandonedanimal;
 
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 import com.ssafy.petandpeople.common.exception.ExceptionIfs;
 
-public class AdoptionException extends RuntimeException implements ExceptionIfs {
+public class AbandonedAnimalException extends RuntimeException implements ExceptionIfs {
 
-    public AdoptionException() {
+    public AbandonedAnimalException() {
 
     }
 
-    public AdoptionException(String message) {
+    public AbandonedAnimalException(String message) {
         super(message);
     }
 
