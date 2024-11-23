@@ -17,7 +17,10 @@ import com.ssafy.petandpeople.infrastructure.persistence.repository.user.UserSec
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import org.joda.time.LocalTime;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class UserService {
@@ -60,10 +63,28 @@ public class UserService {
         validateLoginPassword(loginDto, userEntity);
 
         loginAttempt.resetLoginAttempt(userId);
-
+        updateLoginTime(userEntity);
         saveLoginUserInSession(userEntity.getUserKey(), request);
 
         return true;
+    }
+
+    public void checkPasswordMatch(LoginDto loginDto) {
+        String userId = loginDto.getUserId();
+
+        UserEntity userEntity = findLoginUser(userId);
+
+        validateLoginPassword(loginDto, userEntity);
+    }
+
+    public UserDto getDetailAboutUser(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        Long userKey = (long) session.getAttribute("USER_KEY");
+
+        UserEntity savedUser = userRepository.findByUserKey(userKey);
+
+        return UserConverter.entityToDto(savedUser);
     }
 
     public void logout(HttpServletRequest request) {
@@ -96,6 +117,10 @@ public class UserService {
         UserSecurityEntity userSecurityEntity = userSecurityRepository.findByUserId(userId);
 
         return userSecurityEntity.getSalt();
+    }
+
+    private void updateLoginTime(UserEntity userEntity) {
+        userRepository.updateLastLoginAt(userEntity.getUserKey(), LocalDateTime.now());
     }
 
     private void saveLoginUserInSession(Long userKey, HttpServletRequest request) {

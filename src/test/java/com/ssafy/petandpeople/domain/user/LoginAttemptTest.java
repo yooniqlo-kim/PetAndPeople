@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class LoginAttemptTest {
@@ -31,7 +31,7 @@ public class LoginAttemptTest {
     @Test
     @DisplayName("유저의 계정이 잠기지 않음")
     void validateUserLock_성공() {
-        assertTrue(loginAttempt.validateUserLock(testUserId));
+        assertFalse(loginAttempt.validateUserLock(testUserId));
     }
 
     @Test

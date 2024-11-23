@@ -35,6 +35,20 @@ public class UserController {
         return Api.OK();
     }
 
+    @PostMapping("/check/password")
+    private Api<Object> checkPassword(@RequestBody LoginDto loginDto) {
+        userService.checkPasswordMatch(loginDto);
+
+        return Api.OK();
+    }
+
+    @PostMapping("/detail")
+    public Api<UserDto> getDetailAboutUser(HttpServletRequest request) {
+        UserDto userDto = userService.getDetailAboutUser(request);
+
+        return Api.OK(userDto);
+    }
+
     @PostMapping("/logout")
     public Api<Object> logout(HttpServletRequest request) {
         userService.logout(request);

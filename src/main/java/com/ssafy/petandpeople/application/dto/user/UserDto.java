@@ -38,17 +38,24 @@ public class UserDto {
             String userPassword,
             String userName,
             String userPhoneNumber,
-            String userAddress,
-            Date registeredAt,
-            Date lastLoginAt
+            String userAddress
     ) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.userName = userName;
         this.userPhoneNumber = userPhoneNumber;
         this.userAddress = userAddress;
-        this.registeredAt = registeredAt;
-        this.lastLoginAt = lastLoginAt;
+    }
+
+    public UserDto(
+            String userId,
+            String userName,
+            String userPhoneNumber,
+            String userAddress) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPhoneNumber = userPhoneNumber;
+        this.userAddress = userAddress;
     }
 
     public String getUserId() {
@@ -77,6 +84,34 @@ public class UserDto {
 
     public Date getLastLoginAt() {
         return lastLoginAt;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
+    }
+
+    public void setRegisteredAt(Date registeredAt) {
+        this.registeredAt = registeredAt;
+    }
+
+    public void setLastLoginAt(Date lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
     }
 
 }
