@@ -3,10 +3,9 @@ package com.ssafy.petandpeople.application.service.adoption;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.ssafy.petandpeople.application.dto.adoption.AdoptionDto;
 import com.ssafy.petandpeople.application.dto.adoption.ApiRequestParams;
+import com.ssafy.petandpeople.infrastructure.external.ExternalApiClient;
 import com.ssafy.petandpeople.infrastructure.external.JsonParser;
-import com.ssafy.petandpeople.infrastructure.external.DataApiClient;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.RedisRepository;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest
 public class AdoptionServiceTest {
@@ -44,22 +45,20 @@ public class AdoptionServiceTest {
         assertNull(errorCode);
 
         String jsonData = jsonParser.extractData(response, "/AbdmAnimalProtect/1/row");
-        List<AdoptionDto> adoptionData = jsonParser.jsonToDtoList(jsonData, new TypeReference<List<AdoptionDto>>() {
-        });
+        List<AdoptionDto> adoptionData = jsonParser.jsonToDtoList(jsonData, new TypeReference<List<AdoptionDto>>() {});
 
         assertNotNull(adoptionData);
         assertEquals(SIZE, adoptionData.size());
 
         redisRepository.save(REDIS_KEY, adoptionData);
 
-        List<AdoptionDto> dataFromRedis = jsonParser.convertToType(redisRepository.find(REDIS_KEY), new TypeReference<List<AdoptionDto>>() {
-        });
+        List<AdoptionDto> dataFromRedis = jsonParser.convertToType(redisRepository.find(REDIS_KEY), new TypeReference<List<AdoptionDto>>() {});
 
         assertNotNull(dataFromRedis);
         assertEquals(SIZE, dataFromRedis.size());
         assertEquals(adoptionData.size(), dataFromRedis.size());
 
-        for(int i=0; i<SIZE; i++) {
+        for (int i = 0; i < SIZE; i++) {
             assertEquals(adoptionData.get(i).getAbdmIdntfyNo(), dataFromRedis.get(i).getAbdmIdntfyNo());
         }
     }

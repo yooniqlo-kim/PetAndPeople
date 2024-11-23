@@ -65,15 +65,11 @@ public class AdoptionService {
     }
 
     private void validateResponse(String response) {
-        ErrorResponseDto error = jsonParser.extractErrorCode(response);
+        ErrorResponseDto errorResponse = jsonParser.extractErrorCode(response);
 
-        if(hasError(error)) {
-            throw new ErrorResponseException("<API 응답 에러 발생> " + "CODE:" + error.getCode() + " MESSAGE: " + error.getMessage());
+        if(errorResponse != null) {
+            throw new ErrorResponseException("<API 응답 에러 발생> " + "CODE:" + errorResponse.getCode() + " MESSAGE: " + errorResponse.getMessage());
         }
-    }
-
-    private Boolean hasError(ErrorResponseDto error) {
-        return error != null;
     }
 
     private <T> List<T> getPageSlice(List<T> dataCluster, int pageNum) {

@@ -34,11 +34,8 @@ public class UserEntity {
     private String userAddress;
 
     @CreationTimestamp
-    @Column(nullable = false)
     private LocalDateTime registeredAt;
 
-    @CreationTimestamp
-    @Column(nullable = false)
     private LocalDateTime lastLoginAt;
 
     public UserEntity() {

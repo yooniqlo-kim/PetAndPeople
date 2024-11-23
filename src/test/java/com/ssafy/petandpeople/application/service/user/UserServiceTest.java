@@ -52,9 +52,7 @@ public class UserServiceTest {
                 "testPassword123@",
                 "testName",
                 "testPhoneNumber",
-                "testAddress",
-                null,
-                null
+                "testAddress"
         );
 
         assertTrue(userService.signUp(userDto));
@@ -145,6 +143,40 @@ public class UserServiceTest {
         request.setSession(session);
 
         assertThrows(PasswordMismatchException.class, () -> userService.login(loginDto, request));
+    }
+
+    @Test
+    @DisplayName("사용자 개인정보 조회 성공")
+    void getDetailAboutUser() {
+        String userId = "testUser@test.com";
+        String userPassword = "testPassword123@";
+        String salt = "salt";
+
+        String encryptedPassword = passwordEncryptor.encryptPassword(userPassword, salt);
+
+        UserEntity userEntity = new UserEntity(
+                userId,
+                encryptedPassword,
+                "testName",
+                "testPhoneNumber",
+                "testAddress"
+        );
+        UserSecurityEntity userSecurityEntity = new UserSecurityEntity(userId, salt);
+
+        userRepository.save(userEntity);
+        userSecurityRepository.save(userSecurityEntity);
+
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("USER_KEY", 1L);
+        request.setSession(session);
+
+        UserDto userDetail = userService.getDetailAboutUser(request);
+
+        assertEquals(userEntity.getUserId(), userDetail.getUserId());
+        assertEquals(userEntity.getUserName(), userDetail.getUserName());
+        assertEquals(userEntity.getUserPhoneNumber(), userDetail.getUserPhoneNumber());
+        assertEquals(userEntity.getUserAddress(), userDetail.getUserAddress());
     }
 
     @Test

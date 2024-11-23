@@ -49,4 +49,13 @@ public class UserConverter {
         );
     }
 
+    public static UserDto entityToDto(UserEntity userEntity) {
+        return new UserDto(
+                userEntity.getUserId(),
+                userEntity.getUserName(),
+                userEntity.getUserPhoneNumber(),
+                userEntity.getUserAddress()
+        );
+    }
+
 }
