@@ -4,15 +4,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.ssafy.petandpeople.application.dto.adoption.ApiRequestParams;
 import com.ssafy.petandpeople.application.dto.adoption.AdoptionDto;
 import com.ssafy.petandpeople.application.dto.adoption.ErrorResponseDto;
-import com.ssafy.petandpeople.common.exception.api.ErrorResponseException;
+import com.ssafy.petandpeople.common.exception.adoption.ErrorResponseException;
 import com.ssafy.petandpeople.infrastructure.external.JsonParser;
-import com.ssafy.petandpeople.infrastructure.external.ExternalApiClient;
+import com.ssafy.petandpeople.infrastructure.external.DataApiClient;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.RedisRepository;
 import io.github.cdimascio.dotenv.Dotenv;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -25,12 +26,12 @@ public class AdoptionService {
 
     private final JsonParser jsonParser;
     private final RedisRepository redisRepository;
-    private final ExternalApiClient externalApiClient;
+    private final DataApiClient dataApiClient;
 
-    public AdoptionService(JsonParser jsonParser, RedisRepository redisRepository, ExternalApiClient externalApiClient) {
+    public AdoptionService(JsonParser jsonParser, RedisRepository redisRepository, DataApiClient dataApiClient) {
         this.jsonParser = jsonParser;
         this.redisRepository = redisRepository;
-        this.externalApiClient = externalApiClient;
+        this.dataApiClient = dataApiClient;
     }
 
     @PostConstruct
@@ -39,7 +40,7 @@ public class AdoptionService {
 
         for (int pageIndex = 1; pageIndex <= 2; pageIndex++) {
             ApiRequestParams params = new ApiRequestParams(API_URL, pageIndex, 1000);
-            String response = externalApiClient.requestApi(params);
+            String response = dataApiClient.requestApi(params);
 
             validateResponse(response);
 
@@ -49,6 +50,8 @@ public class AdoptionService {
 
             adoptionDataCluster.addAll(adoptionData);
         }
+
+        adoptionDataCluster.sort(Comparator.comparing(AdoptionDto::getPblancBeginDe));
 
         redisRepository.save(ADOPTION_REDIS_KEY, adoptionDataCluster);
     }

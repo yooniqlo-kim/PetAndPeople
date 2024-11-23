@@ -1,7 +1,7 @@
 package com.ssafy.petandpeople.presentation.exceptionhandler.adoption;
 
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
-import com.ssafy.petandpeople.common.exception.api.ApiException;
+import com.ssafy.petandpeople.common.exception.adoption.AdoptionException;
 import com.ssafy.petandpeople.presentation.response.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +16,11 @@ public class AdoptionExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(AdoptionExceptionHandler.class);
 
-    @ExceptionHandler(value = ApiException.class)
-    public ResponseEntity<Api<Object>> exceptionHandler(ApiException apiException) {
-        ErrorCodeIfs errorCodeIfs = apiException.getErrorCodeIfs();
+    @ExceptionHandler(value = AdoptionException.class)
+    public ResponseEntity<Api<Object>> exceptionHandler(AdoptionException adoptionException) {
+        ErrorCodeIfs errorCodeIfs = adoptionException.getErrorCodeIfs();
 
-        log.error("{} : {}", errorCodeIfs.getErrorCode(), errorCodeIfs.getMessage(), apiException);
+        log.error("{} : {}", errorCodeIfs.getErrorCode(), errorCodeIfs.getMessage(), adoptionException);
 
         return ResponseEntity
                 .status(errorCodeIfs.getHttpStatusCode())
