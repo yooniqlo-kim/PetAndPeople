@@ -4,11 +4,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.petandpeople.application.dto.adoption.ErrorResponseDto;
-import com.ssafy.petandpeople.common.exception.api.JsonToDtoMappingException;
-import com.ssafy.petandpeople.common.exception.api.ExtractJsonFailException;
+import com.ssafy.petandpeople.common.exception.adoption.JsonToDtoMappingException;
+import com.ssafy.petandpeople.common.exception.adoption.ExtractJsonFailException;
+import com.ssafy.petandpeople.common.exception.ai.InvalidAiResponseException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class JsonParser {
@@ -57,6 +59,21 @@ public class JsonParser {
 
     public <T> T convertToType(Object value, TypeReference<T> typeReference) {
         return objectMapper.convertValue(value, typeReference);
+    }
+
+    public String parseOpenAiResponse(Map<String, Object> response) {
+        validateResponse(response);
+
+        List<Map<String, Object>> choices = (List<Map<String, Object>>) response.get("choices");
+        Map<String, Object> message = (Map<String, Object>) choices.get(0).get("message");
+
+        return message.get("content").toString();
+    }
+
+    private void validateResponse(Map<String, Object> response) {
+        if (response == null || !response.containsKey("choices")) {
+            throw new InvalidAiResponseException();
+        }
     }
 
 }
