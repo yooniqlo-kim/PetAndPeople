@@ -1,15 +1,15 @@
-package com.ssafy.petandpeople.common.exception.api;
+package com.ssafy.petandpeople.common.exception.adoption;
 
 import com.ssafy.petandpeople.common.error.ErrorCodeIfs;
 import com.ssafy.petandpeople.common.exception.ExceptionIfs;
 
-public class ApiException extends RuntimeException implements ExceptionIfs {
+public class AdoptionException extends RuntimeException implements ExceptionIfs {
 
-    public ApiException() {
+    public AdoptionException() {
 
     }
 
-    public ApiException(String message) {
+    public AdoptionException(String message) {
         super(message);
     }
 

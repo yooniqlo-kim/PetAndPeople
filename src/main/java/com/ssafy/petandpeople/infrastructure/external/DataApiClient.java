@@ -8,11 +8,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @Component
-public class ExternalApiClient {
+public class DataApiClient {
 
     private final RestTemplate restTemplate;
 
-    public ExternalApiClient(RestTemplate restTemplate) {
+    public DataApiClient(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 

@@ -26,20 +26,20 @@ public class AdoptionServiceTest {
 
     private final JsonParser jsonParser;
     private final RedisRepository redisRepository;
-    private final ExternalApiClient externalApiClient;
+    private final DataApiClient dataApiClient;
 
     @Autowired
-    public AdoptionServiceTest(JsonParser jsonParser, RedisRepository redisRepository, ExternalApiClient externalApiClient) {
+    public AdoptionServiceTest(JsonParser jsonParser, RedisRepository redisRepository, DataApiClient dataApiClient) {
         this.jsonParser = jsonParser;
         this.redisRepository = redisRepository;
-        this.externalApiClient = externalApiClient;
+        this.dataApiClient = dataApiClient;
     }
 
     @Test
     @DisplayName("API 응답 데이터를 Redis에 저장 및 검증 성공")
     void initialize_성공() {
         ApiRequestParams params = new ApiRequestParams(API_URL, 1, SIZE);
-        String response = externalApiClient.requestApi(params);
+        String response = dataApiClient.requestApi(params);
 
         Object errorCode = jsonParser.extractErrorCode(response);
         assertNull(errorCode);

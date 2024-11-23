@@ -15,7 +15,7 @@ public class ApiRequestParams {
 
     public ApiRequestParams(String apiUrl, int pageIndex, int pageSize) {
         this.apiUrl = apiUrl;
-        this.apiKey = dotenv.get("API_KEY");
+        this.apiKey = dotenv.get("ADOPTION_API_KEY");
         this.returnType = "json";
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
