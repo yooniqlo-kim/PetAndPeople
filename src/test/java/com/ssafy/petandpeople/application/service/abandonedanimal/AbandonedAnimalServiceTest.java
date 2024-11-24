@@ -58,8 +58,8 @@ public class AbandonedAnimalServiceTest {
         assertEquals(SIZE, abandonedAnimalsFromRedis.size());
         assertEquals(abandonedAnimalsFromApi.size(), abandonedAnimalsFromRedis.size());
 
-        for (int i = 0; i < SIZE; i++) {
-            assertEquals(abandonedAnimalsFromApi.get(i).getAbdmIdntfyNo(), abandonedAnimalsFromRedis.get(i).getAbdmIdntfyNo());
+        for (int count = 0; count < SIZE; count++) {
+            assertEquals(abandonedAnimalsFromApi.get(count).getAbdmIdntfyNo(), abandonedAnimalsFromRedis.get(count).getAbdmIdntfyNo());
         }
     }
 
