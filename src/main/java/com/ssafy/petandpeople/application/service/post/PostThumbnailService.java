@@ -6,11 +6,13 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.petandpeople.application.converter.post.PostThumbnailConverter;
 import com.ssafy.petandpeople.application.dto.post.PostThumbnailDto;
+import com.ssafy.petandpeople.common.utils.UUIDGenerator;
 import com.ssafy.petandpeople.config.S3Config;
 import com.ssafy.petandpeople.common.exception.post.InvalidFileFormatException;
 import com.ssafy.petandpeople.common.exception.post.ThumbnailNotDeletedException;
 import com.ssafy.petandpeople.common.exception.post.ThumbnailNotSavedException;
 import com.ssafy.petandpeople.common.exception.post.ThumbnailNotUploadedException;
+import com.ssafy.petandpeople.domain.post.PostThumbnail;
 import com.ssafy.petandpeople.infrastructure.persistence.entity.post.PostEntity;
 import com.ssafy.petandpeople.infrastructure.persistence.entity.post.PostThumbnailEntity;
 import com.ssafy.petandpeople.infrastructure.persistence.repository.post.PostThumbnailRepository;
@@ -34,12 +36,13 @@ public class PostThumbnailService {
     public boolean saveThumbnail(MultipartFile thumbnail, PostEntity postKey) {
         validateImageFile(thumbnail);
 
-        PostThumbnailDto postThumbnailDto = PostThumbnailDto.from(thumbnail, postKey);
-        String thumbnailPath = saveThumbnailToS3(postThumbnailDto, thumbnail);
+        String thumbnailKey = UUIDGenerator.generateUUIDtoString();
+        PostThumbnail postThumbnail = PostThumbnail.from(thumbnailKey, thumbnail);
+        PostThumbnailEntity postThumbnailEntity = PostThumbnailConverter.domainToEntity(postThumbnail, postKey);
+        String thumbnailPath = saveThumbnailToS3(postThumbnailEntity, thumbnail);
 
-        PostThumbnailEntity thumbnailEntity =
-                PostThumbnailConverter.dtoToPostThumbnailEntity(postThumbnailDto, thumbnailPath);
-        savePostThumbnailToDB(thumbnailEntity);
+        postThumbnailEntity.setThumbnailPath(thumbnailPath);
+        savePostThumbnailToDB(postThumbnailEntity);
 
         return true;
     }
@@ -48,14 +51,15 @@ public class PostThumbnailService {
     public boolean updateThumbnail(MultipartFile thumbnail, PostEntity postKey) {
         validateImageFile(thumbnail);
 
-        PostThumbnailEntity savedThumbnailEntity = findSavedThumbnailEntity(postKey);
-        deleteThumbnailFromS3(savedThumbnailEntity.getS3FileName());
+        PostThumbnailEntity savedPostThumbnailEntity = findSavedThumbnailEntity(postKey);
+        deleteThumbnailFromS3(savedPostThumbnailEntity.getS3FileName());
 
-        PostThumbnailDto postThumbnailDto = PostThumbnailDto.from(thumbnail, savedThumbnailEntity.getThumbnailKey(), postKey);
-        String filePath = saveThumbnailToS3(postThumbnailDto, thumbnail);
+        PostThumbnail updatePostThumbnail = PostThumbnail.from(savedPostThumbnailEntity.getThumbnailKey(), thumbnail);
+        PostThumbnailEntity updatePostThumbnailEntity = PostThumbnailConverter.domainToEntity(updatePostThumbnail, postKey);
+        String thumbnailPath = saveThumbnailToS3(updatePostThumbnailEntity, thumbnail);
 
-        PostThumbnailEntity thumbnailEntity = PostThumbnailConverter.dtoToPostThumbnailEntity(postThumbnailDto, filePath);
-        savePostThumbnailToDB(thumbnailEntity);
+        updatePostThumbnailEntity.setThumbnailPath(thumbnailPath);
+        savePostThumbnailToDB(updatePostThumbnailEntity);
 
         return true;
     }
@@ -82,11 +86,11 @@ public class PostThumbnailService {
         return postThumbnailRepository.findByPostKey(postKey);
     }
 
-    private String saveThumbnailToS3(PostThumbnailDto postThumbnailDto, MultipartFile thumbnail) {
-        String s3FileName = postThumbnailDto.getS3FileName();
+    private String saveThumbnailToS3(PostThumbnailEntity postThumbnailEntity, MultipartFile thumbnail) {
+        String s3FileName = postThumbnailEntity.getS3FileName();
 
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType("image/" + postThumbnailDto.getExtension());
+        metadata.setContentType("image/" + postThumbnailEntity.getExtension());
 
         try {
             amazonS3.putObject(new PutObjectRequest(AWS_BUCKET_NAME, s3FileName, thumbnail.getInputStream(), metadata)

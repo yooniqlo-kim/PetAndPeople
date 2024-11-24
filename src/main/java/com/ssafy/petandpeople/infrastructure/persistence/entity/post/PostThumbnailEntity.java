@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "post_thumbnail")
@@ -24,15 +25,18 @@ public class PostThumbnailEntity {
 
     private String thumbnailPath;
 
+    @Transient
+    private String extension;
+
     public PostThumbnailEntity() {
     }
 
-    public PostThumbnailEntity(String thumbnailKey, PostEntity postKey, String originalFileName, String s3FileName, String thumbnailPath) {
+    public PostThumbnailEntity(String thumbnailKey, PostEntity postKey, String originalFileName, String s3FileName, String extension) {
         this.thumbnailKey = thumbnailKey;
         this.postKey = postKey;
         this.originalFileName = originalFileName;
         this.s3FileName = s3FileName;
-        this.thumbnailPath = thumbnailPath;
+        this.extension = extension;
     }
 
     public String getThumbnailKey() {
@@ -53,6 +57,10 @@ public class PostThumbnailEntity {
 
     public String getThumbnailPath() {
         return thumbnailPath;
+    }
+
+    public String getExtension() {
+        return extension;
     }
 
     public void setThumbnailKey(String thumbnailKey) {
