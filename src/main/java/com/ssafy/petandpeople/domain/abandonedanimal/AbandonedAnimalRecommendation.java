@@ -46,7 +46,7 @@ public class AbandonedAnimalRecommendation {
 
     public Map<String, Object> createRecommendationPrompt(String userPreference, String abandonedAnimals) {
         return Map.of(
-                "model", "gpt-4-turbo",
+                "model", "gpt-4o",
                 "messages", List.of(
                         Map.of("role", "system", "content", "You are an AI assistant that recommends abandoned animals to users based on their preferences."),
                         Map.of("role", "user", "content", "User preferences: " + userPreference),
