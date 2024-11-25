@@ -52,6 +52,7 @@ public class UserService {
         return true;
     }
 
+    @Transactional
     public Boolean login(LoginDto loginDto, HttpServletRequest request) {
         String userId = loginDto.getUserId();
 
