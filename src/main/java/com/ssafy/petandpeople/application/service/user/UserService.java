@@ -96,6 +96,18 @@ public class UserService {
         session.invalidate();
     }
 
+    public void checkUserSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        validateSession(session);
+
+        String ipAddress = request.getRemoteAddr();
+
+        if(!ipAddress.equals(session.getAttribute("IP_ADDRESS"))) {
+            throw new InvalidSessionException();
+        }
+    }
+
     private static String generateRandomSalt() {
         return UUIDGenerator.generateUUIDtoString();
     }

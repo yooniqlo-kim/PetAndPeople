@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class AbandonedAnimalService {
 
-    private static final int PAGE_SIZE = 15;
+    private static final int PAGE_SIZE = 16;
     private static final Dotenv DOTENV = Dotenv.load();
     private static final String API_URL = "https://openapi.gg.go.kr/AbdmAnimalProtect";
     private static final String ABANDONED_ANIMAL_REDIS_KEY = DOTENV.get("ABANDONED_ANIMAL_REDIS_KEY");

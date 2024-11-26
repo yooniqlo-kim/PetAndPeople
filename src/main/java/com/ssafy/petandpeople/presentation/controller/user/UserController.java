@@ -6,6 +6,7 @@ import com.ssafy.petandpeople.application.service.user.UserService;
 import com.ssafy.petandpeople.presentation.response.Api;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +53,13 @@ public class UserController {
     @PostMapping("/logout")
     public Api<Object> logout(HttpServletRequest request) {
         userService.logout(request);
+
+        return Api.OK();
+    }
+
+    @GetMapping("/check")
+    public Api<Object> checkUserSession(HttpServletRequest request) {
+        userService.checkUserSession(request);
 
         return Api.OK();
     }

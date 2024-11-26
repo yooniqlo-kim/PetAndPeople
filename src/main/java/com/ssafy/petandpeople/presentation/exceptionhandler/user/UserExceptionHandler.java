@@ -5,12 +5,14 @@ import com.ssafy.petandpeople.common.exception.user.UserException;
 import com.ssafy.petandpeople.presentation.response.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@Order(1)
 public class UserExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(UserExceptionHandler.class);

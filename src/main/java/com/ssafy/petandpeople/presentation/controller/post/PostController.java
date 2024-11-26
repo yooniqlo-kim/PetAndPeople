@@ -6,13 +6,7 @@ import com.ssafy.petandpeople.application.service.post.PostService;
 import com.ssafy.petandpeople.presentation.response.Api;
 import io.swagger.annotations.ApiParam;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -67,8 +61,8 @@ public class PostController {
     }
 
     @GetMapping("/select/all")
-    public Api<List<PostDto>> findAllPosts() {
-        List<PostDto> results = postService.findAllPosts();
+    public Api<List<PostDto>> findAllPosts(@RequestParam(defaultValue = "1") int pageNum) {
+        List<PostDto> results = postService.findAllPosts(pageNum);
 
         return Api.OK(results);
     }

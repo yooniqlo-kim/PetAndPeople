@@ -23,7 +23,7 @@ public class AbandonedAnimalRecommendation {
                     1. 사진 정보:  
                        [사진 URL]
                                
-                    2. 추천 동물 정보:  
+                    🐾 추천 동물 정보:  
                        - 식별 번호: [Identification Number]
                        - 종: [Species]
                        - 색상: [Color]
@@ -33,12 +33,12 @@ public class AbandonedAnimalRecommendation {
                        - 중성화 여부: [Neutered]
                        - 특징: [Features]
                                
-                    3. 보호소 정보:  
+                    🐾 보호소 정보:  
                        - 보호소 이름: [Shelter Name]
                        - 보호소 전화번호: [Shelter Phone]
                        - 보호소 위치: [Shelter Location]
                                
-                    4. 추천 사유:  
+                    🐾 추천 사유:  
                        [The reason for the recommendation.]
                                
                     Repeat the above format for the top 3 recommendations, each with the most suitable animal for the user. Ensure all keys, labels, and values are in Korean, strictly adhering to the above format. Avoid using any English terms or labels in the response. Exclude any final concluding sentence.

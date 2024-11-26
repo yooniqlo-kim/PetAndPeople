@@ -11,12 +11,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Service
 public class PostService {
+    private static final int PAGE_SIZE = 8;
 
     private final UserRepository userRepository;
     private final PostRepository postRepository;
@@ -80,15 +82,23 @@ public class PostService {
                 .toList();
     }
 
-    public List<PostDto> findAllPosts() {
+    public List<PostDto> findAllPosts(@RequestParam(defaultValue = "1") int pageNum) {
         List<PostEntity> postEntities = postRepository.findAll();
 
-        return postEntities.stream()
+        List<PostDto> postDtos = postEntities.stream()
                 .map(postEntity -> {
                     String filePath = postThumbnailService.findThumbnailPath(postEntity);
                     return PostConverter.entityToDto(postEntity, filePath);
                 })
                 .toList();
+
+        return getPageSlice(postDtos, pageNum);
+    }
+
+    private List<PostDto> getPageSlice(List<PostDto> postDtos, int pageNum) {
+        int start = Math.max(0, (pageNum - 1) * PAGE_SIZE);
+        int end = Math.min(start + PAGE_SIZE, postDtos.size());
+        return postDtos.subList(start, end);
     }
 
     public boolean deletePost(HttpServletRequest request, Long postKey) {
@@ -121,7 +131,7 @@ public class PostService {
 
         validateSession(session);
 
-        return (long) session.getAttribute("userKey");
+        return (long) session.getAttribute("USER_KEY");
     }
 
     private void validateSession(HttpSession session) {
