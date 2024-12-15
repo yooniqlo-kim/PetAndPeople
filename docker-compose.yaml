@@ -1,21 +1,6 @@
 version: '3.8'
 
 services:
-  petandpeople:
-    image: mysql:latest
-    container_name: petandpeople-container
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_SCHEMA}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "3306:3306"
-    networks:
-      - my-network
-    volumes:
-      - mysql-data:/data
-
   petandpeople_test:
     image: mysql:latest
     container_name: petandpeople-test-container
@@ -44,4 +29,3 @@ networks:
 
 volumes:
   redis-data:
-  mysql-data:
