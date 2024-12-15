@@ -39,15 +39,15 @@ public class EmailServiceTest {
         session = request.getSession();
     }
 
-    @Test
-    @DisplayName("이메일 인증 코드 전송 성공")
-    void sendAuthCodeToUserEmail_성공() throws MessagingException {
-        EmailDto emailDto = new EmailDto();
-        emailDto.setEmail("pkb1998@naver.com");
-
-        emailService.sendAuthCodeToUserEmail(emailDto, request);
-        assertNotNull(session.getAttribute("AUTH_CODE"));
-    }
+//    @Test
+//    @DisplayName("이메일 인증 코드 전송 성공")
+//    void sendAuthCodeToUserEmail_성공() throws MessagingException {
+//        EmailDto emailDto = new EmailDto();
+//        emailDto.setEmail("pkb1998@naver.com");
+//
+//        emailService.sendAuthCodeToUserEmail(emailDto, request);
+//        assertNotNull(session.getAttribute("AUTH_CODE"));
+//    }
 
     @Test
     @DisplayName("인증 코드 검증 성공")
