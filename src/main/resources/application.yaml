@@ -1,6 +1,6 @@
 spring:
   config:
-    import: optional:file:.env[.properties]
+    import: optional:file:/home/ubuntu/backend/PetAndPeople/.env[.properties]
   mail:
     host: ${MAIL_HOST}
     port: ${MAIL_PORT}
@@ -24,10 +24,24 @@ spring:
     database-platform: ${JPA_DATABASE_PLATFORM}
   redis:
     host: localhost
-    port : ${REDIS_PORT}
+    port: ${REDIS_PORT}
 
 server:
+  port: 8443  # HTTPS 기본 포트
+  ssl:
+    enabled: true
+    key-store: ${SSL_KEYSTORE_PATH}
+    key-store-password: ${SSL_KEYSTORE_PASSWORD}
+    key-store-type: PKCS12
+    key-alias: tomcat
   servlet:
     context-path: ${SERVER_CONTEXT_PATH}
     multipart:
       enabled: true
+    session:
+      cookie:
+        name: JSESSIONID  # 세션 쿠키 이름
+        secure: true              # HTTPS에서만 쿠키 전송
+        http-only: true           # JavaScript 접근 방지
+        same-site: strict         # CSRF 방지 설정
+      timeout: 30m                # 세션 만료 시간 설정 (30분)

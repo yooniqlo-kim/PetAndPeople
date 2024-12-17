@@ -1,6 +1,6 @@
 spring:
   config:
-    import: optional:file:.env[.properties]
+    import: optional:file:/home/ubuntu/backend/PetAndPeople/.env[.properties]
   datasource:
     url: ${TEST_DB_URL}
     username: ${TEST_DB_USERNAME}
