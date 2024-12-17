@@ -27,7 +27,7 @@ spring:
     port: ${REDIS_PORT}
 
 server:
-  port: 8443  # HTTPS 기본 포트
+  port: 8443 
   ssl:
     enabled: true
     key-store: ${SSL_KEYSTORE_PATH}
@@ -40,8 +40,8 @@ server:
       enabled: true
     session:
       cookie:
-        name: JSESSIONID  # 세션 쿠키 이름
-        secure: true              # HTTPS에서만 쿠키 전송
-        http-only: true           # JavaScript 접근 방지
-        same-site: strict         # CSRF 방지 설정
-      timeout: 30m                # 세션 만료 시간 설정 (30분)
+        name: JSESSIONID  
+        secure: true           
+        http-only: true          
+        same-site: strict       
+      timeout: 30m               
