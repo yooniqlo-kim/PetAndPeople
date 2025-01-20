@@ -1,70 +1,81 @@
-# 🐾 PetAndPeople 🐾
+# 목차
+- [목차](#--)
+  * [🐶 서비스 소개](#---------)
+  * [🌐 배포 URL](#------url)
+  * [📁 프로젝트 구조](#----------)
+  * [💻 기술 스택](#--------)
+  * [🔎 시스템 아키텍쳐](#-----------)
+  * [📑 ERD](#---erd)
+  * [✔️ 기능 소개](#--------)
+  * [📚 API](#---api)
+  * [📋 Convention](#---convention)
 
-## 프로젝트 개요
-최근 반려동물 양육의 증가와 함께 유기동물 수도 지속적으로 증가하고 있습니다. PetAndPeople는 이러한 문제를 해결하기 위해 유기동물 보호 현황을 제공하고, AI 기술을 활용하여 사용자 맞춤형 유기동물 추천을 통해 입양을 장려하는 종합 플랫폼입니다.
+## 🐶 서비스 소개
 
-## 프로젝트 주요 기능
-### 1️⃣ 유기동물 보호 현황 제공
+반려동물 양육 인구 증가에 따라 유기동물 수도 증가하고 있습니다. **PetAndPeople**은 이러한 문제를 해결하기 위해 유기동물 보호 현황을 제공하고, AI를 활용하여 사용자 맞춤형 유기동물을 추천하는 유기동물 종합 플랫폼입니다.
 
-### 2️⃣ OPEN AI를 활용하여 사용자 맞춤 유기동물 추천
+## 🌐 배포 URL
 
-### 3️⃣ 실종동물 게시글 CRUD
+[PetAndPeople](https://petandpeople.site/)
 
-### 4️⃣ 회원 관리
+## 📁 프로젝트 구조
 
-## 코드 컨벤션
+```bash
+src/
+├── main/
+│   ├── java/com/ssafy/petandpeople/
+│   │   ├── application/            # 애플리케이션 레이어 (DTO, Converter, Service)
+│   │   │   ├── dto/                 
+│   │   │   ├── converter/            
+│   │   │   ├── service/               
+│   │   ├── common/                  # 공통 유틸리티 및 예외 처리
+│   │   ├── config/                   # 설정 관련 클래스 (Redis, S3, Web 등)
+│   │   ├── domain/                   # 도메인 모델 
+│   │   ├── infrastructure/           # 인프라 계층 (Persistence, External API)
+│   │   │   ├── persistence/           # JPA 엔티티 및 레포지토리
+│   │   │   ├── external/              # 외부 API 호출 클라이언트
+│   │   ├── presentation/              # 컨트롤러 및 응답 처리
+│   │   ├── PetandpeopleApplication.java  
+│   ├── resources/
+│   │   ├── application.yaml          # 기본 환경 설정 파일
+│   │   ├── application-test.yaml      # 테스트 환경 설정 파일
+├── test/
+│   ├── java/com/ssafy/petandpeople/
+│   │   ├── application/service/       # 서비스 계층의 테스트 코드
+│   │   ├── domain/user/               # 도메인 관련 테스트
+│   │   ├── PetandpeopleApplicationTests.java 
 
-규칙 1: 한 메서드에 오직 한 단계의 들여쓰기(indent)만 한다.
+```
 
-규칙 2: else 예약어를 쓰지 않는다.
+## 💻 기술 스택
 
-규칙 3: 모든 원시값과 문자열을 포장한다.
+### BackEnd
 
-규칙 4: 한 줄에 점을 하나만 찍는다.
+<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">  <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/jpa-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=Redis&logoColor=white"> <img src="https://img.shields.io/badge/swagger-4FC08D?style=for-the-badge&logo=swagger&logoColor=white"> <img src="https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=JUnit5&logoColor=white">
 
-규칙 5: 줄여쓰지 않는다(축약 금지).
+### FrontEnd
 
-규칙 6: 모든 엔티티를 작게 유지한다.
+<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
 
-규칙 7: 3개 이상의 인스턴스 변수를 가진 클래스를 쓰지 않는다.
+### Infra
 
-규칙 8: 일급 콜렉션을 쓴다.
+<img src="https://camo.githubusercontent.com/a467aa2c79012231e654c43f227a0da26e58ff194e340c20a803c4b735eff74b/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f415753204543322d4646393930303f7374796c653d666f722d7468652d6261646765266c6f676f3d616d617a6f6e656332266c6f676f436f6c6f723d7768697465"> <img src="https://camo.githubusercontent.com/ffeb4b7d2f078c8d968415defd1b83cce8fa7da14e26e03074544640ecaa105e/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f415753205244532d3532374646463f7374796c653d666f722d7468652d6261646765266c6f676f3d616d617a6f6e726473266c6f676f436f6c6f723d7768697465"> <img src="https://img.shields.io/badge/docker-0769AD?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/Amazon%20S3-569A31?style=for-the-badge&logo=Amazon%20S3&logoColor=white"> <img src="https://img.shields.io/badge/apache tomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=white"> 
 
-규칙 9: 게터/세터/프로퍼티를 가능하면 사용하지 않는다.
+### Tools
 
-*** 가능한 한 모든 규칙을 준수하되, 상황에 따라 예외적으로 적용할 수 있다.***
+<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">  <img src="https://camo.githubusercontent.com/3647bba9752f84cfcb4ec225305451a376726a52123cc7ac2e6f689fde749452/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4e6f74696f6e2d3030303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d4e6f74696f6e266c6f676f436f6c6f723d7768697465"> 
 
-## 커밋 컨벤션 
+## 🔎 시스템 아키텍쳐
 
-| Type      | Subject                                     | Body (선택 사항)                                                        |
-|-----------|---------------------------------------------|------------------------------------------------------------------------|
-| feat      | 새로운 기능 추가                              | 본문은 한 줄당 72자 내로 작성한다.                                       |
-| fix       | 버그 수정                                   | 양에 구애받지 않고 최대한 상세히 작성한다.                               |
-| docs      | 문서 수정                                   |                                                                        |
-| style     | 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우 | 맞춤법 및 특수기호는 사용하지 않는다.                                     |
-| refactor  | 코드 리팩토링                               |                                                                        |
-| test      | 테스트 코드, 리팩토링 테스트 코드 추가         | 어떻게 변경했는지 보다 무엇을 변경했는지 또는 왜 변경했는지를 설명한다.         |
-| chore     | 빌드 업무 수정, 패키지 매니저 수정, production code와 무관한 부분들 (.gitignore, build.gradle 같은) | |
-| comment   | 주석 추가 및 변경                             |                                                                        |
-| remove    | 파일, 폴더 삭제                              |                                                                        |
-| rename    | 파일, 폴더명 수정                            |                                                                        |
+## 📑 ERD
 
 
-## 깃 브랜치 전략
-해당 프로젝트는 `git-flow` 전략을 따릅니다.
+## ✔️ 기능 소개
 
-1. **Main**
-    - 최종 배포 상태의 코드를 저장하는 브랜치
-    - 직접 작업하지 않으며, 배포 준비가 된 코드만 병합
-2. **Develop**
-    - 새로운 기능 개발의 기본 브랜치
-    - 기능(feature) 브랜치에서 작업을 완료한 후 이곳으로 병합
-3. **Feature**
-    - 개별 기능을 개발하는 브랜치
-    - `develop` 브랜치에서 분기하여 각 기능을 구현하고, 완료 후 다시 `develop`에 병합
-4. **Release**
-    - 배포 준비 브랜치로, `develop`에서 분기하여 최종 테스트와 버그 수정을 진행
-    - 배포 준비가 끝나면 `main`과 `develop`에 병합
-5. **Hotfix**
-    - 배포 후 긴급하게 수정해야 할 버그를 다루는 브랜치
-    - `main`에서 분기하여 문제를 해결하고, 완료 후 `main`과 `develop`에 병합
+## 📚 API
+
+## 📋 Convention
+
+### Code Convention
+
+### Commit Convention
