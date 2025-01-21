@@ -74,7 +74,7 @@ src/
 
 ## 📚 API
 
-### 정상 응답 처리 (성공 시)
+### ✅ 정상 응답 처리 (성공 시)
 
 - 본문이 없는 경우 `Api.OK()`
 
@@ -103,7 +103,7 @@ src/
 }
 ```
 
-### 에러 응답 흐름
+### 🚨 에러 응답 흐름
 
 - 클라이언트 오류
 
@@ -129,7 +129,7 @@ src/
 
 ```
 
-### User
+### 1️⃣ User
 
 | 기능 | API | Http Method | 설명 | Response |
 | --- | --- | --- | --- | --- |
@@ -138,20 +138,20 @@ src/
 | 로그아웃 | /api/user/logout | POST | 로그아웃 | Api.OK() |
 | 사용자 상세 정보 | /api/user/detail | POST | 로그인된 사용자의 상세 정보 조회 | Api.OK(userDto) |
 
-### Email
+### 2️⃣ Email
 
 | 기능 | API | Http Method | 설명 | Response |
 | --- | --- | --- | --- | --- |
 | 이메일 인증 코드 전송 | /api/email/send | POST | 사용자의 이메일로 인증코드 전송 | Api.OK() |
 | 이메일 인증 코드 검증 | /api/email/verify | POST | 사용자가 입력한 입력코드가 유효한지 검증 | Api.OK() |
 
-### AbandonedAnimal
+### 3️⃣ AbandonedAnimal
 
 | 기능 | API | Http Method | 설명 | Response |
 | --- | --- | --- | --- | --- |
 | 유기동물 보호 데이터 조회 | /api/adoption/data | GET | 유기동물 보호 데이터를 페이지 단위로 조회 | Api.OK(adoptionData) |
 
-### Post
+### 4️⃣ Post
 
 | 기능 | API | Http Method | 설명 | Response |
 | --- | --- | --- | --- | --- |
@@ -162,12 +162,11 @@ src/
 | 모든 게시글 조회 | /api/post/select/all | GET | 모든 게시글 조회 | Api.OK(List<PostDto>) |
 | 게시글 삭제 | /api/post/delete/{postKey} | GET | 특정 게시글 삭제 | Api.OK() |
 
-### AI
+### 5️⃣ AI
 
 | 기능 | API | Http Method | 설명 | Response |
 | --- | --- | --- | --- | --- |
 | 유기동물 추천 | /api/ai/recommend | POST | 사용자 선호도 기반으로 유기동물 추천 | Api.OK(String) |
-
 
 ## 📋 Convention
 
