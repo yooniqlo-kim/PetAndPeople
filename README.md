@@ -66,11 +66,13 @@ src/
 
 ## 🔎 시스템 아키텍쳐
 
-![Web App Reference Architecture.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f1eae27a-84f4-4085-9b8a-9f3cbc9c9e01/1bccbdb2-449b-408b-af21-a78240a9a502/Web_App_Reference_Architecture.png)
+![Image](https://github.com/user-attachments/assets/1c0ba85f-23b6-4227-b2ab-5bd9ca8d5196)
+
 
 ## 📑 ERD
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/f1eae27a-84f4-4085-9b8a-9f3cbc9c9e01/6b161395-983a-4e92-bdf2-a906b0e91d77/image.png)
+<img width="777" alt="Image" src="https://github.com/user-attachments/assets/229b5dc2-7c31-46b0-8db1-c0bdacf61272" />
+
 
 ## 📚 API
 
@@ -149,7 +151,7 @@ src/
 
 | 기능 | API | Http Method | 설명 | Response |
 | --- | --- | --- | --- | --- |
-| 유기동물 보호 데이터 조회 | /api/adoption/data | GET | 유기동물 보호 데이터를 페이지 단위로 조회 | Api.OK(adoptionData) |
+| 유기동물 보호 데이터 조회 | /api/adoption/data | GET | 유기동물 보호 데이터를 페이지 단위로 조회 | Api.OK(List<AbandonedAnimalDto>) |
 
 ### 4️⃣ Post
 
